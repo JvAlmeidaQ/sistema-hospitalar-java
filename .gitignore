@@ -1,0 +1,30 @@
+# --- Build e Maven ---
+target/
+!.mvn/wrapper/maven-wrapper.jar
+# Arquivos de log de erro do Java (opcional, mas útil)
+hs_err_pid*
+
+# --- IntelliJ IDEA (Blindado) ---
+# Ignorar a pasta inteira evita conflito de configurações pessoais
+.idea/
+*.iml
+*.iws
+*.ipr
+
+# --- Outras IDEs (Caso sua dupla use) ---
+# Eclipse
+.classpath
+.project
+.settings/
+.factorypath
+# VS Code
+.vscode/
+# NetBeans
+nbproject/
+build/
+nbbuild/
+dist/
+
+# --- Sistema Operacional ---
+.DS_Store
+Thumbs.db
