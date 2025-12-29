@@ -5,19 +5,19 @@ import java.time.LocalTime;
 
 public class HorarioAtendimento {
 
-    private DayOfWeek dia;
+    private DiasDaSemana dia;
     private LocalTime inicio;
     private LocalTime fim;
     private int duracaoAtendimento;
 
-    public HorarioAtendimento(DayOfWeek dia, LocalTime inicio, LocalTime fim,  int duracaoAtendimento) {
+    public HorarioAtendimento(DiasDaSemana dia, LocalTime inicio, LocalTime fim,  int duracaoAtendimento) {
         this.dia = dia;
         if(fim.isBefore(inicio) || fim.equals(inicio)) { throw  new IllegalArgumentException("Horario Invalido"); }
         this.inicio = inicio;
         this.fim = fim;
         this.duracaoAtendimento = duracaoAtendimento;
     }
-    public DayOfWeek getDia() {
+    public DiasDaSemana getDia() {
         return dia;
     }
     public LocalTime getInicio() {
