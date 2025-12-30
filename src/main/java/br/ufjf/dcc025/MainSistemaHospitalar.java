@@ -1,8 +1,6 @@
 package br.ufjf.dcc025;
 
-import br.ufjf.dcc025.model.HorarioAtendimento;
-import br.ufjf.dcc025.model.Medico;
-import br.ufjf.dcc025.model.Usuario;
+import br.ufjf.dcc025.model.*;
 
 import java.time.DayOfWeek;
 import java.time.LocalTime;
@@ -25,18 +23,19 @@ public class MainSistemaHospitalar
         System.out.println("CPF do Medico: " +  medico.getCpf());
         System.out.println("Email do Medico: " +  medico.getEmail());
 
-        medico.setHorariosDisponiveis(DayOfWeek.MONDAY, LocalTime.of(14, 0), LocalTime.of(18, 0), 30 );
-        medico.setHorariosDisponiveis(DayOfWeek.FRIDAY, LocalTime.of(10, 0), LocalTime.of(15, 0), 1 );
+        medico.setHorariosDisponiveis(DiasDaSemana.SEGUNDA, LocalTime.of(14, 0), LocalTime.of(18, 0), 30 );
+        medico.setHorariosDisponiveis(DiasDaSemana.QUARTA, LocalTime.of(10, 0), LocalTime.of(15, 0), 1 );
 
         System.out.println("Horarios de Trabalho do medico " + medico.getNome());
         for( HorarioAtendimento h :  medico.getHorariosDisponiveis())
             {
-                DayOfWeek dia = h.getDia();
+                DiasDaSemana dia = h.getDia();
             LocalTime horaInicio = h.getInicio();
             LocalTime horaFim = h.getFim();
             int duracaoAtendimento =  h.getDuracaoAtendimento();
             System.out.println("Dia: " + dia + " Horario de Incio:  " + horaInicio + " Horario de Fim: " + horaFim +  " Duração de cada Atendimento: " + duracaoAtendimento);
             }
 
+        //Consulta consultaMedica = new Consulta()
     }
 }

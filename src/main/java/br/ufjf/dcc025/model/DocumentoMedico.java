@@ -8,6 +8,7 @@ public abstract class  DocumentoMedico {
     protected Paciente paciente;
     protected String doenca;
     protected LocalDateTime dataExpedicao;
+    protected int id;
 
     protected static final DateTimeFormatter DATA_FORMATADA = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
 
@@ -16,6 +17,8 @@ public abstract class  DocumentoMedico {
         this.paciente = paciente;
         this.doenca = doenca;
         this.dataExpedicao = dataExpedicao;
+        int contadorId = 1;
+        this.id = contadorId++;
     }
 
     public abstract String imprimeDocumento();
@@ -23,4 +26,5 @@ public abstract class  DocumentoMedico {
     public Medico getMedico() { return medico; }
     public Paciente getPaciente() { return paciente; }
     public LocalDateTime getDataExpedicao() { return dataExpedicao; }
+    public int getId() { return id; }
 }

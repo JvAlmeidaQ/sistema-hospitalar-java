@@ -33,7 +33,7 @@ public class Medico extends Usuario {
         return consultasAgendadas;
     }
 
-    /*public void alteraStatusVisitas(Paciente paciente, boolean status) {
-        paciente.setVisitas(status);
-    }*/
+    public void alteraStatusVisitas(Paciente paciente, boolean status) {
+        paciente.setPodeReceberVisitas(status);
+    }
 }

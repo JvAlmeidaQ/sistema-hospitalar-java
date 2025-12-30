@@ -33,7 +33,7 @@ public abstract class Usuario {
     }
 
     public void setEmail(String email) {
-        if (ValidaDados.validaEmail(email))
+        if (!ValidaDados.validaEmail(email))
             throw new IllegalArgumentException("Email inválido: " + email);
         this.email = email;
     }
@@ -49,6 +49,8 @@ public abstract class Usuario {
     }
 
     public String getCpf() {
-        return cpf;
+        return this.cpf.substring(0, 3) + "." +
+                this.cpf.substring(3,6) + "." +
+                this.cpf.substring(6, 9) + "-" + this.cpf.substring(9,11);
     }
 }

@@ -6,7 +6,7 @@ import java.util.regex.Pattern;
 public class ValidaDados {
 
     public static boolean  ValidaCPF(String cpf) {
-        //validação cpf
+        //validação cpf, seguindo algoritimo já conhecido
         if ((cpf.length() != 11) ||
                 cpf.equals("00000000000") ||
                 cpf.equals("11111111111") ||
@@ -85,4 +85,19 @@ public class ValidaDados {
         }
         return achouNumero && achouMaiuscula && achouMinuscula && achouSimbolo;
     }
+    //senha com +6 caracteres, necessario conter, Letras maiusculas e minisculas, numeros e caracteres especiais
+
+    public static boolean validaTelefone(String telefone) {
+        String regex = "^(?:\\(?\\d{2}\\)?\\s?)?9\\d{4}-?\\d{4}$";
+        return Pattern.matches(regex, telefone);
+    }
+
+    public static boolean validaCEP(String cep) {
+        if(cep ==  null || cep.isEmpty())
+            return false;
+        String regex = "^\\d{5}-?\\d{3}$";
+        return Pattern.matches(regex, cep);
+    }
 }
+
+
