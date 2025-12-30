@@ -9,12 +9,14 @@ public class Medico extends Usuario {
 
     private List<HorarioAtendimento> horariosDisponiveis;
     private List<Consulta> consultasAgendadas;
+    private Boolean status;
 
     public Medico(String nome, String email, String senha, String cpf) {
 
         super(nome, email, senha, cpf);
         this.horariosDisponiveis = new ArrayList<>();
         this.consultasAgendadas = new ArrayList<>();
+        this.status = true;
     }
 
     public void setHorariosDisponiveis(DiasDaSemana dia, LocalTime horaInicio, LocalTime horaFim, int duracaoAtendimento)
@@ -35,5 +37,12 @@ public class Medico extends Usuario {
 
     public void alteraStatusVisitas(Paciente paciente, boolean status) {
         paciente.setPodeReceberVisitas(status);
+    }
+
+    public Boolean getStatus() {
+        return status;
+    }
+    public void setStatus(Boolean status) {
+        this.status = status;
     }
 }

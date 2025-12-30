@@ -13,13 +13,15 @@ public class Paciente extends Usuario {
     private String telefone;
     private Endereco endereco;
     private Boolean podeReceberVisitas = false;
+    private String convenio;
 
 
-    public Paciente(String nome, String cpf, String email, String senha, String telefone, Endereco endereco) {
+    public Paciente(String nome, String cpf, String email, String senha, String telefone, Endereco endereco, String convenio) {
         super(nome, cpf, email, senha);
         this.minhasConsultas = new ArrayList<>();
         this.setTelefone(telefone);
         this.endereco = endereco;
+        this.convenio = convenio;
     }
 
     public void novaConsulta(Consulta consulta){
@@ -147,5 +149,12 @@ public class Paciente extends Usuario {
     }
     public Boolean getPodeReceberVisitas() {
         return podeReceberVisitas;
+    }
+
+    public String getConvenio() {
+        return convenio;
+    }
+    public void setConvenio(String convenio) {
+        this.convenio = convenio;
     }
 }
