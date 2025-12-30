@@ -3,7 +3,7 @@ package br.ufjf.dcc025.model;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-public abstract class  DocumentoMedico {
+public abstract class  DocumentoMedico implements RegistroClinico {
     protected Medico medico;
     protected Paciente paciente;
     protected String doenca;
@@ -27,4 +27,19 @@ public abstract class  DocumentoMedico {
     public Paciente getPaciente() { return paciente; }
     public LocalDateTime getDataExpedicao() { return dataExpedicao; }
     public int getId() { return id; }
+
+    @Override
+    public LocalDateTime getDataRegistro() {
+        return this.getDataExpedicao();
+    }
+
+    @Override
+    public String getTipoRegistroClinico() {
+        return this.getClass().getSimpleName();
+    }
+
+    @Override
+    public String getDescricao() {
+        return "Dr(a). " + this.medico.getNome();
+    }
 }

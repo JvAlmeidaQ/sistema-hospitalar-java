@@ -1,19 +1,23 @@
 package br.ufjf.dcc025.model;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Consulta {
+public class Consulta implements RegistroClinico {
     private Medico medico;
     private Paciente paciente;
     private HorarioAtendimento horarioConsulta;
+    private LocalDate dataConsulta;
     private StatusConsulta statusConsulta;
     private List<DocumentoMedico> documentoMedico = new ArrayList<>();
 
-    public Consulta(Medico medico, Paciente paciente, HorarioAtendimento horarioConsulta, StatusConsulta statusConsulta) {
+    public Consulta(Medico medico, Paciente paciente, HorarioAtendimento horarioConsulta, LocalDate dataConsulta, StatusConsulta statusConsulta) {
         this.medico = medico;
         this.paciente = paciente;
         this.horarioConsulta = horarioConsulta;
+        this.dataConsulta = dataConsulta;
         this.statusConsulta = StatusConsulta.AGENDADA;
     }
 
@@ -44,8 +48,26 @@ public class Consulta {
     public HorarioAtendimento getHorarioConsulta() {
         return horarioConsulta;
     }
+    public  LocalDateTime getDataHoraConsulta() {
+        return LocalDateTime.of(dataConsulta,horarioConsulta.getInicio());
+    }
     public StatusConsulta getStatusConsulta() {
         return statusConsulta;
     }
 
+    @Override
+    public LocalDateTime getDataRegistro() {
+        return this.getDataHoraConsulta();
+    }
+
+    @Override
+    public String getTipoRegistroClinico() {
+        return "Consulta";
+    }
+
+    @Override
+    public String getDescricao() {
+        return "Dr(a). " + this.medico.getNome() +
+                " - Status: " + this.statusConsulta.toString();
+    }
 }

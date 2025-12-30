@@ -2,7 +2,9 @@ package br.ufjf.dcc025.model;
 
 import br.ufjf.dcc025.util.ValidaDados;
 
+import java.time.LocalDateTime;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -50,13 +52,7 @@ public class Paciente extends Usuario {
     public List<Consulta> getMinhasConsultas() {
         return Collections.unmodifiableList(minhasConsultas);
     }
-    /* Sobre o acesso aos Documentos Medicos, o Paciente apenas deve, poder ve-los,
-    as operações de adição de documentos não deve ser feito, dentro da classe paciente*/
 
-    /*Agora, pensando na operação de Acesso a esses documentos, preciso dar opção de listar todos os documentos, ou listar por tipo(exame/atestado/Receita)
-    * e é necessário a opção de listar apenas um único documento que ele deseje ver, logo entramos numa encruzilhada,
-    *  para resolver penso em adicionar um identificador em cada documento ou trocar para um MAP onde a chave é a data de expedição ou de realização
-    * logo seria facil iterar sobre a lista, sabendo que só preciso achar o identifacor unico do documento*/
     public List<DocumentoMedico> meusDocumentos()
     {
         List<DocumentoMedico> documentos = new ArrayList<>();
@@ -67,9 +63,6 @@ public class Paciente extends Usuario {
     }
     public List<DocumentoMedico> documentosPorTipo(int num)
     {
-        /*vamos ter um menu, com 4 opções onde cada uma mostra por tipo:
-        * 1. Atestados, 2. Exames, 3. receitas, 4. todos os documentos
-        * opção escolhida passada por parametro*/
         List<DocumentoMedico> documentos = new ArrayList<>();
         for(Consulta consulta : minhasConsultas){
             if(num == 1)
@@ -79,7 +72,6 @@ public class Paciente extends Usuario {
                     if(atestadoMedico instanceof AtestadoMedico)
                         documentos.add(atestadoMedico);
                 }
-                return  documentos;
             }
             if(num == 2)
             {
@@ -88,7 +80,6 @@ public class Paciente extends Usuario {
                     if(exames instanceof ExameMedico)
                         documentos.add(exames);
                 }
-                return  documentos;
             }
             if(num == 3)
             {
@@ -97,60 +88,43 @@ public class Paciente extends Usuario {
                     if(receitas instanceof ReceitaMedica)
                         documentos.add(receitas);
                 }
-                return  documentos;
             }
         }
-        return this.meusDocumentos();
+        if(num == 4)
+            return this.meusDocumentos();
+        return documentos;
     }
 
+    public DocumentoMedico documentoUnicoId(int id)
+    {
+        for(Consulta consulta : minhasConsultas){
+            for(DocumentoMedico doc : consulta.getDocumentoMedico())
+                if(doc.getId() == id)
+                    return doc;
+        }
+        return null;
+    }
 
+    public List<String> HistoricoMedico(){
 
+        List<RegistroClinico> historicoClinico = new ArrayList<>();
+        for(Consulta consulta : minhasConsultas){
+            historicoClinico.add(consulta);
+            historicoClinico.addAll(consulta.getDocumentoMedico());
+        }
 
+        historicoClinico.sort(Comparator.comparing(RegistroClinico::getDataRegistro));
 
+        List<String> historico = new ArrayList<>();
 
-
-
-    /*Sobre essa Parte:
-    *O cliente deve ter acesso integral ao seu histórico de saúde na instituição,
-    * visualizando um registro cronológico de todas as consultas
-    * e exames realizados anteriormente.
-    * Como faria isso? Pois Consultas e Documentos são de tipos diferentes.
-    * Pensei na seguinte maneira, como ambas tem datas, eu iria percorrer as duas listas simultaneamente procurando datas iguais ou imprimindo as datas diferentes em ordem cronológica;
-    * e seria um metodo apenas de impressão, já que como eles são de tipos diferentes um retorno é dificl.
-* */
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        for(RegistroClinico registroClinico : historicoClinico){
+            String linhaHistorico = registroClinico.getDataRegistro().format(DocumentoMedico.DATA_FORMATADA) +
+                    " | " + registroClinico.getTipoRegistroClinico() + " | " +
+                    registroClinico.getDescricao();
+            historico.add(linhaHistorico);
+        }
+        return historico;
+    }
 
     public void setTelefone(String telefone) {
         if(!ValidaDados.validaTelefone(telefone))
