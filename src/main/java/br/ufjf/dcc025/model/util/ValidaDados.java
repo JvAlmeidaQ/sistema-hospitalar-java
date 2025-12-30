@@ -1,4 +1,4 @@
-package br.ufjf.dcc025.util;
+package br.ufjf.dcc025.model.util;
 
 import java.util.InputMismatchException;
 import java.util.regex.Pattern;
