@@ -22,7 +22,7 @@ public class MedicoRepository implements Repository<Medico> {
         String json = Arquivo.le(PATH);
         if (json.trim().isEmpty()) return new ArrayList<>();
 
-        Gson gson = new Gson();
+        Gson gson = GsonConfiguration.createGson();
         Type tipoLista = new TypeToken<List<Medico>>() {}.getType();
 
         List<Medico> medicos = gson.fromJson(json, tipoLista);
@@ -33,7 +33,7 @@ public class MedicoRepository implements Repository<Medico> {
 
     @Override
     public void save(List<Medico> itens) {
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        Gson gson = GsonConfiguration.createGson();
         String json = gson.toJson(itens);
 
         File diretorio = new File(DIRECTORY);

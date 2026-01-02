@@ -8,7 +8,7 @@ import java.util.List;
 public class Medico extends Usuario {
 
     private List<HorarioAtendimento> horariosDisponiveis;
-    private List<Consulta> consultasAgendadas;
+    private transient List<Consulta> consultasAgendadas;
     private Boolean status;
 
     public Medico(String nome, String email, String senha, String cpf) {
@@ -19,7 +19,7 @@ public class Medico extends Usuario {
         this.status = true;
     }
 
-    public void setHorariosDisponiveis(DiasDaSemana dia, LocalTime horaInicio, LocalTime horaFim, int duracaoAtendimento)
+    public void adicionarHorarioAtendimento(DiasDaSemana dia, LocalTime horaInicio, LocalTime horaFim, int duracaoAtendimento)
     {
         HorarioAtendimento horarioAtendimento = new HorarioAtendimento(dia, horaInicio, horaFim, duracaoAtendimento);
         this.horariosDisponiveis.add(horarioAtendimento);
@@ -27,12 +27,12 @@ public class Medico extends Usuario {
 
     public List<HorarioAtendimento> getHorariosDisponiveis()
     {
-        return horariosDisponiveis;
+        return horariosDisponiveis; //mudar dps, para não retornar a lista original
     }
 
     public List<Consulta> getConsultasMarcadas()
     {
-        return consultasAgendadas;
+        return consultasAgendadas; //mudar dps, para não retornar a lista original, criar metodo para adcionar(Controller);
     }
 
     public void alteraStatusVisitas(Paciente paciente, boolean status) {

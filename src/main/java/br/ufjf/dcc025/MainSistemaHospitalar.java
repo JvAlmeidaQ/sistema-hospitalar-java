@@ -3,6 +3,8 @@ package br.ufjf.dcc025;
 import br.ufjf.dcc025.model.*;
 
 import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 /**
@@ -13,29 +15,34 @@ public class MainSistemaHospitalar
 {
     public static void main( String[] args )
     {
-        String c = "Carlos";
-        String email = "CarlosAlmeida@gmail.com";
-        String senha = "A06k28@";
-        String cpf = "11249175607";
-        Medico medico = new Medico(c, email, senha, cpf);
+       DadosHospital.carregarDados();
 
-        System.out.println("Nome do Medico: " +  medico.getNome());
-        System.out.println("CPF do Medico: " +  medico.getCpf());
-        System.out.println("Email do Medico: " +  medico.getEmail());
+       Medico house = new Medico("Dr.House", "House@gmail.com", "H0243615dr!", "11249175607");
 
-        medico.setHorariosDisponiveis(DiasDaSemana.SEGUNDA, LocalTime.of(14, 0), LocalTime.of(18, 0), 30 );
-        medico.setHorariosDisponiveis(DiasDaSemana.QUARTA, LocalTime.of(10, 0), LocalTime.of(15, 0), 1 );
+       house.adicionarHorarioAtendimento(DiasDaSemana.SEGUNDA, LocalTime.of(14,30), LocalTime.of(15,30), 60);
 
-        System.out.println("Horarios de Trabalho do medico " + medico.getNome());
-        for( HorarioAtendimento h :  medico.getHorariosDisponiveis())
-            {
-                DiasDaSemana dia = h.getDia();
-            LocalTime horaInicio = h.getInicio();
-            LocalTime horaFim = h.getFim();
-            int duracaoAtendimento =  h.getDuracaoAtendimento();
-            System.out.println("Dia: " + dia + " Horario de Incio:  " + horaInicio + " Horario de Fim: " + horaFim +  " Duração de cada Atendimento: " + duracaoAtendimento);
-            }
+       Endereco endereco = new Endereco("23062851", "João God", "88", "","Almeidas", "Barbacena", "MG" );
+       Paciente p = new Paciente("João", "11249175607", "joao@gmail.com", "123Joao?", "32984329170", endereco, "Sus");
 
-        //Consulta consultaMedica = new Consulta()
+       Secretaria secretaria = new Secretaria("Julia", "JuliaSecretaria@gmail.com", "juSec1428@", "84770895070");
+
+       secretaria.cadastroMedicos(house);
+       secretaria.cadastrarPaciente(p);
+
+
+        HorarioAtendimento horarioConsulta = new HorarioAtendimento(DiasDaSemana.SEGUNDA, LocalTime.of(14,30), LocalTime.of(15,30), 1);
+        Consulta consulta = new Consulta(house, p, horarioConsulta, LocalDate.of(2025,1,5), StatusConsulta.AGENDADA);
+
+       AtestadoMedico atestado = new AtestadoMedico(house,p,"Gripe", 2, LocalDateTime.of(2025,1,7,0,0));
+       consulta.adicionaDocumentoMedico(atestado);
+
+       DadosHospital.consultas.add(consulta);
+
+       p.getMinhasConsultas().add(consulta);
+       house.getConsultasMarcadas().add(consulta);
+
+       DadosHospital.salvarDados();
+
+       System.out.println("Testado com sucesso!");
     }
 }

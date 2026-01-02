@@ -1,6 +1,6 @@
 package br.ufjf.dcc025.model;
 
-import br.ufjf.dcc025.util.ValidaDados;
+import br.ufjf.dcc025.model.util.ValidaDados;
 
 import java.time.LocalDateTime;
 import java.util.Collections;
@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.ArrayList;
 
 public class Paciente extends Usuario {
-    private List<Consulta> minhasConsultas;
+    private transient List<Consulta> minhasConsultas;
     private String telefone;
     private Endereco endereco;
     private Boolean podeReceberVisitas = false;
@@ -17,7 +17,7 @@ public class Paciente extends Usuario {
 
 
     public Paciente(String nome, String cpf, String email, String senha, String telefone, Endereco endereco, String convenio) {
-        super(nome, cpf, email, senha);
+        super(nome, email, senha, cpf);
         this.minhasConsultas = new ArrayList<>();
         this.setTelefone(telefone);
         this.endereco = endereco;
@@ -52,7 +52,8 @@ public class Paciente extends Usuario {
     }
 
     public List<Consulta> getMinhasConsultas() {
-        return Collections.unmodifiableList(minhasConsultas);
+        return minhasConsultas;
+        //mudar dps, para não retornar a lista original, criar metodo para adcionar(Controller);
     }
 
     public List<DocumentoMedico> meusDocumentos()

@@ -26,7 +26,7 @@ public class ConsultaRepository implements Repository<Consulta> {
                 .registerSubtype(ReceitaMedica.class, "Receita")
                 .registerSubtype(ExameMedico.class, "Exame");
 
-        Gson gson = new GsonBuilder()
+        Gson gson = GsonConfiguration.createGson().newBuilder()
                 .registerTypeAdapterFactory(typeFactory)
                 .setPrettyPrinting()
                 .create();
@@ -47,7 +47,7 @@ public class ConsultaRepository implements Repository<Consulta> {
                 .registerSubtype(ReceitaMedica.class, "Receita")
                 .registerSubtype(ExameMedico.class, "Exame");
 
-        Gson gson = new GsonBuilder()
+        Gson gson = GsonConfiguration.createGson().newBuilder()
                 .registerTypeAdapterFactory(typeFactory)
                 .setPrettyPrinting()
                 .create();

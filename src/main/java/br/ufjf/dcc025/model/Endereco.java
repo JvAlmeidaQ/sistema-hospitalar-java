@@ -1,6 +1,6 @@
 package br.ufjf.dcc025.model;
 
-import br.ufjf.dcc025.util.ValidaDados;
+import br.ufjf.dcc025.model.util.ValidaDados;
 
 public class Endereco {
     private String cep;

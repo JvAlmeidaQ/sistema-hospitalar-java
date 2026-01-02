@@ -22,7 +22,7 @@ public class SecretariaRepository implements Repository<Secretaria> {
         String json = Arquivo.le(PATH);
         if (json.trim().isEmpty()) return new ArrayList<>();
 
-        Gson gson = new Gson();
+        Gson gson = GsonConfiguration.createGson();
         Type tipoLista = new TypeToken<List<Paciente>>() {}.getType();
 
         List<Secretaria> secretarias = gson.fromJson(json, tipoLista);
@@ -33,7 +33,7 @@ public class SecretariaRepository implements Repository<Secretaria> {
 
     @Override
     public void save(List<Secretaria> itens) {
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        Gson gson = GsonConfiguration.createGson();
         String json = gson.toJson(itens);
 
         File diretorio = new File(DIRECTORY);

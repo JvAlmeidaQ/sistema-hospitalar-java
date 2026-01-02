@@ -32,12 +32,49 @@ public class DadosHospital {
         medicos.addAll(medicoRepository.findAll());
         secretarias.addAll(secretariaRepository.findAll());
         consultas.addAll(consultaRepository.findAll());
+        carregarConsultas();
 
         System.out.println("Carregando dados dos pacientes: " +  pacientes.size());
         System.out.println("Carregando dados dos medicos: " +  medicos.size());
         System.out.println("Carregando dados das secretarias: " +  secretarias.size());
         System.out.println("Carregando dados dos consultas: " +  consultas.size());
         System.out.println("Dados carregados com sucesso!");
+    }
+
+    private static void carregarConsultas()
+    {
+        for (Consulta consulta : consultas) {
+
+            String cpfMedico = consulta.getMedico().getCpf();
+            Medico medico = buscarMedicoPorCpf(cpfMedico);
+
+            if (medico != null) {
+                //trocar dps pelo metodo que adiciona nas listas
+                medico.getConsultasMarcadas().add(consulta);
+            }
+
+            String cpfPaciente = consulta.getPaciente().getCpf();
+            Paciente paciente = buscarPacientePorCpf(cpfPaciente);
+
+            if (paciente != null) {
+                //trocar dps pelo metodo que adiciona nas listas
+                paciente.getMinhasConsultas().add(consulta);
+            }
+        }
+    }
+
+    private static Medico buscarMedicoPorCpf(String cpf) {
+        for (Medico m : medicos) {
+            if (m.getCpf().equals(cpf)) return m;
+        }
+        return null;
+    }
+
+    private static Paciente buscarPacientePorCpf(String cpf) {
+        for (Paciente p : pacientes) {
+            if (p.getCpf().equals(cpf)) return p;
+        }
+        return null;
     }
 
     public static void salvarDados()
