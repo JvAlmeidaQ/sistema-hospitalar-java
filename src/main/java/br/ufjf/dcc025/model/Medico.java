@@ -32,6 +32,8 @@ public class Medico extends Usuario {
 
     public List<Consulta> getConsultasMarcadas()
     {
+        if(this.consultasAgendadas == null)
+            this.consultasAgendadas = new ArrayList<>();
         return consultasAgendadas; //mudar dps, para não retornar a lista original, criar metodo para adcionar(Controller);
     }
 

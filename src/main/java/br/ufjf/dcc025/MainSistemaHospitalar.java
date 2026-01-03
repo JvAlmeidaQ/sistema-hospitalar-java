@@ -6,6 +6,7 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.List;
 
 /**
  * Hello world!
@@ -15,7 +16,8 @@ public class MainSistemaHospitalar
 {
     public static void main( String[] args )
     {
-       DadosHospital.carregarDados();
+
+        DadosHospital.carregarDados();
 
        Medico house = new Medico("Dr.House", "House@gmail.com", "H0243615dr!", "11249175607");
 
@@ -44,5 +46,34 @@ public class MainSistemaHospitalar
        DadosHospital.salvarDados();
 
        System.out.println("Testado com sucesso!");
+
+
+        if (DadosHospital.pacientes.isEmpty()) {
+            System.out.println("ERRO: Nenhhum paciente carregado. Rode a rotina de criação primeiro.");
+            return;
+        }
+
+        p = DadosHospital.pacientes.get(0);
+        System.out.println("--- Teste de Integridade: Paciente " + p.getNome() + " ---");
+
+        List<Consulta> consultasDoPaciente = p.getMinhasConsultas();
+        System.out.println("Consultas recuperadas: " + consultasDoPaciente.size());
+
+        if (!consultasDoPaciente.isEmpty()) {
+            Consulta c = consultasDoPaciente.getFirst();
+
+            System.out.println("Médico da consulta: " + c.getMedico().getNome());
+
+
+            if (!c.getDocumentoMedico().isEmpty()) {
+                System.out.println("Documento anexo: " + c.getDocumentoMedico().getFirst().getClass().getSimpleName());
+            } else {
+                System.out.println("AVISO: Consulta sem documentos.");
+            }
+        } else {
+            System.out.println("ERRO GRAVE: As consultas existem no arquivo mas não foram vinculadas ao paciente na memória.");
+        }
+
+
     }
 }

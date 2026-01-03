@@ -52,6 +52,8 @@ public class Paciente extends Usuario {
     }
 
     public List<Consulta> getMinhasConsultas() {
+        if(this.minhasConsultas == null)
+            this.minhasConsultas = new ArrayList<>();
         return minhasConsultas;
         //mudar dps, para não retornar a lista original, criar metodo para adcionar(Controller);
     }
@@ -132,7 +134,7 @@ public class Paciente extends Usuario {
     public void setTelefone(String telefone) {
         if(!ValidaDados.validaTelefone(telefone))
             throw new IllegalArgumentException("Numero Invalido");
-        this.telefone = "+55 ".concat(telefone);
+        this.telefone = "+55".concat(telefone);
     }
     public String getTelefone() {
         return telefone;
