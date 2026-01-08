@@ -28,7 +28,7 @@ public class Secretaria extends Usuario {
         throw new IllegalArgumentException("Paciente Inexistente");
     }
 
-    public void cadastroMedicos(Medico medico) {
+    public void cadastrarMedicos(Medico medico) {
         if (medico == null) {
             throw new IllegalArgumentException("Medico Inexistente");
         }
