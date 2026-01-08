@@ -1,5 +1,8 @@
 package br.ufjf.dcc025.view;
 
+import br.ufjf.dcc025.controller.Autenticar;
+import br.ufjf.dcc025.model.Usuario;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -7,7 +10,10 @@ import java.awt.event.ActionListener;
 
 public class TelaLogin extends JFrame {
 
+    private Autenticar autenticar;
+
     public TelaLogin() {
+        autenticar = new Autenticar(this);
         setTitle("Sistema da Clínica - Login");
         setSize(400, 300);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -45,21 +51,11 @@ public class TelaLogin extends JFrame {
         btnEntrar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String emailCapturado = txtEmail.getText();
-                String senhaCapturada = new String(txtSenha.getPassword());
+                String email = txtEmail.getText();
+                String senha = new String(txtSenha.getPassword());
 
-                // Apenas um teste visual por enquanto
-                JOptionPane.showMessageDialog(null,
-                        "Tentando entrar...\nEmail: " + emailCapturado);
+                autenticar.autenticarUser(email, senha);
             }
-        });
-    }
-
-    // TIRAR!!!
-    // Método main para testar a tela agora mesmo
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
-            new TelaLogin().setVisible(true);
         });
     }
 }

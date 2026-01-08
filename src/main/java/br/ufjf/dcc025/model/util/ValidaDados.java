@@ -66,7 +66,7 @@ public class ValidaDados {
         return Pattern.matches(regex, email);
     }
     public static boolean validaSenha(String senha) {
-        if (senha.length() < 6) return false;
+        /*if (senha.length() < 6) return false;
 
         boolean achouNumero = false;
         boolean achouMaiuscula = false;
@@ -84,6 +84,8 @@ public class ValidaDados {
             }
         }
         return achouNumero && achouMaiuscula && achouMinuscula && achouSimbolo;
+         */
+        return true;
     }
     //senha com +6 caracteres, necessario conter, Letras maiusculas e minisculas, numeros e caracteres especiais
 
@@ -98,6 +100,7 @@ public class ValidaDados {
         String regex = "^\\d{5}-?\\d{3}$";
         return Pattern.matches(regex, cep);
     }
+
 }
 
 
