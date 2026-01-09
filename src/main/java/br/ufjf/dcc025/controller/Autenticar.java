@@ -1,3 +1,4 @@
+//Fechar login e abrir página principal
 package br.ufjf.dcc025.controller;
 
 import br.ufjf.dcc025.model.*;
@@ -35,6 +36,15 @@ public class Autenticar {
             }
         }
         JOptionPane.showMessageDialog(telaLogin, "Usuário ou senha inválidos!", "Erro", JOptionPane.ERROR_MESSAGE);
-        return;
+    }
+
+    //PRECISA VERIFICAR A NOVA SENHA, NOME E EMAIL ANTES DE CHAMAR ESSA FUNÇÃO!!!
+    public boolean autenticarEdicao(Usuario usuarioAtivo, String senha, String senhaNova, String novoNome, String novoEmail){
+        if(usuarioAtivo.ValidacaoSetSenha(senha, senhaNova)){
+            usuarioAtivo.setNome(novoNome);
+            usuarioAtivo.setEmail(novoEmail);
+            return true;
+        }
+        return false;
     }
 }
