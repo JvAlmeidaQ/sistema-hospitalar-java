@@ -2,18 +2,21 @@
 //Não foi testado se realmente esta mudando os valores
 package br.ufjf.dcc025.view;
 
+import br.ufjf.dcc025.controller.AutenticarEdicaoPerfil;
 import br.ufjf.dcc025.model.Secretaria; // Essa Importação não deve exisitr
 import javax.swing.*;
 import java.awt.*;
 
 public class TelaEdicaoSecretaria extends JFrame {
 
+    private AutenticarEdicaoPerfil autenticarEdicaoPerfil;
     private Secretaria secretariaLogada; // Objeto que será editado
     private JTextField txtNome, txtEmail, txtCpf;
     private JPasswordField txtSenha;
 
     // Construtor recebe a secretária que está logada/sendo editada
-    public TelaEdicaoSecretaria(Secretaria secretaria) {
+    public TelaEdicaoSecretaria(AutenticarEdicaoPerfil autenticarEdicaoPerfil, Secretaria secretaria) {
+        this.autenticarEdicaoPerfil = autenticarEdicaoPerfil;
         this.secretariaLogada = secretaria;
 
         setTitle("Editar Perfil - Secretária");
@@ -80,7 +83,21 @@ public class TelaEdicaoSecretaria extends JFrame {
         btnSalvar.addActionListener(e -> salvarAlteracoes());
     }
 
+    public static String showPasswordDialog(Component pai, String mensagem) {
+        JPasswordField txtSenha = new JPasswordField();
+        Object[] message = {mensagem, txtSenha};
+
+        int option = JOptionPane.showConfirmDialog(pai, message, "Entrada de Senha", JOptionPane.OK_CANCEL_OPTION);
+
+        if (option == JOptionPane.OK_OPTION) {
+            return new String(txtSenha.getPassword());
+        }
+        return null; // Retorna null se cancelar
+    }
+
     private void salvarAlteracoes() {
+
+        String senhaDigitada = showPasswordDialog(this, "Digite sua senha atual:");
         String novoNome = txtNome.getText();
         String novoEmail = txtEmail.getText();
         String novaSenha = new String(txtSenha.getPassword());
@@ -90,14 +107,13 @@ public class TelaEdicaoSecretaria extends JFrame {
             return;
         }
 
-        // Atualiza o objeto original
-        secretariaLogada.setNome(novoNome);
-        secretariaLogada.setEmail(novoEmail);
-        //ATT SENHA NÃO FUNCIONA!!:/
-        //secretariaLogada.setSenha(novaSenha);
-
-        JOptionPane.showMessageDialog(this, "Dados atualizados com sucesso!");
-        dispose(); // Fecha a tela de edição após salvar
+        if(autenticarEdicaoPerfil.autenticarEdicao(secretariaLogada, senhaDigitada, novaSenha, novoNome, novoEmail)){
+            JOptionPane.showMessageDialog(this, "Dados atualizados com sucesso!");
+            dispose(); // Fecha a tela de edição após salvar
+        }
+        else{
+            JOptionPane.showMessageDialog(this, "Senha incorreta", "Erro", JOptionPane.WARNING_MESSAGE);
+        }
     }
 
     private JLabel criarLabel(String texto) {

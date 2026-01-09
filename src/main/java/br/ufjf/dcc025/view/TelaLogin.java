@@ -1,7 +1,6 @@
 package br.ufjf.dcc025.view;
 
-import br.ufjf.dcc025.controller.Autenticar;
-import br.ufjf.dcc025.model.Usuario; // Essa Importação não deve exisitr
+import br.ufjf.dcc025.controller.AutenticarLogin;
 
 import javax.swing.*;
 import java.awt.*;
@@ -10,10 +9,10 @@ import java.awt.event.ActionListener;
 
 public class TelaLogin extends JFrame {
 
-    private Autenticar autenticar;
+    private AutenticarLogin autenticarLogin;
 
     public TelaLogin() {
-        autenticar = new Autenticar(this);
+        autenticarLogin = new AutenticarLogin(this);
         setTitle("Sistema da Clínica - Login");
         setSize(400, 300);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -54,7 +53,7 @@ public class TelaLogin extends JFrame {
                 String email = txtEmail.getText();
                 String senha = new String(txtSenha.getPassword());
 
-                autenticar.autenticarUser(email, senha);
+                autenticarLogin.autenticarUser(email, senha);
             }
         });
     }
