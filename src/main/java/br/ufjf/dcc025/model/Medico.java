@@ -7,13 +7,15 @@ import java.util.List;
 
 public class Medico extends Usuario {
 
+    private String especialidade;
     private List<HorarioAtendimento> horariosDisponiveis;
     private transient List<Consulta> consultasAgendadas;
     private Boolean status;
 
-    public Medico(String nome, String email, String senha, String cpf) {
+    public Medico(String nome, String email, String senha, String cpf, String especialidade) {
 
         super(nome, email, senha, cpf);
+        this.especialidade = especialidade;
         this.horariosDisponiveis = new ArrayList<>();
         this.consultasAgendadas = new ArrayList<>();
         this.status = true;
@@ -40,6 +42,9 @@ public class Medico extends Usuario {
     public void alteraStatusVisitas(Paciente paciente, boolean status) {
         paciente.setPodeReceberVisitas(status);
     }
+
+    public String getEspecialidade(){ return especialidade; }
+    public void setEspecialidade(String novaEspecialidade){ this.especialidade = novaEspecialidade; }
 
     public Boolean getStatus() {
         return status;

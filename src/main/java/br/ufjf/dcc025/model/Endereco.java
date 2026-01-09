@@ -1,3 +1,4 @@
+//Validação de CEP comentada
 package br.ufjf.dcc025.model;
 
 import br.ufjf.dcc025.model.util.ValidaDados;
@@ -21,8 +22,8 @@ public class Endereco {
         this.estado = estado;
     }
     public void setCep(String cep) {
-        if(!ValidaDados.validaCEP(cep))
-            throw new IllegalArgumentException("CEP invalido");
+//        if(!ValidaDados.validaCEP(cep))
+//            throw new IllegalArgumentException("CEP invalido");
         this.cep = cep;
     }
     public String getCep() {

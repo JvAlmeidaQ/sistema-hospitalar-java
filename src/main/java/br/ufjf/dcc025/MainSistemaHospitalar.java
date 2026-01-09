@@ -1,6 +1,9 @@
 package br.ufjf.dcc025;
 
 import br.ufjf.dcc025.model.*;
+import br.ufjf.dcc025.view.TelaEdicaoMedico;
+import br.ufjf.dcc025.view.TelaEdicaoPaciente;
+import br.ufjf.dcc025.view.TelaEdicaoSecretaria;
 import br.ufjf.dcc025.view.TelaLogin;
 
 import javax.swing.*;
@@ -21,10 +24,19 @@ public class MainSistemaHospitalar
 
        DadosHospital.carregarDados();
 
+        Secretaria secretaria = new Secretaria("Julia", "JuliaSecretaria@gmail.com", "juSec1428@", "84770895070");
+        Medico house = new Medico("Dr.House", "House@gmail.com", "456", "12906714607", "Geral");
+        Endereco enderco = new Endereco("123", "Dos Bobos", "0", "", "Martelos", "Barbacena", "MG");
+        Paciente doente = new Paciente("Snow", "12906714607", "g@g.com", "123", "32991333288", enderco, "Ipseng");
+
         SwingUtilities.invokeLater(()-> {
-            new TelaLogin().setVisible(true);
-        });/*
-       Medico house = new Medico("Dr.House", "House@gmail.com", "456", "");
+            new TelaEdicaoPaciente(doente).setVisible(true);
+            new TelaEdicaoMedico(house).setVisible(true);
+            new TelaEdicaoSecretaria(secretaria).setVisible(true);
+            //new TelaLogin().setVisible(true);
+        });
+        /*
+       Medico house = new Medico("Dr.House", "House@gmail.com", "456", "", "Geral");
 
        house.adicionarHorarioAtendimento(DiasDaSemana.SEGUNDA, LocalTime.of(14,30), LocalTime.of(15,30), 60);
 

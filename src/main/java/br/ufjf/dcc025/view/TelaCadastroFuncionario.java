@@ -12,29 +12,50 @@ import java.awt.event.ActionListener;
 public class TelaCadastroFuncionario extends JFrame {
 
     // Componentes globais
-    private JTextField txtNome, txtCpf, txtEmail;
+    private JTextField txtNome, txtCpf, txtEmail, txtEspecialidade;
     private JPasswordField txtSenha;
+    private JLabel lblEspecialidade;
     private JCheckBox chkMedico, chkSecretaria;
     private ButtonGroup grupoTipoFuncionario;
 
     public TelaCadastroFuncionario() {
         setTitle("Sistema da Clínica - Cadastro de Funcionário");
-        setSize(400, 650); // Tamanho ajustado
+        setSize(400, 650);
         //setResizable(false);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setLayout(new BorderLayout());
 
-        // 1. Título Principal
+        // --- 1. PAINEL SUPERIOR (Título + Checkboxes) ---
+        JPanel painelSuperior = new JPanel(new GridLayout(2, 1));
+
+        // Título
         JLabel lblTitulo = new JLabel("Cadastro de Funcionário", SwingConstants.CENTER);
         lblTitulo.setFont(new Font("Arial", Font.BOLD, 22));
         lblTitulo.setForeground(new Color(0, 102, 204));
         lblTitulo.setBorder(BorderFactory.createEmptyBorder(20, 0, 10, 0));
-        add(lblTitulo, BorderLayout.NORTH);
+        painelSuperior.add(lblTitulo);
 
-        // 2. Formulário
+        // Checkboxes (Tipo de Funcionário)
+        JPanel painelTipo = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 5));
+        chkMedico = new JCheckBox("Médico");
+        chkSecretaria = new JCheckBox("Secretária");
+
+        // Agrupando para garantir seleção única
+        grupoTipoFuncionario = new ButtonGroup();
+        grupoTipoFuncionario.add(chkMedico);
+        grupoTipoFuncionario.add(chkSecretaria);
+
+        painelTipo.add(chkMedico);
+        painelTipo.add(chkSecretaria);
+        painelSuperior.add(painelTipo);
+
+        add(painelSuperior, BorderLayout.NORTH);
+
+        // --- 2. FORMULÁRIO ---
         JPanel painelFormulario = new JPanel();
-        painelFormulario.setLayout(new GridLayout(6, 1, 5, 5)); // 6 linhas (Nome, CPF, Email, Senha, Checkboxes, Espaço)
+        // GridLayout com 0 linhas (indefinido) e 1 coluna, para adaptar dinamicamente
+        painelFormulario.setLayout(new GridLayout(0, 1, 5, 5));
         painelFormulario.setBorder(BorderFactory.createEmptyBorder(10, 40, 10, 40));
 
         // Nome
@@ -57,27 +78,21 @@ public class TelaCadastroFuncionario extends JFrame {
         txtSenha = new JPasswordField();
         painelFormulario.add(txtSenha);
 
-        // --- ÁREA DE SELEÇÃO (CHECKBOXES) ---
-        // Criamos um painel pequeno só para alinhar as checkboxes lado a lado
-        JPanel painelTipo = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        // Especialidade (Inicialmente Oculto)
+        lblEspecialidade = criarLabel("Especialidade:");
+        txtEspecialidade = new JTextField();
 
-        chkMedico = new JCheckBox("Médico");
-        chkSecretaria = new JCheckBox("Secretária");
+        // Adiciona ao painel
+        painelFormulario.add(lblEspecialidade);
+        painelFormulario.add(txtEspecialidade);
 
-        // O ButtonGroup garante que apenas um seja selecionado por vez
-        grupoTipoFuncionario = new ButtonGroup();
-        grupoTipoFuncionario.add(chkMedico);
-        grupoTipoFuncionario.add(chkSecretaria);
-
-        painelTipo.add(new JLabel("Tipo de Usuário: "));
-        painelTipo.add(chkMedico);
-        painelTipo.add(chkSecretaria);
-
-        painelFormulario.add(painelTipo);
+        // Define invisível inicialmente
+        lblEspecialidade.setVisible(false);
+        txtEspecialidade.setVisible(false);
 
         add(painelFormulario, BorderLayout.CENTER);
 
-        // 3. Botões
+        // --- 3. BOTÕES ---
         JPanel painelBotoes = new JPanel(new FlowLayout());
         painelBotoes.setBorder(BorderFactory.createEmptyBorder(10, 0, 20, 0));
 
@@ -93,10 +108,29 @@ public class TelaCadastroFuncionario extends JFrame {
         painelBotoes.add(btnSalvar);
         add(painelBotoes, BorderLayout.SOUTH);
 
-        // --- AÇÕES ---
-        //Futuramente voltar para tela da secretária!!!
+        // --- AÇÕES / LISTENERS ---
+
+        // Lógica para mostrar/esconder Especialidade
+        ActionListener acaoCheckbox = e -> {
+            boolean isMedico = chkMedico.isSelected();
+            lblEspecialidade.setVisible(isMedico);
+            txtEspecialidade.setVisible(isMedico);
+
+            // Se ocultar, limpa o texto para evitar salvar lixo
+            if (!isMedico) {
+                txtEspecialidade.setText("");
+            }
+
+            // Revalida o painel para ajustar o layout visualmente
+            painelFormulario.revalidate();
+            painelFormulario.repaint();
+        };
+
+        chkMedico.addActionListener(acaoCheckbox);
+        chkSecretaria.addActionListener(acaoCheckbox);
+
         btnVoltar.addActionListener(e -> {
-            new TelaLogin().setVisible(true); // Ou voltar para um menu de admin, se houver
+            new TelaLogin().setVisible(true);
             dispose();
         });
 
@@ -120,28 +154,41 @@ public class TelaCadastroFuncionario extends JFrame {
         String cpf = txtCpf.getText();
         String email = txtEmail.getText();
         String senha = new String(txtSenha.getPassword());
+
+        // Validação básica
         if (nome.trim().isEmpty() || cpf.trim().isEmpty() ||
                 email.trim().isEmpty() || senha.trim().isEmpty()) {
 
             JOptionPane.showMessageDialog(this,
-                    "Por favor, preencha todos os campos obrigatórios (Nome, CPF, Email e Senha).",
+                    "Por favor, preencha todos os campos obrigatórios.",
                     "Campos Vazios",
                     JOptionPane.WARNING_MESSAGE);
-            return; // PARA TUDO AQUI. Não continua o código.
+            return;
         }
 
-        // --- 2. BLINDAGEM (Verificação de Checkbox) ---
+        // Validação de seleção de tipo
         if (!chkMedico.isSelected() && !chkSecretaria.isSelected()) {
             JOptionPane.showMessageDialog(this,
                     "Selecione o tipo de funcionário: Médico ou Secretária.",
                     "Tipo não selecionado",
                     JOptionPane.WARNING_MESSAGE);
-            return; // PARA TUDO AQUI.
+            return;
         }
+
+        // Validação específica para Médico
+        if (chkMedico.isSelected() && txtEspecialidade.getText().trim().isEmpty()) {
+            JOptionPane.showMessageDialog(this,
+                    "Para cadastrar um Médico, a Especialidade é obrigatória.",
+                    "Campo Obrigatório",
+                    JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
         try {
             if (chkMedico.isSelected()) {
-                // Cria Médico
-                Medico novoMedico = new Medico(nome, email, senha, cpf);
+                // Cria Médico com Especialidade
+                // IMPORTANTE: Seu construtor em 'Medico.java' precisa aceitar a especialidade!
+                Medico novoMedico = new Medico(nome, email, senha, cpf, txtEspecialidade.getText());
                 DadosHospital.medicos.add(novoMedico);
                 JOptionPane.showMessageDialog(this, "Médico cadastrado com sucesso!");
             } else {
@@ -164,7 +211,12 @@ public class TelaCadastroFuncionario extends JFrame {
         txtCpf.setText("");
         txtEmail.setText("");
         txtSenha.setText("");
+        txtEspecialidade.setText("");
         grupoTipoFuncionario.clearSelection();
+
+        // Reseta a visibilidade
+        lblEspecialidade.setVisible(false);
+        txtEspecialidade.setVisible(false);
     }
 
     public static void main(String[] args) {
