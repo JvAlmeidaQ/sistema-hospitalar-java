@@ -19,7 +19,8 @@ public class TelaCadastroFuncionario extends JFrame {
 
     public TelaCadastroFuncionario() {
         setTitle("Sistema da Clínica - Cadastro de Funcionário");
-        setSize(450, 450); // Tamanho ajustado
+        setSize(400, 650); // Tamanho ajustado
+        //setResizable(false);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setLayout(new BorderLayout());
@@ -93,6 +94,7 @@ public class TelaCadastroFuncionario extends JFrame {
         add(painelBotoes, BorderLayout.SOUTH);
 
         // --- AÇÕES ---
+        //Futuramente voltar para tela da secretária!!!
         btnVoltar.addActionListener(e -> {
             new TelaLogin().setVisible(true); // Ou voltar para um menu de admin, se houver
             dispose();
@@ -114,17 +116,29 @@ public class TelaCadastroFuncionario extends JFrame {
     }
 
     private void salvarFuncionario() {
+        String nome = txtNome.getText();
+        String cpf = txtCpf.getText();
+        String email = txtEmail.getText();
+        String senha = new String(txtSenha.getPassword());
+        if (nome.trim().isEmpty() || cpf.trim().isEmpty() ||
+                email.trim().isEmpty() || senha.trim().isEmpty()) {
+
+            JOptionPane.showMessageDialog(this,
+                    "Por favor, preencha todos os campos obrigatórios (Nome, CPF, Email e Senha).",
+                    "Campos Vazios",
+                    JOptionPane.WARNING_MESSAGE);
+            return; // PARA TUDO AQUI. Não continua o código.
+        }
+
+        // --- 2. BLINDAGEM (Verificação de Checkbox) ---
+        if (!chkMedico.isSelected() && !chkSecretaria.isSelected()) {
+            JOptionPane.showMessageDialog(this,
+                    "Selecione o tipo de funcionário: Médico ou Secretária.",
+                    "Tipo não selecionado",
+                    JOptionPane.WARNING_MESSAGE);
+            return; // PARA TUDO AQUI.
+        }
         try {
-            String nome = txtNome.getText();
-            String cpf = txtCpf.getText();
-            String email = txtEmail.getText();
-            String senha = new String(txtSenha.getPassword());
-
-            if (!chkMedico.isSelected() && !chkSecretaria.isSelected()) {
-                JOptionPane.showMessageDialog(this, "Selecione o tipo: Médico ou Secretária.", "Aviso", JOptionPane.WARNING_MESSAGE);
-                return;
-            }
-
             if (chkMedico.isSelected()) {
                 // Cria Médico
                 Medico novoMedico = new Medico(nome, email, senha, cpf);
@@ -136,16 +150,21 @@ public class TelaCadastroFuncionario extends JFrame {
                 DadosHospital.secretarias.add(novaSecretaria);
                 JOptionPane.showMessageDialog(this, "Secretária cadastrada com sucesso!");
             }
-
-            // Volta para o Login (ou limpa a tela para cadastrar outro)
-            new TelaLogin().setVisible(true);
-            dispose();
+            limparCampos();
 
         } catch (IllegalArgumentException e) {
             JOptionPane.showMessageDialog(this, "Erro de Validação: " + e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Erro inesperado: " + e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
         }
+    }
+
+    private void limparCampos() {
+        txtNome.setText("");
+        txtCpf.setText("");
+        txtEmail.setText("");
+        txtSenha.setText("");
+        grupoTipoFuncionario.clearSelection();
     }
 
     public static void main(String[] args) {

@@ -24,12 +24,12 @@ public class MainSistemaHospitalar
         SwingUtilities.invokeLater(()-> {
             new TelaLogin().setVisible(true);
         });/*
-       Medico house = new Medico("Dr.House", "House@gmail.com", "456", "11249175607");
+       Medico house = new Medico("Dr.House", "House@gmail.com", "456", "");
 
        house.adicionarHorarioAtendimento(DiasDaSemana.SEGUNDA, LocalTime.of(14,30), LocalTime.of(15,30), 60);
 
        Endereco endereco = new Endereco("23062851", "João God", "88", "","Almeidas", "Barbacena", "MG" );
-       Paciente p = new Paciente("João", "11249175607", "joao@gmail.com", "123", "32984329170", endereco, "Sus");
+       Paciente p = new Paciente("João", "", "joao@gmail.com", "123", "32984329170", endereco, "Sus");
 
        Secretaria secretaria = new Secretaria("Julia", "JuliaSecretaria@gmail.com", "juSec1428@", "84770895070");
 

@@ -18,7 +18,8 @@ public class TelaCadastroPaciente extends JFrame {
 
     public TelaCadastroPaciente() {
         setTitle("Sistema da Clínica - Cadastro");
-        setSize(500, 650);
+        setSize(400, 650);
+        setResizable(false);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setLayout(new BorderLayout()); // Layout principal para fixar título e botões
@@ -141,6 +142,20 @@ public class TelaCadastroPaciente extends JFrame {
     }
 
     private void salvarPaciente() {
+        if (txtNome.getText().trim().isEmpty() ||
+                txtCpf.getText().trim().isEmpty() ||
+                txtEmail.getText().trim().isEmpty() ||
+                new String(txtSenha.getPassword()).trim().isEmpty() ||
+                txtCep.getText().trim().isEmpty() ||
+                txtRua.getText().trim().isEmpty() ||
+                txtNumero.getText().trim().isEmpty()) {
+
+            JOptionPane.showMessageDialog(this,
+                    "Por favor, preencha todos os campos obrigatórios.",
+                    "Aviso",
+                    JOptionPane.WARNING_MESSAGE);
+            return; // Para a execução aqui. Não tenta criar o paciente.
+        }
         try {
             // Cria o Endereço
             Endereco novoEndereco = new Endereco(
@@ -168,8 +183,7 @@ public class TelaCadastroPaciente extends JFrame {
             DadosHospital.pacientes.add(novoPaciente);
 
             JOptionPane.showMessageDialog(this, "Paciente cadastrado com sucesso!");
-            new TelaLogin().setVisible(true);
-            dispose();
+            limparCampos();
 
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(this, "Erro: O campo 'Número' deve ser numérico.", "Erro", JOptionPane.ERROR_MESSAGE);
@@ -178,6 +192,23 @@ public class TelaCadastroPaciente extends JFrame {
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Erro inesperado: " + e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
         }
+    }
+
+    private void limparCampos() {
+        txtNome.setText("");
+        txtCpf.setText("");
+        txtConvenio.setText("");
+        txtTelefone.setText("");
+        txtEmail.setText("");
+        txtSenha.setText("");
+
+        txtCep.setText("");
+        txtEstado.setText("");
+        txtCidade.setText("");
+        txtBairro.setText("");
+        txtRua.setText("");
+        txtNumero.setText("");
+        txtComplemento.setText("");
     }
 
     public static void main(String[] args) {

@@ -133,7 +133,7 @@ public class Paciente extends Usuario {
 
     public void setTelefone(String telefone) {
         if(!ValidaDados.validaTelefone(telefone))
-            throw new IllegalArgumentException("Numero Invalido");
+            throw new IllegalArgumentException("Número de telefone Inválido");
         this.telefone = "+55".concat(telefone);
     }
     public String getTelefone() {
