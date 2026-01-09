@@ -1,22 +1,13 @@
 package br.ufjf.dcc025;
 
 import br.ufjf.dcc025.model.*;
-import br.ufjf.dcc025.view.TelaEdicaoMedico;
-import br.ufjf.dcc025.view.TelaEdicaoPaciente;
-import br.ufjf.dcc025.view.TelaEdicaoSecretaria;
-import br.ufjf.dcc025.view.TelaLogin;
+import br.ufjf.dcc025.view.TelaEdicaoMedico; // Essa Importação não deve exisitr
+import br.ufjf.dcc025.view.TelaEdicaoPaciente; // Essa Importação não deve exisitr
+import br.ufjf.dcc025.view.TelaEdicaoSecretaria; // Essa Importação não deve exisitr
+import br.ufjf.dcc025.view.TelaLogin; // Essa Importação não deve exisitr
 
 import javax.swing.*;
-import java.time.DayOfWeek;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.util.List;
 
-/**
- * Hello world!
- *
- */
 public class MainSistemaHospitalar
 {
     public static void main( String[] args )
@@ -33,7 +24,7 @@ public class MainSistemaHospitalar
             new TelaEdicaoPaciente(doente).setVisible(true);
             new TelaEdicaoMedico(house).setVisible(true);
             new TelaEdicaoSecretaria(secretaria).setVisible(true);
-            //new TelaLogin().setVisible(true);
+            new TelaLogin().setVisible(true);
         });
         /*
        Medico house = new Medico("Dr.House", "House@gmail.com", "456", "", "Geral");

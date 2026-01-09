@@ -1,7 +1,7 @@
 package br.ufjf.dcc025.view;
 
 import br.ufjf.dcc025.controller.Autenticar;
-import br.ufjf.dcc025.model.Usuario;
+import br.ufjf.dcc025.model.Usuario; // Essa Importação não deve exisitr
 
 import javax.swing.*;
 import java.awt.*;

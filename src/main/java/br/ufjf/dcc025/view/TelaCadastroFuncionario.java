@@ -1,8 +1,8 @@
 package br.ufjf.dcc025.view;
 
-import br.ufjf.dcc025.model.DadosHospital;
-import br.ufjf.dcc025.model.Medico;
-import br.ufjf.dcc025.model.Secretaria;
+import br.ufjf.dcc025.model.DadosHospital; // Essa Importação não deve exisitr
+import br.ufjf.dcc025.model.Medico; // Essa Importação não deve exisitr
+import br.ufjf.dcc025.model.Secretaria; // Essa Importação não deve exisitr
 
 import javax.swing.*;
 import java.awt.*;

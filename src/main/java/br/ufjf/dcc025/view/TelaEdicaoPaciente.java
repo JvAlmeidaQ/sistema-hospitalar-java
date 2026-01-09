@@ -2,8 +2,8 @@
 //Não foi testado se realmente esta mudando os valores
 package br.ufjf.dcc025.view;
 
-import br.ufjf.dcc025.model.Endereco; // Importação necessária
-import br.ufjf.dcc025.model.Paciente;
+import br.ufjf.dcc025.model.Endereco; // Essa Importação não deve exisitr
+import br.ufjf.dcc025.model.Paciente; // Essa Importação não deve exisitr
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
