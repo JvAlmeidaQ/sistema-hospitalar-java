@@ -1,6 +1,10 @@
 package br.ufjf.dcc025.view;
 
-import br.ufjf.dcc025.controller.AutenticarLogin;
+import br.ufjf.dcc025.controller.Autenticar;
+import br.ufjf.dcc025.model.Medico;
+import br.ufjf.dcc025.model.Paciente;
+import br.ufjf.dcc025.model.Secretaria;
+import br.ufjf.dcc025.model.Usuario;
 
 import javax.swing.*;
 import java.awt.*;
@@ -9,10 +13,10 @@ import java.awt.event.ActionListener;
 
 public class TelaLogin extends JFrame {
 
-    private AutenticarLogin autenticarLogin;
+    private JTextField txtEmail;
+    private JPasswordField txtSenha;
 
     public TelaLogin() {
-        autenticarLogin = new AutenticarLogin(this);
         setTitle("Sistema da Clínica - Login");
         setSize(400, 300);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -28,10 +32,10 @@ public class TelaLogin extends JFrame {
         lblTitulo.setForeground(new Color(0, 102, 204));
 
         JLabel lblEmail = new JLabel("E-mail:");
-        JTextField txtEmail = new JTextField();
+        this.txtEmail = new JTextField();
 
         JLabel lblSenha = new JLabel("Senha:");
-        JPasswordField txtSenha = new JPasswordField();
+        this.txtSenha = new JPasswordField();
 
         JButton btnEntrar = new JButton("ENTRAR");
         btnEntrar.setBackground(new Color(0, 102, 204));
@@ -50,11 +54,40 @@ public class TelaLogin extends JFrame {
         btnEntrar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String email = txtEmail.getText();
-                String senha = new String(txtSenha.getPassword());
-
-                autenticarLogin.autenticarUser(email, senha);
+                realizarLogin();
             }
         });
+    }
+
+    private void realizarLogin() {
+        String email = txtEmail.getText();
+        String senha = new String(txtSenha.getPassword());
+
+        Autenticar controller = new Autenticar();
+        Usuario usuarioLogado = controller.login(email, senha);
+
+        if (usuarioLogado == null) {
+            JOptionPane.showMessageDialog(this,
+                    "Usuário ou senha inválidos!",
+                    "Erro de Login",
+                    JOptionPane.ERROR_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(this,
+                    "Bem vindo(a), " + usuarioLogado.getNome() + "!");
+
+            // 3. Redirecionamento (Navegação)
+            if (usuarioLogado instanceof Medico) {
+                // new TelaPrincipalMedico((Medico) usuarioLogado).setVisible(true);
+                System.out.println("Abrindo tela de Médico..."); // Placeholder
+            } else if (usuarioLogado instanceof Paciente) {
+                // new TelaPrincipalPaciente((Paciente) usuarioLogado).setVisible(true);
+                System.out.println("Abrindo tela de Paciente..."); // Placeholder
+            } else if (usuarioLogado instanceof Secretaria) {
+                // new TelaPrincipalSecretaria((Secretaria) usuarioLogado).setVisible(true);
+                System.out.println("Abrindo tela de Secretaria...");
+            }
+
+            this.dispose();
+        }
     }
 }
