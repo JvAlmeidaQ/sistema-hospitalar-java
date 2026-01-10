@@ -48,10 +48,9 @@ public abstract class Usuario {
         this.senha = senha;
     }
 
-    public boolean ValidacaoSetSenha(String senha, String senhaNova){
-        if(this.senha.equals(senha)){
+    public boolean ValidacaoSetSenha(String senhaNova){
+        if(!senhaNova.trim().isEmpty()){
             setSenha(senhaNova);
-            return true;
         }
         return false;
     }

@@ -1,5 +1,6 @@
 package br.ufjf.dcc025.view;
 
+import br.ufjf.dcc025.controller.PacienteController;
 import br.ufjf.dcc025.model.DadosHospital; // Essa Importação não deve exisitr
 import br.ufjf.dcc025.model.Endereco; // Essa Importação não deve exisitr
 import br.ufjf.dcc025.model.Paciente; // Essa Importação não deve exisitr
@@ -142,6 +143,7 @@ public class TelaCadastroPaciente extends JFrame {
     }
 
     private void salvarPaciente() {
+
         if (txtNome.getText().trim().isEmpty() ||
                 txtCpf.getText().trim().isEmpty() ||
                 txtEmail.getText().trim().isEmpty() ||
@@ -154,45 +156,55 @@ public class TelaCadastroPaciente extends JFrame {
                     "Por favor, preencha todos os campos obrigatórios.",
                     "Aviso",
                     JOptionPane.WARNING_MESSAGE);
-            return; // Para a execução aqui. Não tenta criar o paciente.
+            return;
         }
+
+        String nome = txtNome.getText();
+        String cpf = txtCpf.getText();
+        String email = txtEmail.getText();
+        String senha = new String(txtSenha.getPassword());
+        String telefone = txtTelefone.getText();
+        String convenio = txtConvenio.getText();
+
+        String cep = txtCep.getText();
+        String rua = txtRua.getText();
+        String numero = txtNumero.getText();
+        String complemento = txtComplemento.getText();
+        String bairro = txtBairro.getText();
+        String cidade = txtCidade.getText();
+        String estado = txtEstado.getText();
+
+        PacienteController controller = new PacienteController();
+
         try {
-            // Cria o Endereço
-            Endereco novoEndereco = new Endereco(
-                    txtRua.getText(),
-                    txtNumero.getText(),
-                    txtComplemento.getText(),
-                    txtBairro.getText(),
-                    txtCidade.getText(),
-                    txtEstado.getText(),
-                    txtCep.getText()
+            controller.cadastrarPaciente(
+                    nome, cpf, email, senha, telefone, convenio,
+                    cep, rua, numero, complemento, bairro, cidade, estado
             );
-
-            // Cria o Paciente (Sem idade, conforme solicitado)
-            Paciente novoPaciente = new Paciente(
-                    txtNome.getText(),
-                    txtCpf.getText(),
-                    txtEmail.getText(),
-                    new String(txtSenha.getPassword()),
-                    txtTelefone.getText(),
-                    novoEndereco,
-                    txtConvenio.getText()
-            );
-
-            // Adiciona na lista estática
-            DadosHospital.pacientes.add(novoPaciente);
 
             JOptionPane.showMessageDialog(this, "Paciente cadastrado com sucesso!");
             limparCampos();
 
         } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this, "Erro: O campo 'Número' deve ser numérico.", "Erro", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this,
+                    "Erro: o número do endereço deve ser numérico.",
+                    "Erro",
+                    JOptionPane.ERROR_MESSAGE);
+
         } catch (IllegalArgumentException e) {
-            JOptionPane.showMessageDialog(this, "Erro de Validação: " + e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this,
+                    e.getMessage(),
+                    "Erro",
+                    JOptionPane.ERROR_MESSAGE);
+
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Erro inesperado: " + e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this,
+                    "Erro inesperado: " + e.getMessage(),
+                    "Erro",
+                    JOptionPane.ERROR_MESSAGE);
         }
     }
+
 
     private void limparCampos() {
         txtNome.setText("");

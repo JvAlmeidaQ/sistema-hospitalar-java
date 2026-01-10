@@ -1,10 +1,7 @@
 package br.ufjf.dcc025;
 
-import br.ufjf.dcc025.controller.AutenticarEdicaoPerfil;
+import br.ufjf.dcc025.controller.Autenticar;
 import br.ufjf.dcc025.model.*;
-import br.ufjf.dcc025.view.TelaEdicaoMedico; // Essa Importação não deve exisitr
-import br.ufjf.dcc025.view.TelaEdicaoPaciente; // Essa Importação não deve exisitr
-import br.ufjf.dcc025.view.TelaEdicaoSecretaria; // Essa Importação não deve exisitr
 import br.ufjf.dcc025.view.TelaLogin; // Essa Importação não deve exisitr
 
 import javax.swing.*;
@@ -16,7 +13,7 @@ public class MainSistemaHospitalar
 
        DadosHospital.carregarDados();
 
-       AutenticarEdicaoPerfil autenticarEdicaoPerfil = new AutenticarEdicaoPerfil();
+       Autenticar autenticar = new Autenticar();
 
        Secretaria secretaria = new Secretaria("Julia", "JuliaSecretaria@gmail.com", "juSec1428@", "84770895070");
        Medico house = new Medico("Dr.House", "House@gmail.com", "456", "12906714607", "Geral");

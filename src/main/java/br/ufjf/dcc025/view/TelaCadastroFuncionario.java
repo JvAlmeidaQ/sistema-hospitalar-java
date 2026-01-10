@@ -1,5 +1,6 @@
 package br.ufjf.dcc025.view;
 
+import br.ufjf.dcc025.controller.FuncionarioController;
 import br.ufjf.dcc025.model.DadosHospital; // Essa Importação não deve exisitr
 import br.ufjf.dcc025.model.Medico; // Essa Importação não deve exisitr
 import br.ufjf.dcc025.model.Secretaria; // Essa Importação não deve exisitr
@@ -150,59 +151,31 @@ public class TelaCadastroFuncionario extends JFrame {
     }
 
     private void salvarFuncionario() {
+        // 1. Coleta dados da tela
         String nome = txtNome.getText();
         String cpf = txtCpf.getText();
         String email = txtEmail.getText();
         String senha = new String(txtSenha.getPassword());
+        String especialidade = txtEspecialidade.getText();
+        boolean isMedico = chkMedico.isSelected();
+        boolean isSecretaria = chkSecretaria.isSelected();
 
-        // Validação básica
-        if (nome.trim().isEmpty() || cpf.trim().isEmpty() ||
-                email.trim().isEmpty() || senha.trim().isEmpty()) {
-
-            JOptionPane.showMessageDialog(this,
-                    "Por favor, preencha todos os campos obrigatórios.",
-                    "Campos Vazios",
-                    JOptionPane.WARNING_MESSAGE);
+        if (!isMedico && !isSecretaria) {
+            JOptionPane.showMessageDialog(this, "Selecione o tipo de funcionário.", "Aviso", JOptionPane.WARNING_MESSAGE);
             return;
         }
 
-        // Validação de seleção de tipo
-        if (!chkMedico.isSelected() && !chkSecretaria.isSelected()) {
-            JOptionPane.showMessageDialog(this,
-                    "Selecione o tipo de funcionário: Médico ou Secretária.",
-                    "Tipo não selecionado",
-                    JOptionPane.WARNING_MESSAGE);
-            return;
-        }
-
-        // Validação específica para Médico
-        if (chkMedico.isSelected() && txtEspecialidade.getText().trim().isEmpty()) {
-            JOptionPane.showMessageDialog(this,
-                    "Para cadastrar um Médico, a Especialidade é obrigatória.",
-                    "Campo Obrigatório",
-                    JOptionPane.WARNING_MESSAGE);
-            return;
-        }
+        FuncionarioController controller = new FuncionarioController();
 
         try {
-            if (chkMedico.isSelected()) {
-                // Cria Médico com Especialidade
-                // IMPORTANTE: Seu construtor em 'Medico.java' precisa aceitar a especialidade!
-                Medico novoMedico = new Medico(nome, email, senha, cpf, txtEspecialidade.getText());
-                DadosHospital.medicos.add(novoMedico);
-                JOptionPane.showMessageDialog(this, "Médico cadastrado com sucesso!");
-            } else {
-                // Cria Secretária
-                Secretaria novaSecretaria = new Secretaria(nome, email, senha, cpf);
-                DadosHospital.secretarias.add(novaSecretaria);
-                JOptionPane.showMessageDialog(this, "Secretária cadastrada com sucesso!");
-            }
+            controller.cadastrarFuncionario(nome, cpf, email, senha, isMedico, especialidade);
+
+            JOptionPane.showMessageDialog(this, "Funcionário cadastrado com sucesso!");
             limparCampos();
 
-        } catch (IllegalArgumentException e) {
-            JOptionPane.showMessageDialog(this, "Erro de Validação: " + e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Erro inesperado: " + e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+            // Mostra o erro exato (ex: "CPF já existe")
+            JOptionPane.showMessageDialog(this, e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -214,7 +187,6 @@ public class TelaCadastroFuncionario extends JFrame {
         txtEspecialidade.setText("");
         grupoTipoFuncionario.clearSelection();
 
-        // Reseta a visibilidade
         lblEspecialidade.setVisible(false);
         txtEspecialidade.setVisible(false);
     }
