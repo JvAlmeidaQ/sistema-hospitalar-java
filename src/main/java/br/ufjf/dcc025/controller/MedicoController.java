@@ -12,9 +12,6 @@ public class MedicoController {
         if(medico == null)
             throw new Exception("Medico inexistente");
 
-        if(autenticacao.validarSenha(medico, senhaAtual))
-            throw new Exception("Senha Digitada Incorreta!");
-
         if (nome == null || nome.length() < 2)
             throw new Exception("Nome invalido");
 
@@ -27,8 +24,13 @@ public class MedicoController {
         medico.setNome(nome);
         medico.setEmail(email);
 
-        if(!medico.ValidacaoSetSenha(novaSenha))
-            throw new Exception("Nova Senha Invalida!");
+        if(novaSenha != null && !novaSenha.isBlank())
+        {
+            if(!autenticacao.validarSenha(medico, senhaAtual)) {
+                throw new Exception("Senha Digitada Incorreta!");
+            }
+            medico.ValidacaoSetSenha(novaSenha);
+        }
 
 
         DadosHospital.salvarDados();

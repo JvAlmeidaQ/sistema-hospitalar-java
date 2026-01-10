@@ -66,8 +66,8 @@ public class TelaEdicaoPaciente extends JFrame {
         txtEmail = new JTextField(paciente.getEmail());
         painelPessoal.add(txtEmail);
 
-        painelPessoal.add(criarLabel("Senha:"));
-        txtSenha = new JPasswordField(paciente.getSenha());
+        painelPessoal.add(criarLabel("Nova Senha (Opcional):"));
+        txtSenha = new JPasswordField();
         painelPessoal.add(txtSenha);
 
         painelPrincipal.add(painelPessoal);
@@ -144,15 +144,25 @@ public class TelaEdicaoPaciente extends JFrame {
     }
 
     private void salvarAlteracoes() {
-        String senhaAtual = showPasswordDialog(this, "Confirme sua senha atual para salvar as Alterações: ");
-        if(senhaAtual == null)
-            return;
+        String novaSenha = new String(txtSenha.getPassword());
 
+        String senhaAtual = null;
+
+        if(!novaSenha.isBlank()) {
+            senhaAtual = showPasswordDialog(this,
+                    "Digite sua senha atual para confirmar a alteração:");
+
+
+            if (senhaAtual == null || senhaAtual.isBlank()) {
+                JOptionPane.showMessageDialog(this, "Alteração Cancelada! A senha atual é Obrigatoria.",
+                        "Segurança", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+        }
         String nome = this.txtNome.getText();
         String email = this.txtEmail.getText();
         String telefone = this.txtTelefone.getText();
         String convenio = this.txtConvenio.getText();
-        String novaSenha = new String(txtSenha.getPassword());
 
         String cep = this.txtCep.getText();
         String estado = this.txtEstado.getText();

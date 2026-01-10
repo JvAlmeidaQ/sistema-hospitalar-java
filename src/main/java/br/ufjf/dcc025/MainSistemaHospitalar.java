@@ -29,7 +29,7 @@ public class MainSistemaHospitalar
         SwingUtilities.invokeLater(()-> {
             //new TelaEdicaoPaciente(doente).setVisible(true);
             //new TelaEdicaoMedico(house).setVisible(true);
-            new TelaEdicaoSecretaria(secretaria).setVisible(true);
+            //new TelaEdicaoSecretaria(secretaria).setVisible(true);
             //new TelaLogin().setVisible(true);
         });
 

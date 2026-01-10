@@ -12,9 +12,6 @@ public class SecretariaController {
         if(secretaria == null)
             throw new Exception("Paciente inexistente");
 
-        if(autenticacao.validarSenha(secretaria, senhaAtual))
-            throw new Exception("Senha Digitada Incorreta!");
-
         if (nome == null || nome.length() < 2)
             throw new Exception("Nome invalido");
 
@@ -24,8 +21,13 @@ public class SecretariaController {
         secretaria.setNome(nome);
         secretaria.setEmail(email);
 
-        if(!secretaria.ValidacaoSetSenha(novaSenha))
-            throw new Exception("Nova Senha Invalida!");
+        if(novaSenha != null && !novaSenha.isBlank())
+        {
+            if(!autenticacao.validarSenha(secretaria, senhaAtual)) {
+                throw new Exception("Senha Digitada Incorreta!");
+            }
+            secretaria.ValidacaoSetSenha(novaSenha);
+        }
 
 
         DadosHospital.salvarDados();

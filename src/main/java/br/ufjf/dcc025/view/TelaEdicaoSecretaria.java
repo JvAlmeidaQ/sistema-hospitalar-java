@@ -46,8 +46,8 @@ public class TelaEdicaoSecretaria extends JFrame {
         painelForm.add(txtEmail);
 
         // Senha
-        painelForm.add(criarLabel("Nova Senha:"));
-        txtSenha = new JPasswordField(secretaria.getSenha());
+        painelForm.add(criarLabel("Nova Senha (Opcional):"));
+        txtSenha = new JPasswordField();
         painelForm.add(txtSenha);
 
         // CPF (Apenas visualização - não editável)
@@ -82,13 +82,26 @@ public class TelaEdicaoSecretaria extends JFrame {
     }
     private void salvarAlteracoes() {
 
-        String senhaAtual = showPasswordDialog(this, "Confirme sua senha atual para salvar as Alterações:");
-        if (senhaAtual == null) return;
+        String novaSenha = new String(txtSenha.getPassword());
 
+        String senhaAtual = null;
+
+        if (!novaSenha.isBlank()) {
+            senhaAtual = showPasswordDialog(this,
+                    "Digite sua senha atual para confirmar a alteração:");
+
+
+
+            if (senhaAtual == null || senhaAtual.isBlank()) {
+                JOptionPane.showMessageDialog(this, "Alteração Cancelada! A senha atual é Obrigatoria.",
+                        "Segurança", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+        }
         // 2. Coleta dados
         String novoNome = txtNome.getText();
         String novoEmail = txtEmail.getText();
-        String novaSenha = new String(txtSenha.getPassword());
+
 
         SecretariaController controller = new SecretariaController();
 
@@ -106,9 +119,7 @@ public class TelaEdicaoSecretaria extends JFrame {
     public static String showPasswordDialog(Component pai, String mensagem) {
         JPasswordField txtSenha = new JPasswordField();
         Object[] message = {mensagem, txtSenha};
-
-        int option = JOptionPane.showConfirmDialog(pai, message, "Entrada de Senha", JOptionPane.OK_CANCEL_OPTION);
-
+        int option = JOptionPane.showConfirmDialog(pai, message, "Segurança", JOptionPane.OK_CANCEL_OPTION);
         if (option == JOptionPane.OK_OPTION) {
             return new String(txtSenha.getPassword());
         }
