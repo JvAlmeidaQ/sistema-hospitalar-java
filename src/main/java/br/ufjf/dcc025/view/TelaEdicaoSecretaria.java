@@ -2,21 +2,19 @@
 //Não foi testado se realmente esta mudando os valores
 package br.ufjf.dcc025.view;
 
-import br.ufjf.dcc025.controller.AutenticarEdicaoPerfil;
+import br.ufjf.dcc025.controller.SecretariaController;
 import br.ufjf.dcc025.model.Secretaria; // Essa Importação não deve exisitr
 import javax.swing.*;
 import java.awt.*;
 
 public class TelaEdicaoSecretaria extends JFrame {
 
-    private AutenticarEdicaoPerfil autenticarEdicaoPerfil;
     private Secretaria secretariaLogada; // Objeto que será editado
     private JTextField txtNome, txtEmail, txtCpf;
     private JPasswordField txtSenha;
 
     // Construtor recebe a secretária que está logada/sendo editada
-    public TelaEdicaoSecretaria(AutenticarEdicaoPerfil autenticarEdicaoPerfil, Secretaria secretaria) {
-        this.autenticarEdicaoPerfil = autenticarEdicaoPerfil;
+    public TelaEdicaoSecretaria(Secretaria secretaria) {
         this.secretariaLogada = secretaria;
 
         setTitle("Editar Perfil - Secretária");
@@ -82,6 +80,28 @@ public class TelaEdicaoSecretaria extends JFrame {
 
         btnSalvar.addActionListener(e -> salvarAlteracoes());
     }
+    private void salvarAlteracoes() {
+
+        String senhaAtual = showPasswordDialog(this, "Confirme sua senha atual para salvar as Alterações:");
+        if (senhaAtual == null) return;
+
+        // 2. Coleta dados
+        String novoNome = txtNome.getText();
+        String novoEmail = txtEmail.getText();
+        String novaSenha = new String(txtSenha.getPassword());
+
+        SecretariaController controller = new SecretariaController();
+
+        try {
+            controller.atualizarSecretaria(secretariaLogada, senhaAtual, novoNome, novoEmail, novaSenha);
+
+            JOptionPane.showMessageDialog(this, "Dados atualizados com sucesso!");
+            dispose(); // Fecha
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage(), "Erro ao Salvar", JOptionPane.WARNING_MESSAGE);
+        }
+    }
 
     public static String showPasswordDialog(Component pai, String mensagem) {
         JPasswordField txtSenha = new JPasswordField();
@@ -92,28 +112,7 @@ public class TelaEdicaoSecretaria extends JFrame {
         if (option == JOptionPane.OK_OPTION) {
             return new String(txtSenha.getPassword());
         }
-        return null; // Retorna null se cancelar
-    }
-
-    private void salvarAlteracoes() {
-
-        String senhaDigitada = showPasswordDialog(this, "Digite sua senha atual:");
-        String novoNome = txtNome.getText();
-        String novoEmail = txtEmail.getText();
-        String novaSenha = new String(txtSenha.getPassword());
-
-        if (novoNome.trim().isEmpty() || novoEmail.trim().isEmpty() || novaSenha.trim().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Todos os campos editáveis são obrigatórios!", "Erro", JOptionPane.WARNING_MESSAGE);
-            return;
-        }
-
-        if(autenticarEdicaoPerfil.autenticarEdicao(secretariaLogada, senhaDigitada, novaSenha, novoNome, novoEmail)){
-            JOptionPane.showMessageDialog(this, "Dados atualizados com sucesso!");
-            dispose(); // Fecha a tela de edição após salvar
-        }
-        else{
-            JOptionPane.showMessageDialog(this, "Senha incorreta", "Erro", JOptionPane.WARNING_MESSAGE);
-        }
+        return null;
     }
 
     private JLabel criarLabel(String texto) {

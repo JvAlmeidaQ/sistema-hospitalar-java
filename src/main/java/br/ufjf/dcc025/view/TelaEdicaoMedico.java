@@ -2,6 +2,8 @@
 //Não foi testado se realmente esta mudando os valores
 package br.ufjf.dcc025.view;
 
+import br.ufjf.dcc025.controller.MedicoController;
+import br.ufjf.dcc025.controller.SecretariaController;
 import br.ufjf.dcc025.model.Medico; // Essa Importação não deve exisitr
 import javax.swing.*;
 import java.awt.*;
@@ -86,32 +88,38 @@ public class TelaEdicaoMedico extends JFrame {
     }
 
     private void salvarAlteracoes() {
+        String senhaAtual = showPasswordDialog(this, "Confirme sua senha atual para salvar as Alterações:");
+        if (senhaAtual == null) return;
+
+        // 2. Coleta dados
         String novoNome = txtNome.getText();
-        String novaEspecialidade = txtEspecialidade.getText();
         String novoEmail = txtEmail.getText();
         String novaSenha = new String(txtSenha.getPassword());
+        String novaEspecialidade = txtEspecialidade.getText();
 
-        // Validação
-        if (novoNome.trim().isEmpty() || novaEspecialidade.trim().isEmpty() ||
-                novoEmail.trim().isEmpty() || novaSenha.trim().isEmpty()) {
+        MedicoController medicoController = new MedicoController();
 
-            JOptionPane.showMessageDialog(this,
-                    "Todos os campos (incluindo Especialidade) são obrigatórios!",
-                    "Erro", JOptionPane.WARNING_MESSAGE);
-            return;
+        try {
+            medicoController.atualizarMedico(medicoLogado, senhaAtual, novoNome, novoEmail, novaSenha, novaEspecialidade);
+
+            JOptionPane.showMessageDialog(this, "Dados atualizados com sucesso!");
+            dispose(); // Fecha
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage(), "Erro ao Salvar", JOptionPane.WARNING_MESSAGE);
         }
+    }
 
-        // Atualiza o objeto original
-        medicoLogado.setNome(novoNome);
-        medicoLogado.setEmail(novoEmail);
-        //SETSENHA NÃO FUNCIONA !!!
-        //medicoLogado.setSenha(novaSenha);
+    public static String showPasswordDialog(Component pai, String mensagem) {
+        JPasswordField txtSenha = new JPasswordField();
+        Object[] message = {mensagem, txtSenha};
 
-        // Importante: Você precisa ter criado o setEspecialidade na classe Medico
-        medicoLogado.setEspecialidade(novaEspecialidade);
+        int option = JOptionPane.showConfirmDialog(pai, message, "Entrada de Senha", JOptionPane.OK_CANCEL_OPTION);
 
-        JOptionPane.showMessageDialog(this, "Dados do médico atualizados com sucesso!");
-        dispose();
+        if (option == JOptionPane.OK_OPTION) {
+            return new String(txtSenha.getPassword());
+        }
+        return null;
     }
 
     private JLabel criarLabel(String texto) {
