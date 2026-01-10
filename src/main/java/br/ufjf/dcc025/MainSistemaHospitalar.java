@@ -2,12 +2,10 @@ package br.ufjf.dcc025;
 
 import br.ufjf.dcc025.controller.Autenticar;
 import br.ufjf.dcc025.model.*;
-import br.ufjf.dcc025.view.TelaEdicaoMedico;
-import br.ufjf.dcc025.view.TelaEdicaoPaciente;
-import br.ufjf.dcc025.view.TelaEdicaoSecretaria;
-import br.ufjf.dcc025.view.TelaLogin; // Essa Importação não deve exisitr
+import br.ufjf.dcc025.view.*;
 
 import javax.swing.*;
+import java.time.LocalDate;
 import java.time.LocalTime;
 
 public class MainSistemaHospitalar
@@ -23,14 +21,17 @@ public class MainSistemaHospitalar
        Medico house = new Medico("Dr.House", "House@gmail.com", "456", "12906714607", "Geral");
        Endereco enderco = new Endereco("74080290", "Dos Bobos", "55", "", "Martelos", "Barbacena", "MG");
        Paciente doente = new Paciente("Snow", "12906714607", "g@g.com", "123", "32991333288", enderco, "Ipseng");
+       HorarioAtendimento horarioAtendimento = new HorarioAtendimento(DiasDaSemana.SEGUNDA, LocalTime.of(19,30), LocalTime.of(20,30), 60);
+       Consulta consulta = new Consulta(house, doente, horarioAtendimento, LocalDate.of(2026, 1, 12), StatusConsulta.CONCLUIDA);
 
        DadosHospital.salvarDados();
 
         SwingUtilities.invokeLater(()-> {
-            //new TelaEdicaoPaciente(doente).setVisible(true);
-            //new TelaEdicaoMedico(house).setVisible(true);
-            //new TelaEdicaoSecretaria(secretaria).setVisible(true);
-            //new TelaLogin().setVisible(true);
+            new TelaAtendimentoMedico(consulta).setVisible(true);
+//            new TelaEdicaoPaciente(doente).setVisible(true);
+//            new TelaEdicaoMedico(house).setVisible(true);
+//            new TelaEdicaoSecretaria(secretaria).setVisible(true);
+//            new TelaLogin().setVisible(true);
         });
 
         house.adicionarHorarioAtendimento(DiasDaSemana.SEGUNDA, LocalTime.of(10,0), LocalTime.of(16, 0), 60);

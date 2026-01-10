@@ -1,6 +1,7 @@
 package br.ufjf.dcc025.view;
 
 import br.ufjf.dcc025.controller.MedicoController;
+import br.ufjf.dcc025.model.Consulta;
 import br.ufjf.dcc025.model.Medico;
 import br.ufjf.dcc025.model.Paciente;
 
@@ -12,6 +13,7 @@ public class TelaAtendimentoMedico extends JFrame {
 
     private Medico medico;
     private Paciente paciente;
+    private Consulta consulta;
 
     // Componentes de Interface
     private JCheckBox chkInternado;
@@ -19,9 +21,10 @@ public class TelaAtendimentoMedico extends JFrame {
     private JCheckBox chkNaoAptoVisitas;
     private JPanel painelVisitas;
 
-    public TelaAtendimentoMedico(Medico medico, Paciente paciente) {
-        this.medico = medico;
-        this.paciente = paciente;
+    public TelaAtendimentoMedico(Consulta consulta) {
+        this.consulta = consulta;
+        this.medico = consulta.getMedico();
+        this.paciente = consulta.getPaciente();
 
         setTitle("Atendimento Médico - Dr(a). " + medico.getNome());
 
@@ -171,11 +174,13 @@ public class TelaAtendimentoMedico extends JFrame {
     }
 
     private void abrirTelaAtestado() {
-        JOptionPane.showMessageDialog(this, "Abrir tela de Atestado...");
+        TelaEnvioAtestado telaAtestado = new TelaEnvioAtestado(consulta);
+        telaAtestado.setVisible(true);
     }
 
     private void abrirTelaExame() {
-        JOptionPane.showMessageDialog(this, "Abrir tela de Exame...");
+        TelaEnvioExame telaExame = new TelaEnvioExame(consulta);
+        telaExame.setVisible(true);
     }
 
     private void abrirTelaReceita() {
