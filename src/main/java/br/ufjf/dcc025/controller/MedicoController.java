@@ -2,6 +2,7 @@ package br.ufjf.dcc025.controller;
 
 import br.ufjf.dcc025.model.DadosHospital;
 import br.ufjf.dcc025.model.Medico;
+import br.ufjf.dcc025.model.Paciente;
 import br.ufjf.dcc025.model.util.ValidaDados;
 
 public class MedicoController {
@@ -34,6 +35,10 @@ public class MedicoController {
 
 
         DadosHospital.salvarDados();
+    }
+
+    public void StatusPaciente(Medico medico, Paciente paciente, boolean internado, boolean aptoVisita){
+        medico.alteraStatusPaciente(paciente, internado, aptoVisita);
     }
 }
 
