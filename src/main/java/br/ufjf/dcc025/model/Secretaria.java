@@ -46,7 +46,7 @@ public class Secretaria extends Usuario {
         for (Medico medico : DadosHospital.medicos) {
             if(medico.getStatus() == true)
                 continue;
-            for(HorarioAtendimento horarios : medico.getHorariosDisponiveis())
+            for(HorarioAtendimento horarios : medico.getHorarioDeTrabalho())
             {
                 if(horarios.getDia() == dia) {
                     if (!inicio.isBefore(horarios.getInicio()) && !fim.isAfter(horarios.getFim())) {

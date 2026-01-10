@@ -1,14 +1,15 @@
 package br.ufjf.dcc025.model;
 
-import java.time.DayOfWeek;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 public class Medico extends Usuario {
 
     private String especialidade;
-    private List<HorarioAtendimento> horariosDisponiveis;
+    private List<HorarioAtendimento> horarioDeTrabalho;
     private transient List<Consulta> consultasAgendadas;
     private Boolean status;
 
@@ -16,7 +17,7 @@ public class Medico extends Usuario {
 
         super(nome, email, senha, cpf);
         this.especialidade = especialidade;
-        this.horariosDisponiveis = new ArrayList<>();
+        this.horarioDeTrabalho = new ArrayList<>();
         this.consultasAgendadas = new ArrayList<>();
         this.status = true;
     }
@@ -24,14 +25,34 @@ public class Medico extends Usuario {
     public void adicionarHorarioAtendimento(DiasDaSemana dia, LocalTime horaInicio, LocalTime horaFim, int duracaoAtendimento)
     {
         HorarioAtendimento horarioAtendimento = new HorarioAtendimento(dia, horaInicio, horaFim, duracaoAtendimento);
-        this.horariosDisponiveis.add(horarioAtendimento);
+        this.horarioDeTrabalho.add(horarioAtendimento);
     }
 
-    public List<HorarioAtendimento> getHorariosDisponiveis()
+    public List<HorarioAtendimento> getHorarioDeTrabalho()
     {
-        return horariosDisponiveis; //mudar dps, para não retornar a lista original
+        return Collections.unmodifiableList(horarioDeTrabalho);
     }
 
+    public List<LocalTime> slotsParaConsultas(DiasDaSemana dia)
+    {
+        List<LocalTime> slotsParaConsultas = new ArrayList<>();
+
+        LocalTime horaInicio, horaFim;
+        for(HorarioAtendimento ht : this.getHorarioDeTrabalho())
+        {
+            if(ht.getDia().equals(dia))
+            {
+                horaInicio = ht.getInicio();
+                horaFim = ht.getFim();
+                while(horaInicio.isBefore(horaFim))
+                {
+                    slotsParaConsultas.add(horaInicio);
+                    horaInicio = horaInicio.plusMinutes(ht.getDuracaoAtendimento());
+                }
+            }
+        }
+        return slotsParaConsultas;
+    }
     public List<Consulta> getConsultasMarcadas()
     {
         if(this.consultasAgendadas == null)

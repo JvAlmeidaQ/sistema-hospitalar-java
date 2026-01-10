@@ -41,8 +41,8 @@ public class PacienteController {
                                   String estado, String bairro, String cidade) throws Exception
     {
 
-        if (cep.trim().isEmpty() || rua.trim().isEmpty())
-            throw new Exception("CEP e Rua são obrigatórios.");
+        if (cep.trim().isEmpty() || rua.trim().isEmpty() || numero.trim().isEmpty())
+            throw new Exception("CEP, Rua e Numero são obrigatórios.");
         Endereco novoEndereco = new Endereco(cep, rua, numero, complemento, estado, bairro, cidade);
         paciente.setEndereco(novoEndereco);
 
@@ -61,7 +61,6 @@ public class PacienteController {
                 throw new IllegalArgumentException("Paciente já cadastrado com este CPF.");
         }
 
-        // 2. Montagem dos Objetos
         Endereco novoEndereco = new Endereco(cep, estado, cidade, bairro, rua, numero, complemento);
 
         Paciente novoPaciente = new Paciente(nome, cpf, email, senha, telefone, novoEndereco, convenio);
