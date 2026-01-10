@@ -3,7 +3,6 @@ package br.ufjf.dcc025.controller;
 import br.ufjf.dcc025.model.DadosHospital;
 import br.ufjf.dcc025.model.Endereco;
 import br.ufjf.dcc025.model.Paciente;
-import br.ufjf.dcc025.model.util.ValidaDados;
 
 public class PacienteController {
 
@@ -20,10 +19,10 @@ public class PacienteController {
         if (nome == null || nome.length() < 2)
             throw new Exception("Nome invalido");
 
-        if(ValidaDados.validaTelefone(telefone) == false)
+        if(telefone == null || telefone.length() < 9)
             throw new Exception("Telefone invalido");
 
-        if(ValidaDados.validaEmail(email) == false)
+        if(!email.contains("@"))
             throw new Exception("Email invalido");
 
         paciente.setNome(nome);

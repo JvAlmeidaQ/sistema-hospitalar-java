@@ -51,6 +51,7 @@ public abstract class Usuario {
     public boolean ValidacaoSetSenha(String senhaNova){
         if(!senhaNova.trim().isEmpty()){
             setSenha(senhaNova);
+            return true;
         }
         return false;
     }

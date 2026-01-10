@@ -93,7 +93,7 @@ public class TelaEdicaoSecretaria extends JFrame {
         SecretariaController controller = new SecretariaController();
 
         try {
-            controller.atualizarSecretaria(secretariaLogada, senhaAtual, novoNome, novoEmail, novaSenha);
+            controller.atualizarSecretaria(secretariaLogada, senhaAtual, novaSenha, novoNome, novoEmail);
 
             JOptionPane.showMessageDialog(this, "Dados atualizados com sucesso!");
             dispose(); // Fecha

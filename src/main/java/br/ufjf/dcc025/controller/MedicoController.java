@@ -18,7 +18,7 @@ public class MedicoController {
         if (nome == null || nome.length() < 2)
             throw new Exception("Nome invalido");
 
-        if(ValidaDados.validaEmail(email) == false)
+        if(!email.contains("@"))
             throw new Exception("Email invalido");
 
         if(convenio == null || convenio.trim().isEmpty())

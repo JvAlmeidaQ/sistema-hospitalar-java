@@ -148,24 +148,24 @@ public class TelaEdicaoPaciente extends JFrame {
         if(senhaAtual == null)
             return;
 
-        String nome = txtNome.getText();
-        String email = txtEmail.getText();
-        String telefone = txtTelefone.getText();
-        String convenio = txtConvenio.getText();
+        String nome = this.txtNome.getText();
+        String email = this.txtEmail.getText();
+        String telefone = this.txtTelefone.getText();
+        String convenio = this.txtConvenio.getText();
         String novaSenha = new String(txtSenha.getPassword());
 
-        String cep = txtCep.getText();
-        String estado = txtEstado.getText();
-        String cidade = txtCidade.getText();
-        String bairro = txtBairro.getText();
-        String rua = txtRua.getText();
-        String numero = txtNumero.getText();
-        String complemento = txtComplemento.getText();
+        String cep = this.txtCep.getText();
+        String estado = this.txtEstado.getText();
+        String cidade = this.txtCidade.getText();
+        String bairro = this.txtBairro.getText();
+        String rua = this.txtRua.getText();
+        String numero = this.txtNumero.getText();
+        String complemento = this.txtComplemento.getText();
 
         PacienteController pacienteController = new PacienteController();
 
         try {
-            pacienteController.atualizarPaciente(pacienteLogado, senhaAtual, nome, email, telefone, novaSenha);
+            pacienteController.atualizarPaciente(pacienteLogado, senhaAtual, novaSenha, nome, email, telefone);
 
             pacienteController.atualizarEndereco(pacienteLogado, cep, estado, cidade, bairro, rua, numero, complemento);
 

@@ -100,7 +100,7 @@ public class TelaEdicaoMedico extends JFrame {
         MedicoController medicoController = new MedicoController();
 
         try {
-            medicoController.atualizarMedico(medicoLogado, senhaAtual, novoNome, novoEmail, novaSenha, novaEspecialidade);
+            medicoController.atualizarMedico(medicoLogado, senhaAtual, novaSenha, novoNome, novoEmail, novaEspecialidade);
 
             JOptionPane.showMessageDialog(this, "Dados atualizados com sucesso!");
             dispose(); // Fecha

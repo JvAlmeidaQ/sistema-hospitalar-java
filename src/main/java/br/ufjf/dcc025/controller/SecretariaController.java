@@ -1,7 +1,6 @@
 package br.ufjf.dcc025.controller;
 
 import br.ufjf.dcc025.model.DadosHospital;
-import br.ufjf.dcc025.model.Paciente;
 import br.ufjf.dcc025.model.Secretaria;
 import br.ufjf.dcc025.model.util.ValidaDados;
 
@@ -19,7 +18,7 @@ public class SecretariaController {
         if (nome == null || nome.length() < 2)
             throw new Exception("Nome invalido");
 
-        if(ValidaDados.validaEmail(email) == false)
+        if(!email.contains("@"))
             throw new Exception("Email invalido");
 
         secretaria.setNome(nome);
