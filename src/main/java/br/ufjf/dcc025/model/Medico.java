@@ -60,8 +60,15 @@ public class Medico extends Usuario {
         return consultasAgendadas; //mudar dps, para não retornar a lista original, criar metodo para adcionar(Controller);
     }
 
-    public void alteraStatusVisitas(Paciente paciente, boolean status) {
-        paciente.setPodeReceberVisitas(status);
+    public void alteraStatusPaciente(Paciente paciente, boolean internado, boolean aptoVisita) {
+        if(internado){
+            paciente.setInternado(true);
+            paciente.setPodeReceberVisitas(aptoVisita);
+        }
+        else{
+            paciente.setInternado(false);
+            paciente.setPodeReceberVisitas(false);
+        }
     }
 
     public String getEspecialidade(){ return especialidade; }

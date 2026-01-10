@@ -13,6 +13,7 @@ public class Paciente extends Usuario {
     private String telefone;
     private Endereco endereco;
     private Boolean podeReceberVisitas = false;
+    private Boolean internado = false;
     private String convenio;
 
 
@@ -146,6 +147,9 @@ public class Paciente extends Usuario {
     public Endereco getEndereco() {
         return endereco;
     }
+
+    public void setInternado(Boolean internado) { this.internado = internado; }
+    public Boolean getInternado() { return internado; }
 
     public void setPodeReceberVisitas(Boolean podeReceberVisitas) {
         this.podeReceberVisitas = podeReceberVisitas;
