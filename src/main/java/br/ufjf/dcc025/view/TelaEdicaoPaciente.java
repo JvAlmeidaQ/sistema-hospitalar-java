@@ -2,6 +2,7 @@
 //Não foi testado se realmente esta mudando os valores
 package br.ufjf.dcc025.view;
 
+import br.ufjf.dcc025.controller.PacienteController;
 import br.ufjf.dcc025.model.Endereco; // Essa Importação não deve exisitr
 import br.ufjf.dcc025.model.Paciente; // Essa Importação não deve exisitr
 import javax.swing.*;
@@ -143,41 +144,47 @@ public class TelaEdicaoPaciente extends JFrame {
     }
 
     private void salvarAlteracoes() {
-        // 1. Validação básica
-        if (txtNome.getText().trim().isEmpty() || txtEmail.getText().trim().isEmpty() ||
-                txtSenha.getPassword().length == 0 || txtTelefone.getText().trim().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Nome, Email, Senha e Telefone são obrigatórios!", "Erro", JOptionPane.WARNING_MESSAGE);
+        String senhaAtual = showPasswordDialog(this, "Confirme sua senha atual para salvar as Alterações: ");
+        if(senhaAtual == null)
             return;
-        }
 
-        // 2. Atualiza Dados Pessoais
-        pacienteLogado.setNome(txtNome.getText());
-        pacienteLogado.setEmail(txtEmail.getText());
-        //pacienteLogado.setSenha(new String(txtSenha.getPassword()));
-        pacienteLogado.setTelefone(txtTelefone.getText());
-        pacienteLogado.setConvenio(txtConvenio.getText());
+        String nome = txtNome.getText();
+        String email = txtEmail.getText();
+        String telefone = txtTelefone.getText();
+        String convenio = txtConvenio.getText();
+        String novaSenha = new String(txtSenha.getPassword());
 
-        // 3. Atualiza Endereço (Cria um NOVO objeto e usa o setEndereco)
+        String cep = txtCep.getText();
+        String estado = txtEstado.getText();
+        String cidade = txtCidade.getText();
+        String bairro = txtBairro.getText();
+        String rua = txtRua.getText();
+        String numero = txtNumero.getText();
+        String complemento = txtComplemento.getText();
+
+        PacienteController pacienteController = new PacienteController();
+
         try {
-            Endereco novoEndereco = new Endereco(
-                    txtCep.getText(),
-                    txtEstado.getText(),
-                    txtCidade.getText(),
-                    txtBairro.getText(),
-                    txtRua.getText(),
-                    txtNumero.getText(),
-                    txtComplemento.getText()
-            );
+            pacienteController.atualizarPaciente(pacienteLogado, senhaAtual, nome, email, telefone, novaSenha);
 
-            // Substitui o endereço antigo pelo novo
-            pacienteLogado.setEndereco(novoEndereco);
+            pacienteController.atualizarEndereco(pacienteLogado, cep, estado, cidade, bairro, rua, numero, complemento);
 
-            JOptionPane.showMessageDialog(this, "Cadastro atualizado com sucesso!");
+            JOptionPane.showMessageDialog(this, "Dados atualizados com sucesso!");
             dispose();
 
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Erro ao criar endereço: " + e.getMessage());
+            JOptionPane.showMessageDialog(this, "Não foi possível salvar:\n" + e.getMessage(), "Erro", JOptionPane.WARNING_MESSAGE);
         }
+    }
+
+    public static String showPasswordDialog(Component pai, String mensagem) {
+        JPasswordField txtSenha = new JPasswordField();
+        Object[] message = {mensagem, txtSenha};
+        int option = JOptionPane.showConfirmDialog(pai, message, "Segurança", JOptionPane.OK_CANCEL_OPTION);
+        if (option == JOptionPane.OK_OPTION) {
+            return new String(txtSenha.getPassword());
+        }
+        return null;
     }
 
     private JLabel criarLabel(String texto) {
