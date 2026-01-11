@@ -184,6 +184,7 @@ public class TelaAtendimentoMedico extends JFrame {
     }
 
     private void abrirTelaReceita() {
-        JOptionPane.showMessageDialog(this, "Abrir tela de Receita...");
+        TelaEnvioReceita telaReceita = new TelaEnvioReceita(consulta);
+        telaReceita.setVisible(true);
     }
 }

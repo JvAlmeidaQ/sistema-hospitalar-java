@@ -4,6 +4,8 @@ import br.ufjf.dcc025.model.*;
 import br.ufjf.dcc025.model.util.ValidaDados;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MedicoController {
     public void atualizarMedico(Medico medico, String senhaAtual,
@@ -41,7 +43,7 @@ public class MedicoController {
         medico.alteraStatusPaciente(paciente, internado, aptoVisita);
     }
 
-    public void geraExame(Consulta consulta, String tipoDeExame, String resultado, String doenca, LocalDateTime dataExpedicao) throws Exception {
+    public void geraExame(Consulta consulta, String tipoDeExame, String resultado, String doenca) throws Exception {
         if (consulta == null)
             throw new Exception("Consulta inválida.");
         ExameMedico novoExame = new ExameMedico(consulta.getMedico(), consulta.getPaciente(), tipoDeExame, resultado, null, LocalDateTime.now());
@@ -56,5 +58,13 @@ public class MedicoController {
 
         // Opcional: Se precisar salvar em disco imediatamente
         // DadosHospital.salvarDados();
+    }
+
+    public void geraReceita(Consulta consulta, String doenca, List<String> remedios) throws Exception {
+        if (consulta == null) {
+            throw new Exception("Consulta inválida.");
+        }
+        ReceitaMedica novaReceita = new ReceitaMedica(consulta.getMedico(), consulta.getPaciente(), doenca, remedios, LocalDateTime.now());
+        consulta.adicionaDocumentoMedico(novaReceita);
     }
 }

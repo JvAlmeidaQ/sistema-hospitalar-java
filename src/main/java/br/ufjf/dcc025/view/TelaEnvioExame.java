@@ -121,7 +121,7 @@ public class TelaEnvioExame extends JFrame {
         }
 
         try {
-            medicoController.geraExame(consulta, tipoDeExame, resultado, null, LocalDateTime.now());
+            medicoController.geraExame(consulta, tipoDeExame, resultado, null);
 
             JOptionPane.showMessageDialog(this, "Exame enviado com sucesso!");
             dispose(); // Fecha a tela após enviar
