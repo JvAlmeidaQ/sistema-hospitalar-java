@@ -3,6 +3,7 @@ package br.ufjf.dcc025.controller;
 import br.ufjf.dcc025.model.*;
 import br.ufjf.dcc025.model.util.ValidaDados;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -56,6 +57,7 @@ public class MedicoController {
             throw new Exception("Consulta inválida.");
         ExameMedico novoExame = new ExameMedico(consulta.getMedico(), consulta.getPaciente(), tipoDeExame, resultado, null, LocalDateTime.now());
         consulta.adicionaDocumentoMedico(novoExame);
+        DadosHospital.salvarDados();
         }
 
     public void geraAtestado(Consulta consulta, int diasAfastamento, String doenca) throws Exception {
@@ -64,8 +66,7 @@ public class MedicoController {
         AtestadoMedico novoAtestado = new AtestadoMedico(consulta.getMedico(), consulta.getPaciente(), doenca, diasAfastamento, LocalDateTime.now());
         consulta.adicionaDocumentoMedico(novoAtestado);
 
-        // Opcional: Se precisar salvar em disco imediatamente
-        // DadosHospital.salvarDados();
+        DadosHospital.salvarDados();
     }
 
     public void geraReceita(Consulta consulta, String doenca, List<String> remedios) throws Exception {
@@ -74,6 +75,7 @@ public class MedicoController {
         }
         ReceitaMedica novaReceita = new ReceitaMedica(consulta.getMedico(), consulta.getPaciente(), doenca, remedios, LocalDateTime.now());
         consulta.adicionaDocumentoMedico(novaReceita);
+        DadosHospital.salvarDados();
     }
 
     public List<Paciente> listarPacientesDoMedico(Medico medico) {
@@ -87,5 +89,23 @@ public class MedicoController {
         Collections.sort(listaFinal, (p1, p2) -> p1.getNome().compareToIgnoreCase(p2.getNome()));
 
         return listaFinal;
+    }
+
+    public List<Consulta> consultasDoDia(Medico medico) {
+        List<Consulta> consultasDoDia = new ArrayList<>();
+            for(Consulta consulta : medico.getConsultasMarcadas()) {
+                if(consulta.getDataConsulta().equals(LocalDate.now()))
+                {
+                    consultasDoDia.add(consulta);
+                }
+            }
+
+            consultasDoDia.sort(Comparator.comparing(Consulta::getDataHoraConsulta));
+            return consultasDoDia;
+    }
+
+    public void finalizarConsulta(Consulta consulta) {
+        consulta.setStatusConsulta(StatusConsulta.CONCLUIDA);
+        DadosHospital.salvarDados();
     }
 }
