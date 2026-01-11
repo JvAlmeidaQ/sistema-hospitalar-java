@@ -45,6 +45,9 @@ public class Consulta implements RegistroClinico {
     public Paciente getPaciente() {
         return paciente;
     }
+    public LocalDate getDataConsulta() {
+        return dataConsulta;
+    }
     public HorarioAtendimento getHorarioConsulta() {
         return horarioConsulta;
     }

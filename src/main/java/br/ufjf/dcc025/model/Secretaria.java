@@ -34,43 +34,4 @@ public class Secretaria extends Usuario {
         }
         DadosHospital.medicos.add(medico);
     }
-
-    public void setStatusMedicos(Medico medico, boolean status) {
-        if (DadosHospital.medicos.contains(medico))
-            medico.setStatus(status);
-        throw  new IllegalArgumentException("Medico Inexistente");
-    }
-
-    public List<Medico> medicosAtivos(DiasDaSemana dia, LocalTime inicio, LocalTime fim) {
-        List<Medico> medicos = new ArrayList<>();
-        for (Medico medico : DadosHospital.medicos) {
-            if(medico.getStatus() == true)
-                continue;
-            for(HorarioAtendimento horarios : medico.getHorarioDeTrabalho())
-            {
-                if(horarios.getDia() == dia) {
-                    if (!inicio.isBefore(horarios.getInicio()) && !fim.isAfter(horarios.getFim())) {
-                        medicos.add(medico);
-                        break;
-                    }
-                }
-            }
-        }
-        return medicos;
-    }
-
-    public List<Consulta> monitoramentoFaltas()
-    {
-        List<Consulta> consultasFaltadas = new ArrayList<>();
-        LocalDateTime agora =  LocalDateTime.now();
-
-        for(Consulta consulta : DadosHospital.consultas)
-        {
-            if(consulta.getDataHoraConsulta().isBefore(agora) && consulta.getStatusConsulta() == StatusConsulta.AGENDADA){
-                consulta.setStatusConsulta(StatusConsulta.NAO_COMPARECEU);
-                consultasFaltadas.add(consulta);
-            }
-        }
-        return consultasFaltadas;
-    }
 }

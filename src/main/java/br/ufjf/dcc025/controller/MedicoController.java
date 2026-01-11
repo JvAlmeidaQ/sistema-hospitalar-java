@@ -35,5 +35,14 @@ public class MedicoController {
 
         DadosHospital.salvarDados();
     }
+
+    public void alterarStatusMedicos(Medico medico, boolean novoStatus) {
+        if (DadosHospital.medicos.contains(medico)) {
+            medico.setStatus(novoStatus);
+            DadosHospital.salvarDados();
+            return;
+        }
+        throw  new IllegalArgumentException("Medico Inexistente");
+    }
 }
 

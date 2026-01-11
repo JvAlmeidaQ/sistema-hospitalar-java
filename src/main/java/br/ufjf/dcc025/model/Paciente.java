@@ -54,8 +54,7 @@ public class Paciente extends Usuario {
     public List<Consulta> getMinhasConsultas() {
         if(this.minhasConsultas == null)
             this.minhasConsultas = new ArrayList<>();
-        return minhasConsultas;
-        //mudar dps, para não retornar a lista original, criar metodo para adcionar(Controller);
+        return Collections.unmodifiableList(minhasConsultas);
     }
 
     public List<DocumentoMedico> meusDocumentos()
@@ -159,5 +158,10 @@ public class Paciente extends Usuario {
     }
     public void setConvenio(String convenio) {
         this.convenio = convenio;
+    }
+
+    @Override
+    public String toString() {
+        return this.getNome();
     }
 }

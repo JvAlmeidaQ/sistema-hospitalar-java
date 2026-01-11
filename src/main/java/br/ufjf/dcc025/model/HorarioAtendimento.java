@@ -29,4 +29,7 @@ public class HorarioAtendimento {
     public int getDuracaoAtendimento() {
         return duracaoAtendimento;
     }
+    public void setDuracaoAtendimento(int duracaoAtendimento) {
+        this.duracaoAtendimento = duracaoAtendimento;
+    }
 }

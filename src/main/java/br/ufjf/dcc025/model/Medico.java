@@ -2,7 +2,6 @@ package br.ufjf.dcc025.model;
 
 import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -44,6 +43,8 @@ public class Medico extends Usuario {
             {
                 horaInicio = ht.getInicio();
                 horaFim = ht.getFim();
+                if(ht.getDuracaoAtendimento() <= 0)
+                    continue;
                 while(horaInicio.isBefore(horaFim))
                 {
                     slotsParaConsultas.add(horaInicio);
@@ -53,13 +54,27 @@ public class Medico extends Usuario {
         }
         return slotsParaConsultas;
     }
-    public List<Consulta> getConsultasMarcadas()
+    public List<Consulta> consultasMarcadas()
     {
         if(this.consultasAgendadas == null)
             this.consultasAgendadas = new ArrayList<>();
-        return consultasAgendadas; //mudar dps, para não retornar a lista original, criar metodo para adcionar(Controller);
+        return Collections.unmodifiableList(consultasAgendadas);
     }
 
+    public void novaConsulta(Consulta consulta)
+    {
+        this.consultasAgendadas.add(consulta);
+    }
+
+    public int duracaoAtendimento(DiasDaSemana dia)
+    {
+        for(HorarioAtendimento ht : this.getHorarioDeTrabalho())
+        {
+            if(ht.getDia().equals(dia))
+                return ht.getDuracaoAtendimento();
+        }
+        return 0;
+    }
     public void alteraStatusVisitas(Paciente paciente, boolean status) {
         paciente.setPodeReceberVisitas(status);
     }
@@ -72,5 +87,10 @@ public class Medico extends Usuario {
     }
     public void setStatus(Boolean status) {
         this.status = status;
+    }
+
+    @Override
+    public String toString() {
+        return this.getNome();
     }
 }

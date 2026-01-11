@@ -49,16 +49,14 @@ public class DadosHospital {
             Medico medico = buscarMedicoPorCpf(cpfMedico);
 
             if (medico != null) {
-                //trocar dps pelo metodo que adiciona nas listas
-                medico.getConsultasMarcadas().add(consulta);
+                medico.novaConsulta(consulta);
             }
 
             String cpfPaciente = consulta.getPaciente().getCpf();
             Paciente paciente = buscarPacientePorCpf(cpfPaciente);
 
             if (paciente != null) {
-                //trocar dps pelo metodo que adiciona nas listas
-                paciente.getMinhasConsultas().add(consulta);
+                paciente.novaConsulta(consulta);
             }
         }
     }

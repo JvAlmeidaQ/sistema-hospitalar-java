@@ -4,8 +4,14 @@ import br.ufjf.dcc025.model.DadosHospital;
 import br.ufjf.dcc025.model.Endereco;
 import br.ufjf.dcc025.model.Paciente;
 
+import java.util.List;
+
 public class PacienteController {
 
+    public List<Paciente> listarTodosPacientes()
+    {
+        return DadosHospital.pacientes;
+    }
     public void atualizarPaciente(Paciente paciente, String senhaAtual,
       String novaSenha, String nome, String email, String telefone) throws Exception {
         Autenticar autenticacao = new Autenticar();
