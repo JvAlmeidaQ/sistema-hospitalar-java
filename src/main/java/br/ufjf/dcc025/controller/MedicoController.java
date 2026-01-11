@@ -51,7 +51,7 @@ public class MedicoController {
     }
 
     public void limparHorarios(Medico medico) {
-        medico.getHorarioDeTrabalho().clear();
+        medico.limparHorarios();
         DadosHospital.salvarDados();
     }
 

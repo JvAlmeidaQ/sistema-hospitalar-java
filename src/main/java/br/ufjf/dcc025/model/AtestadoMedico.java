@@ -20,4 +20,8 @@ public class AtestadoMedico extends DocumentoMedico {
                 this.diasAfastamento + " dia(s) de repouso.\n" +
                 "=======================";
     }
+
+    public int getDiasAfastamento() {
+        return diasAfastamento;
+    }
 }

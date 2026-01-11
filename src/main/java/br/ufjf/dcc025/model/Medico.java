@@ -33,6 +33,10 @@ public class Medico extends Usuario {
         return Collections.unmodifiableList(horarioDeTrabalho);
     }
 
+    public void limparHorarios()
+    {
+        this.horarioDeTrabalho.clear();
+    }
     public List<LocalTime> slotsParaConsultas(DiasDaSemana dia)
     {
         List<LocalTime> slotsParaConsultas = new ArrayList<>();
