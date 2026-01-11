@@ -3,6 +3,15 @@ package br.ufjf.dcc025;
 import br.ufjf.dcc025.controller.Autenticar;
 import br.ufjf.dcc025.model.*;
 import br.ufjf.dcc025.view.*;
+import br.ufjf.dcc025.view.MedicoView.TelaAtendimentoMedico;
+import br.ufjf.dcc025.view.MedicoView.TelaEdicaoMedico;
+import br.ufjf.dcc025.view.MedicoView.TelaSelecaoPaciente;
+import br.ufjf.dcc025.view.MedicoView.TelaStatusPaciente;
+import br.ufjf.dcc025.view.PacienteView.TelaEdicaoPaciente;
+import br.ufjf.dcc025.view.PacienteView.TelaPrincipalPaciente;
+import br.ufjf.dcc025.view.PacienteView.TelaSelecaoMedico;
+import br.ufjf.dcc025.view.SecretariaView.TelaEdicaoSecretaria;
+import br.ufjf.dcc025.view.SecretariaView.TelaPrincipalSecretaria;
 
 import javax.swing.*;
 import java.time.LocalDate;
@@ -49,19 +58,17 @@ public class MainSistemaHospitalar
 
         SwingUtilities.invokeLater(()-> {
             new TelaPrincipalPaciente(doente).setVisible(true);
-            //new TelaAtendimentoMedico(consulta).setVisible(true);
-            //new TelaEdicaoPaciente(doente).setVisible(true);
-            //new TelaEdicaoMedico(house).setVisible(true);
-            //new TelaEdicaoSecretaria(secretaria).setVisible(true);
-            //new TelaLogin().setVisible(true);
-            //new TelaAgendamento(paciente).setVisible(true);
-//            new TelaSelecaoMedico(doente).setVisible(true);
-            //new TelaAgendamento(secretaria).setVisible(true);
+            new TelaAtendimentoMedico(consulta).setVisible(true);
+            new TelaEdicaoPaciente(doente).setVisible(true);
+            new TelaEdicaoMedico(house).setVisible(true);
+            new TelaEdicaoSecretaria(secretaria).setVisible(true);
+            new TelaLogin().setVisible(true);
+            new TelaAgendamento(secretaria).setVisible(true);
             new TelaSelecaoMedico(doente).setVisible(true);
-//            new TelaSelecaoPaciente(house).setVisible(true);
-//            new TelaSelecaoConsulta(doente, house).setVisible(true);
-//            new TelaSelecaoDocumento(consulta).setVisible(true);
-            //new TelaStatusPaciente(house, doente).setVisible(true);
+            new TelaSelecaoPaciente(house).setVisible(true);
+            new TelaSelecaoConsulta(doente, house).setVisible(true);
+            new TelaSelecaoDocumento(consulta).setVisible(true);
+            new TelaStatusPaciente(house, doente).setVisible(true);
             new TelaPrincipalSecretaria(secretaria).setVisible(true);
         });
     }

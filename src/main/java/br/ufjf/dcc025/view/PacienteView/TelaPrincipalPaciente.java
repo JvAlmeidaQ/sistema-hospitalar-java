@@ -1,6 +1,8 @@
-package br.ufjf.dcc025.view;
+package br.ufjf.dcc025.view.PacienteView;
 
 import br.ufjf.dcc025.model.Paciente;
+import br.ufjf.dcc025.view.TelaAgendamento;
+import br.ufjf.dcc025.view.TelaLogin;
 
 import javax.swing.*;
 import java.awt.*;
@@ -57,8 +59,7 @@ public class TelaPrincipalPaciente extends JFrame {
         // Botão 3: Gerenciar Agendamentos (Consultas Marcadas)
         JButton btnMeusAgendamentos = criarBotaoMenu("Meus Agendamentos", "Veja e gerencie suas consultas futuras");
         btnMeusAgendamentos.addActionListener(e -> {
-            // TODO: Criar TelaMeusAgendamentos
-            JOptionPane.showMessageDialog(this, "Funcionalidade 'Meus Agendamentos' será implementada a seguir.");
+            new TelaGerenciarConsultas(pacienteLogado).setVisible(true);
         });
 
         // Botão 4: Nova Consulta (Disponibilidade)

@@ -1,9 +1,8 @@
 //ERRO SETSENHA
 //Não foi testado se realmente esta mudando os valores
-package br.ufjf.dcc025.view;
+package br.ufjf.dcc025.view.MedicoView;
 
 import br.ufjf.dcc025.controller.MedicoController;
-import br.ufjf.dcc025.controller.SecretariaController;
 import br.ufjf.dcc025.model.Medico; // Essa Importação não deve exisitr
 import javax.swing.*;
 import java.awt.*;

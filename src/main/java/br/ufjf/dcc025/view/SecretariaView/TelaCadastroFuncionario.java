@@ -1,9 +1,7 @@
-package br.ufjf.dcc025.view;
+package br.ufjf.dcc025.view.SecretariaView;
 
 import br.ufjf.dcc025.controller.FuncionarioController;
-import br.ufjf.dcc025.model.DadosHospital; // Essa Importação não deve exisitr
-import br.ufjf.dcc025.model.Medico; // Essa Importação não deve exisitr
-import br.ufjf.dcc025.model.Secretaria; // Essa Importação não deve exisitr
+import br.ufjf.dcc025.view.TelaLogin;
 
 import javax.swing.*;
 import java.awt.*;

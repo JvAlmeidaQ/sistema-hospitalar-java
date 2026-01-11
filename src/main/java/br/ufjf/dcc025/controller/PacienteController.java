@@ -164,4 +164,26 @@ public class PacienteController {
         }
         return historico;
     }
+
+    public List<Consulta> listarConsultasPendentes(Paciente paciente) {
+        List<Consulta> pendentes = new ArrayList<>();
+
+        if (paciente.getMinhasConsultas() != null) {
+            for (Consulta c : paciente.getMinhasConsultas()) {
+                StatusConsulta st = c.getStatusConsulta();
+                if (st == StatusConsulta.AGENDADA || st == StatusConsulta.REMARCADA) {
+                    pendentes.add(c);
+                }
+            }
+        }
+        pendentes.sort(Comparator.comparing(Consulta::getDataHoraConsulta));
+        return pendentes;
+    }
+
+    public void cancelarConsulta(Consulta consulta) throws Exception {
+        if (consulta == null)
+            throw new Exception("Selecione uma consulta.");
+        consulta.getPaciente().cancelaConsulta(consulta);
+        DadosHospital.salvarDados(); // Se houver persistência
+    }
 }

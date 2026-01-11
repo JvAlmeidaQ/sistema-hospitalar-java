@@ -1,6 +1,6 @@
 //ERRO SETSENHA
 //Não foi testado se realmente esta mudando os valores
-package br.ufjf.dcc025.view;
+package br.ufjf.dcc025.view.SecretariaView;
 
 import br.ufjf.dcc025.controller.SecretariaController;
 import br.ufjf.dcc025.model.Secretaria; // Essa Importação não deve exisitr

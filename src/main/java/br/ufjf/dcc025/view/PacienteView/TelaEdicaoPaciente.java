@@ -1,6 +1,6 @@
 //ERRO SETSENHA
 //Não foi testado se realmente esta mudando os valores
-package br.ufjf.dcc025.view;
+package br.ufjf.dcc025.view.PacienteView;
 
 import br.ufjf.dcc025.controller.PacienteController;
 import br.ufjf.dcc025.model.Endereco; // Essa Importação não deve exisitr

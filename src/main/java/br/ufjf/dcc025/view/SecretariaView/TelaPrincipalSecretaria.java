@@ -1,4 +1,4 @@
-package br.ufjf.dcc025.view;
+package br.ufjf.dcc025.view.SecretariaView;
 
 import br.ufjf.dcc025.controller.AgendamentoController;
 import br.ufjf.dcc025.controller.MedicoController;
@@ -6,6 +6,7 @@ import br.ufjf.dcc025.model.Consulta;
 import br.ufjf.dcc025.model.DadosHospital;
 import br.ufjf.dcc025.model.Medico;
 import br.ufjf.dcc025.model.Secretaria;
+import br.ufjf.dcc025.view.TelaLogin;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -16,7 +17,6 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.Objects;
 
 public class TelaPrincipalSecretaria extends JFrame {
 
@@ -157,13 +157,13 @@ public class TelaPrincipalSecretaria extends JFrame {
 
     private void realizarLogout() {
         int confirm = JOptionPane.showConfirmDialog(this,
-                "Deseja realmente sair do sistema?",
-                "Logout",
-                JOptionPane.YES_NO_OPTION);
+                "Deseja realmente sair do sistema?", "Sair", JOptionPane.YES_NO_OPTION);
 
         if (confirm == JOptionPane.YES_OPTION) {
+            for (java.awt.Window window : java.awt.Window.getWindows()) {
+                window.dispose();
+            }
             new TelaLogin().setVisible(true);
-            dispose(); // Fecha a tela atual
         }
     }
 

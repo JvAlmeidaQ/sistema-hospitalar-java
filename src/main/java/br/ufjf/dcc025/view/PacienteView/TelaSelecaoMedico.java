@@ -1,8 +1,9 @@
-package br.ufjf.dcc025.view;
+package br.ufjf.dcc025.view.PacienteView;
 
 import br.ufjf.dcc025.controller.PacienteController;
 import br.ufjf.dcc025.model.Medico;
 import br.ufjf.dcc025.model.Paciente;
+import br.ufjf.dcc025.view.TelaSelecaoConsulta;
 
 import javax.swing.*;
 import java.awt.*;

@@ -1,8 +1,7 @@
-package br.ufjf.dcc025.view;
+package br.ufjf.dcc025.view.MedicoView;
 
 import br.ufjf.dcc025.controller.MedicoController;
 import br.ufjf.dcc025.model.Consulta;
-import br.ufjf.dcc025.model.ExameMedico;
 import br.ufjf.dcc025.model.Medico;
 import br.ufjf.dcc025.model.Paciente;
 
