@@ -31,6 +31,4 @@ public class Autenticar {
             return false;
         return usuario.getSenha().equals(senhaDigitada);
     }
-
-
 }
