@@ -4,6 +4,7 @@ import br.ufjf.dcc025.controller.MedicoController;
 import br.ufjf.dcc025.model.Consulta;
 import br.ufjf.dcc025.model.Medico;
 import br.ufjf.dcc025.model.StatusConsulta;
+import br.ufjf.dcc025.view.MedicoView.TelaAtendimentoMedico;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;

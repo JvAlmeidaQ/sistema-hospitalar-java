@@ -57,7 +57,7 @@ public class MainSistemaHospitalar
         //DadosHospital.salvarDados();
 
         SwingUtilities.invokeLater(()-> {
-            new TelaPrincipalPaciente(doente).setVisible(true);
+            new TelaPrincipalSecretaria(secretaria).setVisible(true);
         });
     }
 }

@@ -19,7 +19,7 @@ public class TelaCadastroPaciente extends JFrame {
         setTitle("Sistema da Clínica - Cadastro");
         setSize(400, 650);
         setResizable(false);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
         setLayout(new BorderLayout()); // Layout principal para fixar título e botões
 
@@ -219,9 +219,5 @@ public class TelaCadastroPaciente extends JFrame {
         txtRua.setText("");
         txtNumero.setText("");
         txtComplemento.setText("");
-    }
-
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> new TelaCadastroPaciente().setVisible(true));
     }
 }
