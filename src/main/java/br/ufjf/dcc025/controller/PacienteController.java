@@ -6,10 +6,33 @@ import java.util.*;
 
 public class PacienteController {
 
-    public List<Paciente> listarTodosPacientes()
-    {
+    public List<Paciente> listarTodosPacientes() {
         return DadosHospital.pacientes;
     }
+
+    public List<Paciente> listarPacientesInternados() {
+        List<Paciente> listaInternados = new ArrayList<>();
+        for (Paciente p : DadosHospital.pacientes) {
+            if (p.getInternado() != null && p.getInternado()) {
+                listaInternados.add(p);
+            }
+        }
+        Collections.sort(listaInternados, (p1, p2) -> p1.getNome().compareToIgnoreCase(p2.getNome()));
+
+        return listaInternados;
+    }
+
+    public List<Paciente> buscarInternadosPorNome(String termoBusca) {
+        List<Paciente> todosInternados = listarPacientesInternados();
+        List<Paciente> filtrados = new ArrayList<>();
+        for (Paciente p : todosInternados) {
+            if (p.getNome().toLowerCase().contains(termoBusca.toLowerCase())) {
+                filtrados.add(p);
+            }
+        }
+        return filtrados;
+    }
+
     public void atualizarPaciente(Paciente paciente, String senhaAtual,
       String novaSenha, String nome, String email, String telefone) throws Exception {
         Autenticar autenticacao = new Autenticar();

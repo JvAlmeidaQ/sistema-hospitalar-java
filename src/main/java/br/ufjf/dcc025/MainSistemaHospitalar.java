@@ -58,18 +58,6 @@ public class MainSistemaHospitalar
 
         SwingUtilities.invokeLater(()-> {
             new TelaPrincipalPaciente(doente).setVisible(true);
-            new TelaAtendimentoMedico(consulta).setVisible(true);
-            new TelaEdicaoPaciente(doente).setVisible(true);
-            new TelaEdicaoMedico(house).setVisible(true);
-            new TelaEdicaoSecretaria(secretaria).setVisible(true);
-            new TelaLogin().setVisible(true);
-            new TelaAgendamento(secretaria).setVisible(true);
-            new TelaSelecaoMedico(doente).setVisible(true);
-            new TelaSelecaoPaciente(house).setVisible(true);
-            new TelaSelecaoConsulta(doente, house).setVisible(true);
-            new TelaSelecaoDocumento(consulta).setVisible(true);
-            new TelaStatusPaciente(house, doente).setVisible(true);
-            new TelaPrincipalSecretaria(secretaria).setVisible(true);
         });
     }
 }

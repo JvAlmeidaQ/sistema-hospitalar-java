@@ -2,7 +2,11 @@ package br.ufjf.dcc025.view.PacienteView;
 
 import br.ufjf.dcc025.model.Paciente;
 import br.ufjf.dcc025.view.TelaAgendamento;
+import br.ufjf.dcc025.view.TelaControleVisitas; // Importe da tela de visitas
+import br.ufjf.dcc025.view.PacienteView.TelaEdicaoPaciente; // Importe da tela de edição
+import br.ufjf.dcc025.view.PacienteView.TelaGerenciarConsultas;
 import br.ufjf.dcc025.view.TelaLogin;
+import br.ufjf.dcc025.view.PacienteView.TelaSelecaoMedico;
 
 import javax.swing.*;
 import java.awt.*;
@@ -16,14 +20,18 @@ public class TelaPrincipalPaciente extends JFrame {
 
         setTitle("Área do Paciente - Bem-vindo(a)");
         setSize(600, 450);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Fecha a aplicação se fechar esta janela
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setLayout(new BorderLayout());
 
-        // --- 1. CABEÇALHO (Boas-vindas) ---
+        // --- 1. CABEÇALHO (Boas-vindas + Botão Perfil Pequeno) ---
         JPanel painelTopo = new JPanel(new BorderLayout());
         painelTopo.setBackground(new Color(0, 102, 204));
-        painelTopo.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+        painelTopo.setBorder(BorderFactory.createEmptyBorder(15, 20, 15, 20));
+
+        // Painel de Texto (Esquerda)
+        JPanel painelTexto = new JPanel(new GridLayout(2, 1));
+        painelTexto.setOpaque(false); // Transparente para pegar o azul do fundo
 
         JLabel lblBemVindo = new JLabel("Olá, " + paciente.getNome());
         lblBemVindo.setFont(new Font("Arial", Font.BOLD, 22));
@@ -33,43 +41,55 @@ public class TelaPrincipalPaciente extends JFrame {
         lblSubtitulo.setFont(new Font("Arial", Font.PLAIN, 14));
         lblSubtitulo.setForeground(new Color(200, 220, 255));
 
-        painelTopo.add(lblBemVindo, BorderLayout.NORTH);
-        painelTopo.add(lblSubtitulo, BorderLayout.SOUTH);
+        painelTexto.add(lblBemVindo);
+        painelTexto.add(lblSubtitulo);
+
+        // Botão Pequeno de Editar Perfil (Direita)
+        JButton btnEditarPerfil = new JButton("Editar Perfil");
+        btnEditarPerfil.setFont(new Font("Arial", Font.BOLD, 11));
+        btnEditarPerfil.setBackground(new Color(255, 255, 255));
+        btnEditarPerfil.setForeground(new Color(0, 102, 204));
+        btnEditarPerfil.setFocusPainted(false);
+        btnEditarPerfil.setPreferredSize(new Dimension(110, 30));
+
+        // Adiciona ao topo
+        painelTopo.add(painelTexto, BorderLayout.CENTER); // Texto ocupa o meio/esquerda
+        painelTopo.add(btnEditarPerfil, BorderLayout.EAST); // Botão no canto direito
+
         add(painelTopo, BorderLayout.NORTH);
 
         // --- 2. MENU DE OPÇÕES (GRID CENTRAL) ---
-        JPanel painelMenu = new JPanel(new GridLayout(2, 2, 15, 15)); // 2 linhas, 2 colunas
+        JPanel painelMenu = new JPanel(new GridLayout(2, 2, 15, 15));
         painelMenu.setBorder(BorderFactory.createEmptyBorder(30, 30, 30, 30));
         painelMenu.setBackground(new Color(245, 245, 245));
 
-        // Botão 1: Editar Perfil
-        JButton btnPerfil = criarBotaoMenu("Editar Meu Perfil", "Atualize seus dados e endereço");
-        btnPerfil.addActionListener(e -> {
-            // Abre a tela de edição que já criamos
-            new TelaEdicaoPaciente(pacienteLogado).setVisible(true);
+        // Botão 1: Verificar Visitas (Substituiu o Editar Perfil grande)
+        JButton btnVisitas = criarBotaoMenu("Verificar Visitas", "Consulte pacientes internados");
+        btnVisitas.addActionListener(e -> {
+            // Abre a tela de controle de visitas
+            new TelaControleVisitas().setVisible(true);
         });
 
         // Botão 2: Histórico Médico
         JButton btnHistorico = criarBotaoMenu("Histórico Médico", "Veja receitas, exames e atestados");
         btnHistorico.addActionListener(e -> {
-            // Abre o fluxo de histórico: Selecionar Médico -> Ver Consultas -> Ver Docs
             new TelaSelecaoMedico(pacienteLogado).setVisible(true);
         });
 
-        // Botão 3: Gerenciar Agendamentos (Consultas Marcadas)
+        // Botão 3: Gerenciar Agendamentos
         JButton btnMeusAgendamentos = criarBotaoMenu("Meus Agendamentos", "Veja e gerencie suas consultas futuras");
         btnMeusAgendamentos.addActionListener(e -> {
             new TelaGerenciarConsultas(pacienteLogado).setVisible(true);
         });
 
-        // Botão 4: Nova Consulta (Disponibilidade)
+        // Botão 4: Nova Consulta
         JButton btnNovaConsulta = criarBotaoMenu("Nova Consulta", "Busque médicos e horários disponíveis");
-        btnNovaConsulta.setBackground(new Color(230, 240, 255)); // Destaque leve
+        btnNovaConsulta.setBackground(new Color(230, 240, 255));
         btnNovaConsulta.addActionListener(e -> {
             new TelaAgendamento(pacienteLogado).setVisible(true);
         });
 
-        painelMenu.add(btnPerfil);
+        painelMenu.add(btnVisitas);
         painelMenu.add(btnHistorico);
         painelMenu.add(btnMeusAgendamentos);
         painelMenu.add(btnNovaConsulta);
@@ -82,7 +102,7 @@ public class TelaPrincipalPaciente extends JFrame {
         painelRodape.setBackground(Color.WHITE);
 
         JButton btnSair = new JButton("Sair");
-        btnSair.setBackground(new Color(200, 50, 50)); // Vermelho
+        btnSair.setBackground(new Color(200, 50, 50));
         btnSair.setForeground(Color.WHITE);
         btnSair.setFont(new Font("Arial", Font.BOLD, 12));
 
@@ -90,6 +110,11 @@ public class TelaPrincipalPaciente extends JFrame {
 
         painelRodape.add(btnSair);
         add(painelRodape, BorderLayout.SOUTH);
+
+        // --- AÇÃO DO BOTÃO EDITAR PERFIL (TOPO) ---
+        btnEditarPerfil.addActionListener(e -> {
+            new TelaEdicaoPaciente(pacienteLogado).setVisible(true);
+        });
     }
 
     // --- MÉTODOS AUXILIARES ---
