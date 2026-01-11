@@ -82,11 +82,11 @@ public class Medico extends Usuario {
     public void alteraStatusPaciente(Paciente paciente, boolean internado, boolean aptoVisita) {
         if(internado){
             paciente.setInternado(true);
-            paciente.setPodeReceberVisitas(aptoVisita);
+            this.alteraStatusVisitas(paciente,aptoVisita);
         }
         else{
             paciente.setInternado(false);
-            paciente.setPodeReceberVisitas(false);
+           this.alteraStatusVisitas(paciente, false);
         }
     }
 

@@ -4,6 +4,7 @@ import br.ufjf.dcc025.model.*;
 import br.ufjf.dcc025.model.util.TraduzDias;
 import br.ufjf.dcc025.model.util.ValidaDados;
 
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -71,15 +72,18 @@ public class AgendamentoController {
         return medicos;
     }
 
-    public List<Medico> medicosDisponiveisAgora(DiasDaSemana dia, LocalTime inicio, LocalTime fim) {
+    public List<Medico> medicosDisponiveisAgora(LocalDate data, LocalTime turno) {
+
+        DiasDaSemana dia = TraduzDias.traduzDias(data.getDayOfWeek());
+
         List<Medico> medicos = new ArrayList<>();
         for (Medico medico : DadosHospital.medicos) {
-            if(medico.getStatus() == true)
+            if(medico.getStatus() == false)
                 continue;
             for(HorarioAtendimento horarios : medico.getHorarioDeTrabalho())
             {
                 if(horarios.getDia() == dia) {
-                    if (!inicio.isBefore(horarios.getInicio()) && !fim.isAfter(horarios.getFim())) {
+                    if (!turno.isBefore(horarios.getInicio()) && !turno.isAfter(horarios.getFim())) {
                         medicos.add(medico);
                         break;
                     }
@@ -129,6 +133,7 @@ public class AgendamentoController {
                 consultasFaltadas.add(consulta);
             }
         }
+        DadosHospital.salvarDados();
         return consultasFaltadas;
     }
 

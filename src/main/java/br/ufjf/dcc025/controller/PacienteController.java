@@ -84,16 +84,6 @@ public class PacienteController {
         return consultasFiltradas;
     }
 
-    // Importações necessárias (caso não tenha ainda):
-    // import java.util.ArrayList;
-    // import java.util.Collections;
-    // import java.util.HashSet;
-    // import java.util.List;
-    // import java.util.Set;
-    // import br.ufjf.dcc025.model.Consulta;
-    // import br.ufjf.dcc025.model.Medico;
-    // import br.ufjf.dcc025.model.Paciente;
-
     public List<Medico> listarMedicosDoPaciente(Paciente paciente) {
         Set<Medico> medicosUnicos = new HashSet<>();
         if (paciente.getMinhasConsultas() != null) {
