@@ -30,9 +30,6 @@ public class MainSistemaHospitalar
         Medico almeida = new Medico("Almeida","almeida@gmail.com", "500", "81284544044", "Geral");
         Medico ph = new Medico("Pedro", "pedro@gmail.com", "24300", "60597854092", "Geral");
 
-        System.out.println(almeida.getStatus());
-        System.out.println(ph.getStatus());
-
         almeida.adicionarHorarioAtendimento(DiasDaSemana.SEGUNDA, LocalTime.of(14,0), LocalTime.of(19,0), 45);
         almeida.adicionarHorarioAtendimento(DiasDaSemana.QUINTA, LocalTime.of(14,0), LocalTime.of(19,0), 45);
         almeida.adicionarHorarioAtendimento(DiasDaSemana.SEXTA, LocalTime.of(14,0), LocalTime.of(19,0), 45);
@@ -51,6 +48,7 @@ public class MainSistemaHospitalar
         //DadosHospital.salvarDados();
 
         SwingUtilities.invokeLater(()-> {
+            new TelaPrincipalPaciente(doente).setVisible(true);
             //new TelaAtendimentoMedico(consulta).setVisible(true);
             //new TelaEdicaoPaciente(doente).setVisible(true);
             //new TelaEdicaoMedico(house).setVisible(true);
@@ -58,6 +56,8 @@ public class MainSistemaHospitalar
             //new TelaLogin().setVisible(true);
             //new TelaAgendamento(paciente).setVisible(true);
 //            new TelaSelecaoMedico(doente).setVisible(true);
+            //new TelaAgendamento(secretaria).setVisible(true);
+            new TelaSelecaoMedico(doente).setVisible(true);
 //            new TelaSelecaoPaciente(house).setVisible(true);
 //            new TelaSelecaoConsulta(doente, house).setVisible(true);
 //            new TelaSelecaoDocumento(consulta).setVisible(true);
