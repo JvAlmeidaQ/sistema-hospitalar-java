@@ -20,7 +20,7 @@ public class TelaCadastroFuncionario extends JFrame {
         setTitle("Sistema da Clínica - Cadastro de Funcionário");
         setSize(400, 650);
         setResizable(false);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
         setLayout(new BorderLayout());
 
@@ -174,9 +174,5 @@ public class TelaCadastroFuncionario extends JFrame {
 
         lblEspecialidade.setVisible(false);
         txtEspecialidade.setVisible(false);
-    }
-
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> new TelaCadastroFuncionario().setVisible(true));
     }
 }

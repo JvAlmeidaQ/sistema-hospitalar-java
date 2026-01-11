@@ -6,6 +6,7 @@ import br.ufjf.dcc025.model.Consulta;
 import br.ufjf.dcc025.model.DadosHospital;
 import br.ufjf.dcc025.model.Medico;
 import br.ufjf.dcc025.model.Secretaria;
+import br.ufjf.dcc025.view.TelaControleVisitas;
 import br.ufjf.dcc025.view.TelaLogin;
 
 import javax.swing.*;
@@ -22,11 +23,9 @@ public class TelaPrincipalSecretaria extends JFrame {
 
     private Secretaria secretariaLogada;
 
-    // Controllers
     private final AgendamentoController agendamentoController;
     private final MedicoController medicoController;
 
-    // Componentes Visuais
     private JTable tabelaMedicosPlantao;
     private JTable tabelaGestaoMedicos;
     private DefaultTableModel modeloPlantao;
@@ -39,33 +38,33 @@ public class TelaPrincipalSecretaria extends JFrame {
         this.medicoController = new MedicoController();
 
         setTitle("Painel Administrativo - " + secretaria.getNome());
-        setSize(800, 600);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Fecha o app ao sair
+        setSize(900, 650);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setLayout(new BorderLayout());
 
-        // --- MENU SUPERIOR ---
         JMenuBar menuBar = new JMenuBar();
-        JMenu menuArquivo = new JMenu("Arquivo"); // Mudei de "Cadastros" para "Arquivo" ficar mais padrão
-        JMenu menuCadastros = new JMenu("Cadastros");
 
+        JMenu menuArquivo = new JMenu("Arquivo");
+        JMenu menuCadastros = new JMenu("Cadastros");
         JMenuItem itemNovoPaciente = new JMenuItem("Novo Paciente");
         JMenuItem itemNovoFuncionario = new JMenuItem("Novo Funcionário");
         JMenuItem itemSair = new JMenuItem("Sair / Logout");
 
-        // Montando Menu Cadastros
         menuCadastros.add(itemNovoPaciente);
         menuCadastros.add(itemNovoFuncionario);
-
-        // Montando Menu Arquivo
-        menuArquivo.add(menuCadastros); // Submenu
+        menuArquivo.add(menuCadastros);
         menuArquivo.addSeparator();
         menuArquivo.add(itemSair);
 
-        menuBar.add(menuArquivo);
+        JMenu menuPerfil = new JMenu("Meu Perfil");
+        JMenuItem itemEditarPerfil = new JMenuItem("Editar Meus Dados");
+        menuPerfil.add(itemEditarPerfil);
 
-        // Adiciona um botão de Sair direto na barra de menu (lado direito)
-        menuBar.add(Box.createHorizontalGlue()); // Empurra para a direita
+        menuBar.add(menuArquivo);
+        menuBar.add(menuPerfil);
+
+        menuBar.add(Box.createHorizontalGlue());
         JButton btnSairBarra = new JButton("Sair");
         btnSairBarra.setFocusPainted(false);
         btnSairBarra.setBackground(new Color(200, 50, 50));
@@ -74,84 +73,127 @@ public class TelaPrincipalSecretaria extends JFrame {
 
         setJMenuBar(menuBar);
 
-        // --- ABAS ---
         JTabbedPane tabbedPane = new JTabbedPane();
-        tabbedPane.addTab("Dashboard & Monitoramento", criarPainelDashboard());
+        tabbedPane.addTab("Dashboard & Operacional", criarPainelDashboard());
         tabbedPane.addTab("Gerenciar Médicos", criarPainelGestaoMedicos());
 
         add(tabbedPane, BorderLayout.CENTER);
 
-        // --- RODAPÉ (Relógio simples) ---
         JPanel rodape = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-        this.lblRelogio = new JLabel("Data: " + LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")));
+        this.lblRelogio = new JLabel("Data: --/--/----");
         rodape.add(this.lblRelogio);
         add(rodape, BorderLayout.SOUTH);
 
         this.atualizarRelogio();
 
-        // --- AÇÕES ---
         itemNovoPaciente.addActionListener(e -> new TelaCadastroPaciente().setVisible(true));
         itemNovoFuncionario.addActionListener(e -> new TelaCadastroFuncionario().setVisible(true));
-        ActionListener acaoSair = e -> realizarLogout();
 
-        itemSair.addActionListener(e -> {
-            new TelaLogin().setVisible(true);
-            dispose();
+        itemEditarPerfil.addActionListener(e -> {
+            new TelaEdicaoSecretaria(secretariaLogada).setVisible(true);
         });
+
+        ActionListener acaoSair = e -> realizarLogout();
         itemSair.addActionListener(acaoSair);
         btnSairBarra.addActionListener(acaoSair);
 
-        // Evento ao abrir a tela: Verificar faltas automaticamente
+        // Evento ao abrir: Verificar faltas
         SwingUtilities.invokeLater(this::verificarFaltasAutomaticamente);
     }
 
-    // ---------------------------------------------------------
-    // ABA 1: DASHBOARD (Médicos no Turno + Alerta de Faltas)
-    // ---------------------------------------------------------
     private JPanel criarPainelDashboard() {
-        JPanel painel = new JPanel(new BorderLayout(10, 10));
-        painel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        JPanel painelGlobal = new JPanel(new BorderLayout(10, 10));
+        painelGlobal.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
 
-        // Topo: Botões de Ação Rápida
-        JPanel painelBotoes = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        JButton btnAtualizar = new JButton("Atualizar Dashboard");
+        JPanel painelAcoesRapidas = new JPanel(new GridLayout(1, 4, 15, 0));
+        painelAcoesRapidas.setBorder(BorderFactory.createTitledBorder("Acesso Rápido"));
+        painelAcoesRapidas.setPreferredSize(new Dimension(0, 80));
+
+        JButton btnNovoPaciente = new JButton("Novo Paciente");
+        JButton btnControleVisitas = new JButton("Controle de Visitas");
         JButton btnVerificarFaltas = new JButton("Verificar Ausências");
+        JButton btnAtualizar = new JButton("Atualizar Painel");
 
-        // Estilo alerta para o botão de faltas
+        btnNovoPaciente.setFont(new Font("Arial", Font.BOLD, 12));
+        btnNovoPaciente.setForeground(new Color(0, 102, 204));
+
+        btnControleVisitas.setFont(new Font("Arial", Font.BOLD, 12));
+        btnControleVisitas.setForeground(new Color(0, 102, 102));
+
         btnVerificarFaltas.setBackground(new Color(204, 0, 0));
         btnVerificarFaltas.setForeground(Color.WHITE);
 
-        painelBotoes.add(btnAtualizar);
-        painelBotoes.add(btnVerificarFaltas);
-        painel.add(painelBotoes, BorderLayout.NORTH);
+        painelAcoesRapidas.add(btnNovoPaciente);
+        painelAcoesRapidas.add(btnControleVisitas);
+        painelAcoesRapidas.add(btnVerificarFaltas);
+        painelAcoesRapidas.add(btnAtualizar);
 
-        // Centro: Tabela de Quem está trabalhando AGORA
+        painelGlobal.add(painelAcoesRapidas, BorderLayout.NORTH);
+
         String[] colunas = {"Médico", "Especialidade", "Status"};
-        modeloPlantao = new DefaultTableModel(colunas, 0)
-        {
-            @Override
-            public boolean isCellEditable(int row, int column)
-            {
-                return false;
-            }
+        modeloPlantao = new DefaultTableModel(colunas, 0) {
+            @Override public boolean isCellEditable(int row, int column) { return false; }
         };
         tabelaMedicosPlantao = new JTable(modeloPlantao);
-
         JScrollPane scroll = new JScrollPane(tabelaMedicosPlantao);
         scroll.setBorder(BorderFactory.createTitledBorder("Médicos em Atendimento Agora (Turno Vigente)"));
-        painel.add(scroll, BorderLayout.CENTER);
 
-        // Listeners
+        painelGlobal.add(scroll, BorderLayout.CENTER);
+
+        btnNovoPaciente.addActionListener(e -> new TelaCadastroPaciente().setVisible(true));
+
+        btnControleVisitas.addActionListener(e -> {
+            new TelaControleVisitas().setVisible(true);
+        });
+
         btnAtualizar.addActionListener(e -> {
             this.carregarMedicosNoTurno();
             this.atualizarRelogio();
-            }
-        );
+        });
         btnVerificarFaltas.addActionListener(e -> verificarFaltasAutomaticamente());
 
-        // Carga inicial
         carregarMedicosNoTurno();
 
+        return painelGlobal;
+    }
+
+    private JPanel criarPainelGestaoMedicos() {
+        JPanel painel = new JPanel(new BorderLayout(10, 10));
+        painel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+
+        String[] colunas = {"Nome", "Especialidade", "Situação"};
+        modeloGestao = new DefaultTableModel(colunas, 0) {
+            @Override public boolean isCellEditable(int row, int column) { return false; }
+        };
+        tabelaGestaoMedicos = new JTable(modeloGestao);
+
+        JScrollPane scroll = new JScrollPane(tabelaGestaoMedicos);
+        painel.add(scroll, BorderLayout.CENTER);
+
+        JPanel painelSul = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        JButton btnNovoMedico = new JButton("Cadastrar Novo Médico"); // Atalho extra aqui
+        JButton btnAtualizarLista = new JButton("Recarregar Lista");
+        JButton btnAlternarStatus = new JButton("Ativar/Desativar Selecionado");
+
+        painelSul.add(btnNovoMedico);
+        painelSul.add(btnAtualizarLista);
+        painelSul.add(btnAlternarStatus);
+        painel.add(painelSul, BorderLayout.SOUTH);
+
+        btnNovoMedico.addActionListener(e -> new TelaCadastroFuncionario().setVisible(true));
+        btnAtualizarLista.addActionListener(e -> carregarTodosMedicos());
+
+        btnAlternarStatus.addActionListener(e -> {
+            int linhaSelecionada = tabelaGestaoMedicos.getSelectedRow();
+            if (linhaSelecionada >= 0) {
+                Medico m = DadosHospital.medicos.get(linhaSelecionada);
+                alternarStatusMedico(m);
+            } else {
+                JOptionPane.showMessageDialog(this, "Selecione um médico na tabela.");
+            }
+        });
+
+        carregarTodosMedicos();
         return painel;
     }
 
@@ -167,70 +209,15 @@ public class TelaPrincipalSecretaria extends JFrame {
         }
     }
 
-    // ---------------------------------------------------------
-    // ABA 2: GESTÃO DE MÉDICOS (Ativar/Inativar)
-    // ---------------------------------------------------------
-    private JPanel criarPainelGestaoMedicos() {
-        JPanel painel = new JPanel(new BorderLayout(10, 10));
-        painel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-
-        String[] colunas = {"Nome", "Especialidade", "Situação"};
-        modeloGestao = new DefaultTableModel(colunas, 0) {
-            @Override // Bloqueia edição direta na célula
-            public boolean isCellEditable(int row, int column) { return false; }
-        };
-        tabelaGestaoMedicos = new JTable(modeloGestao);
-
-        JScrollPane scroll = new JScrollPane(tabelaGestaoMedicos);
-        painel.add(scroll, BorderLayout.CENTER);
-
-        // Botões de Ação
-        JPanel painelSul = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-        JButton btnAtualizarLista = new JButton("Recarregar Lista");
-        JButton btnAlternarStatus = new JButton("Ativar/Desativar Selecionado");
-
-        painelSul.add(btnAtualizarLista);
-        painelSul.add(btnAlternarStatus);
-        painel.add(painelSul, BorderLayout.SOUTH);
-
-        // Ações
-        btnAtualizarLista.addActionListener(e -> carregarTodosMedicos());
-
-        btnAlternarStatus.addActionListener(e -> {
-            int linhaSelecionada = tabelaGestaoMedicos.getSelectedRow();
-            if (linhaSelecionada >= 0) {
-                // Pega o médico correspondente na lista (Cuidado: assume ordem igual à lista estática)
-                // Ideal: Usar um 'getValueAt' com ID ou CPF para buscar.
-                // Aqui simplificamos pegando pelo índice da view mapeado na lista do model.
-                Medico m = DadosHospital.medicos.get(linhaSelecionada);
-                alternarStatusMedico(m);
-            } else {
-                JOptionPane.showMessageDialog(this, "Selecione um médico na tabela.");
-            }
-        });
-
-        carregarTodosMedicos();
-        return painel;
+    private void atualizarRelogio() {
+        // data de teste
+        lblRelogio.setText("Data Simulada: " + LocalDateTime.of(2026,1,12,15,0).format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss")));
     }
-    private void atualizarRelogio()
-    {
-        lblRelogio.setText(
-                "Data: " + LocalDateTime.of(2026,1,12,15,0).format(//LocalDateTime.now().format( //Original;
-                        DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss"))
-        );
-    }
-    // --- CONEXÃO COM CONTROLLERS ---
 
     private void carregarMedicosNoTurno() {
         modeloPlantao.setRowCount(0);
-        // CHAMA AGENDAMENTO CONTROLLER: Quem está ativo AGORA?
-        LocalDate dataHj = LocalDate.now();
-        LocalTime turno = LocalTime.now();
 
-        LocalDateTime dataHorarioAtual = LocalDateTime.of(dataHj, turno);
-
-        //List<Medico> medicosNoTurno = agendamentoController.medicosDisponiveisAgora(dataHj, turno); //Tem que ser assim!!!
-
+        // dados de teste
         List<Medico> medicosNoTurno = agendamentoController.medicosDisponiveisAgora(LocalDate.of(2026,1,12), LocalTime.of(14,0));
 
         for (Medico m : medicosNoTurno) {
@@ -242,54 +229,44 @@ public class TelaPrincipalSecretaria extends JFrame {
         }
     }
 
-
     private void verificarFaltasAutomaticamente() {
-        // CHAMA AGENDAMENTO CONTROLLER: Processa faltas passadas
         List<Consulta> faltasDetectadas = agendamentoController.monitoraFaltas();
 
         if (!faltasDetectadas.isEmpty()) {
-            StringBuilder msg = new StringBuilder("ALERTA: O sistema detectou " + faltasDetectadas.size() + " paciente(s) que não compareceram:\n\n");
+            StringBuilder msg = new StringBuilder("ALERTA: " + faltasDetectadas.size() + " ausências detectadas:\n\n");
             for (Consulta c : faltasDetectadas) {
                 msg.append("- ").append(c.getPaciente().getNome())
                         .append(" (").append(c.getDataConsulta().format(DateTimeFormatter.ofPattern("dd/MM"))).append(")\n");
             }
-            msg.append("\nO status dessas consultas foi alterado para 'NÃO COMPARECEU'.");
-
-            JOptionPane.showMessageDialog(this, msg.toString(), "Monitoramento de Assiduidade", JOptionPane.WARNING_MESSAGE);
-        } else {
-            // Apenas para feedback manual do botão, se for automático na inicialização pode remover o else
-            // JOptionPane.showMessageDialog(this, "Nenhuma falta recente detectada.");
+            msg.append("\nStatus alterado para 'NÃO COMPARECEU'.");
+            JOptionPane.showMessageDialog(this, msg.toString(), "Assiduidade", JOptionPane.WARNING_MESSAGE);
         }
     }
 
     private void carregarTodosMedicos() {
         modeloGestao.setRowCount(0);
-        // Lista geral (pode vir de DadosHospital direto pois é listagem administrativa)
         for (Medico m : DadosHospital.medicos) {
             modeloGestao.addRow(new Object[]{
                     m.getNome(),
                     m.getEspecialidade(),
-                    m.getStatus() ? "ATIVO" : "INATIVO" // Mostra texto amigável
+                    m.getStatus() ? "ATIVO" : "INATIVO"
             });
         }
     }
 
     private void alternarStatusMedico(Medico medico) {
-        boolean novoStatus = !medico.getStatus(); // Inverte o status atual
+        boolean novoStatus = !medico.getStatus();
         String acao = novoStatus ? "ATIVAR" : "DESATIVAR";
 
         int confirm = JOptionPane.showConfirmDialog(this,
-                "Tem certeza que deseja " + acao + " o médico " + medico.getNome() + "?",
+                "Deseja " + acao + " o médico " + medico.getNome() + "?",
                 "Confirmação", JOptionPane.YES_NO_OPTION);
 
         if (confirm == JOptionPane.YES_OPTION) {
             try {
-                // CHAMA MEDICO CONTROLLER
                 medicoController.alterarStatusMedicos(medico, novoStatus);
-
-                carregarTodosMedicos(); // Atualiza tabela
-                carregarMedicosNoTurno(); // Atualiza dashboard também (se ele saiu, some de lá)
-
+                carregarTodosMedicos();
+                carregarMedicosNoTurno();
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(this, "Erro: " + ex.getMessage());
             }
