@@ -27,7 +27,6 @@ public class ExameMedico extends DocumentoMedico{
                 "Médico: " + this.medico.getNome() + "\n" +
                 "Paciente: " + this.paciente.getNome() + "\n" +
                 "Exame realizado: " + this.tipoDeExame + "\n" +
-                "Indicação clínica: " + this.doenca + "\n" +
                 "Resultado:\n" +
                 this.resultado + "\n" +
                 "====================";
