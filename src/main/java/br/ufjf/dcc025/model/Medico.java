@@ -2,6 +2,7 @@ package br.ufjf.dcc025.model;
 
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -77,6 +78,16 @@ public class Medico extends Usuario {
     }
     public void alteraStatusVisitas(Paciente paciente, boolean status) {
         paciente.setPodeReceberVisitas(status);
+    }
+    public void alteraStatusPaciente(Paciente paciente, boolean internado, boolean aptoVisita) {
+        if(internado){
+            paciente.setInternado(true);
+            paciente.setPodeReceberVisitas(aptoVisita);
+        }
+        else{
+            paciente.setInternado(false);
+            paciente.setPodeReceberVisitas(false);
+        }
     }
 
     public String getEspecialidade(){ return especialidade; }
