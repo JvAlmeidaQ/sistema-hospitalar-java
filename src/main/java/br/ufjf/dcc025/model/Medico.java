@@ -55,7 +55,7 @@ public class Medico extends Usuario {
         }
         return slotsParaConsultas;
     }
-    public List<Consulta> consultasMarcadas()
+    public List<Consulta> getConsultasMarcadas()
     {
         if(this.consultasAgendadas == null)
             this.consultasAgendadas = new ArrayList<>();

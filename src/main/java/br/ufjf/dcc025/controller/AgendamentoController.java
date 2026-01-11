@@ -24,7 +24,7 @@ public class AgendamentoController {
         {
             isHorarioLivre = true;
 
-            for(Consulta consultaMarcada : medico.consultasMarcadas())
+            for(Consulta consultaMarcada : medico.getConsultasMarcadas())
             {
                 if(consultaMarcada.getDataConsulta().equals(data))
                 {

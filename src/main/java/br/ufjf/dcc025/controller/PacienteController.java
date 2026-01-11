@@ -1,10 +1,8 @@
 package br.ufjf.dcc025.controller;
 
-import br.ufjf.dcc025.model.DadosHospital;
-import br.ufjf.dcc025.model.Endereco;
-import br.ufjf.dcc025.model.Paciente;
+import br.ufjf.dcc025.model.*;
 
-import java.util.List;
+import java.util.*;
 
 public class PacienteController {
 
@@ -74,5 +72,106 @@ public class PacienteController {
 
         DadosHospital.pacientes.add(novoPaciente);
         DadosHospital.salvarDados();
+    }
+
+    public java.util.List<Consulta> buscarConsultasPorMedico(Paciente paciente, Medico medico) {
+        java.util.List<Consulta> consultasFiltradas = new java.util.ArrayList<>();
+        for (Consulta c : paciente.getMinhasConsultas()) {
+            if (c.getMedico().getCpf().equals(medico.getCpf())) {
+                consultasFiltradas.add(c);
+            }
+        }
+        return consultasFiltradas;
+    }
+
+    // Importações necessárias (caso não tenha ainda):
+    // import java.util.ArrayList;
+    // import java.util.Collections;
+    // import java.util.HashSet;
+    // import java.util.List;
+    // import java.util.Set;
+    // import br.ufjf.dcc025.model.Consulta;
+    // import br.ufjf.dcc025.model.Medico;
+    // import br.ufjf.dcc025.model.Paciente;
+
+    public List<Medico> listarMedicosDoPaciente(Paciente paciente) {
+        Set<Medico> medicosUnicos = new HashSet<>();
+        if (paciente.getMinhasConsultas() != null) {
+            for (Consulta consulta : paciente.getMinhasConsultas()) {
+                if (consulta.getMedico() != null) {
+                    medicosUnicos.add(consulta.getMedico());
+                }
+            }
+        }
+        List<Medico> listaMedicos = new ArrayList<>(medicosUnicos);
+        Collections.sort(listaMedicos, (m1, m2) -> m1.getNome().compareToIgnoreCase(m2.getNome()));
+
+        return listaMedicos;
+    }
+
+    public List<DocumentoMedico> documentosPorTipo(Paciente paciente, int num)
+    {
+        List<Consulta> minhasConsultas = paciente.getMinhasConsultas();
+        List<DocumentoMedico> documentos = new ArrayList<>();
+        for(Consulta consulta : minhasConsultas){
+            if(num == 1)
+            {
+                for(DocumentoMedico atestadoMedico : consulta.getDocumentoMedico())
+                {
+                    if(atestadoMedico instanceof AtestadoMedico)
+                        documentos.add(atestadoMedico);
+                }
+            }
+            if(num == 2)
+            {
+                for(DocumentoMedico exames : consulta.getDocumentoMedico())
+                {
+                    if(exames instanceof ExameMedico)
+                        documentos.add(exames);
+                }
+            }
+            if(num == 3)
+            {
+                for(DocumentoMedico receitas : consulta.getDocumentoMedico())
+                {
+                    if(receitas instanceof ReceitaMedica)
+                        documentos.add(receitas);
+                }
+            }
+        }
+        if(num == 4)
+            return paciente.meusDocumentos();
+        return documentos;
+    }
+
+    public DocumentoMedico documentoUnicoId(Paciente paciente, int id) {
+        List<Consulta> minhasConsultas = paciente.getMinhasConsultas();
+        for(Consulta consulta : minhasConsultas){
+            for(DocumentoMedico doc : consulta.getDocumentoMedico())
+                if(doc.getId() == id)
+                    return doc;
+        }
+        return null;
+    }
+
+    public List<String> HistoricoMedico(Paciente paciente){
+        List<Consulta> minhasConsultas = paciente.getMinhasConsultas();
+        List<RegistroClinico> historicoClinico = new ArrayList<>();
+        for(Consulta consulta : minhasConsultas){
+            historicoClinico.add(consulta);
+            historicoClinico.addAll(consulta.getDocumentoMedico());
+        }
+
+        historicoClinico.sort(Comparator.comparing(RegistroClinico::getDataRegistro));
+
+        List<String> historico = new ArrayList<>();
+
+        for(RegistroClinico registroClinico : historicoClinico){
+            String linhaHistorico = registroClinico.getDataRegistro().format(DocumentoMedico.DATA_FORMATADA) +
+                    " | " + registroClinico.getTipoRegistroClinico() + " | " +
+                    registroClinico.getDescricao();
+            historico.add(linhaHistorico);
+        }
+        return historico;
     }
 }

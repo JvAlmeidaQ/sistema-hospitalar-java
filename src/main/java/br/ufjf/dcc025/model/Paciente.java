@@ -66,6 +66,7 @@ public class Paciente extends Usuario {
         }
         return documentos;
     }
+
     public List<DocumentoMedico> documentosPorTipo(int num)
     {
         List<DocumentoMedico> documentos = new ArrayList<>();
@@ -100,8 +101,7 @@ public class Paciente extends Usuario {
         return documentos;
     }
 
-    public DocumentoMedico documentoUnicoId(int id)
-    {
+    public DocumentoMedico documentoUnicoId(int id) {
         for(Consulta consulta : minhasConsultas){
             for(DocumentoMedico doc : consulta.getDocumentoMedico())
                 if(doc.getId() == id)

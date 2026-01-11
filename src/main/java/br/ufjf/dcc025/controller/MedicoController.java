@@ -4,8 +4,7 @@ import br.ufjf.dcc025.model.*;
 import br.ufjf.dcc025.model.util.ValidaDados;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class MedicoController {
     public void atualizarMedico(Medico medico, String senhaAtual,
@@ -75,5 +74,18 @@ public class MedicoController {
         }
         ReceitaMedica novaReceita = new ReceitaMedica(consulta.getMedico(), consulta.getPaciente(), doenca, remedios, LocalDateTime.now());
         consulta.adicionaDocumentoMedico(novaReceita);
+    }
+
+    public List<Paciente> listarPacientesDoMedico(Medico medico) {
+        Set<Paciente> pacientesUnicos = new HashSet<>();
+        if (medico.getConsultasMarcadas() != null) {
+            for (Consulta consulta : medico.getConsultasMarcadas()) {
+                pacientesUnicos.add(consulta.getPaciente());
+            }
+        }
+        List<Paciente> listaFinal = new ArrayList<>(pacientesUnicos);
+        Collections.sort(listaFinal, (p1, p2) -> p1.getNome().compareToIgnoreCase(p2.getNome()));
+
+        return listaFinal;
     }
 }

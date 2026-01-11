@@ -10,7 +10,8 @@ public abstract class  DocumentoMedico implements RegistroClinico {
     protected LocalDateTime dataExpedicao;
     protected int id;
 
-    protected static final DateTimeFormatter DATA_FORMATADA = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+    //Por que protected?
+    public static final DateTimeFormatter DATA_FORMATADA = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
 
     public DocumentoMedico(Medico medico, Paciente paciente, String doenca,  LocalDateTime dataExpedicao) {
         this.medico = medico;
