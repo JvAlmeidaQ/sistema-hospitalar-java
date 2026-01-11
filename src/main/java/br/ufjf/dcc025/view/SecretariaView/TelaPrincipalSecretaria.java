@@ -6,6 +6,7 @@ import br.ufjf.dcc025.model.Consulta;
 import br.ufjf.dcc025.model.DadosHospital;
 import br.ufjf.dcc025.model.Medico;
 import br.ufjf.dcc025.model.Secretaria;
+import br.ufjf.dcc025.view.MedicoView.TelaHorariosTrabalho;
 import br.ufjf.dcc025.view.TelaControleVisitas;
 import br.ufjf.dcc025.view.TelaLogin;
 
@@ -162,38 +163,50 @@ public class TelaPrincipalSecretaria extends JFrame {
         painel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
         String[] colunas = {"Nome", "Especialidade", "Situação"};
+
         modeloGestao = new DefaultTableModel(colunas, 0) {
             @Override public boolean isCellEditable(int row, int column) { return false; }
         };
+
         tabelaGestaoMedicos = new JTable(modeloGestao);
 
         JScrollPane scroll = new JScrollPane(tabelaGestaoMedicos);
         painel.add(scroll, BorderLayout.CENTER);
 
         JPanel painelSul = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-        JButton btnNovoMedico = new JButton("Cadastrar Novo Médico"); // Atalho extra aqui
+
+        JButton btnNovoMedico = new JButton("Cadastrar Novo Médico");
+        JButton btnAgenda = new JButton("Gerenciar Agenda/Horários");
         JButton btnAtualizarLista = new JButton("Recarregar Lista");
-        JButton btnAlternarStatus = new JButton("Ativar/Desativar Selecionado");
+        JButton btnAlternarStatus = new JButton("Ativar/Desativar");
+
+        // Estilo
+        btnAgenda.setBackground(new Color(0, 102, 204));
+        btnAgenda.setForeground(Color.WHITE);
 
         painelSul.add(btnNovoMedico);
+        painelSul.add(btnAgenda);
         painelSul.add(btnAtualizarLista);
         painelSul.add(btnAlternarStatus);
+
         painel.add(painelSul, BorderLayout.SOUTH);
 
-        btnNovoMedico.addActionListener(e -> new TelaCadastroFuncionario().setVisible(true));
-        btnAtualizarLista.addActionListener(e -> carregarTodosMedicos());
 
-        btnAlternarStatus.addActionListener(e -> {
+        btnAgenda.addActionListener(e -> {
             int linhaSelecionada = tabelaGestaoMedicos.getSelectedRow();
             if (linhaSelecionada >= 0) {
-                Medico m = DadosHospital.medicos.get(linhaSelecionada);
-                alternarStatusMedico(m);
+                Medico medicoSelecionado = DadosHospital.medicos.get(linhaSelecionada);
+                new TelaHorariosTrabalho(medicoSelecionado).setVisible(true);
             } else {
-                JOptionPane.showMessageDialog(this, "Selecione um médico na tabela.");
+                JOptionPane.showMessageDialog(this, "Selecione um médico na tabela para configurar a agenda dele.");
             }
         });
 
+        btnAtualizarLista.addActionListener(e -> carregarTodosMedicos());
+
+
         carregarTodosMedicos();
+
         return painel;
     }
 

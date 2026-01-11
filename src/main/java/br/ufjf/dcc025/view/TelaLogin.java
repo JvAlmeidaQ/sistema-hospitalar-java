@@ -5,6 +5,7 @@ import br.ufjf.dcc025.model.Medico;
 import br.ufjf.dcc025.model.Paciente;
 import br.ufjf.dcc025.model.Secretaria;
 import br.ufjf.dcc025.model.Usuario;
+import br.ufjf.dcc025.view.MedicoView.TelaPrincipalMedico;
 import br.ufjf.dcc025.view.PacienteView.TelaPrincipalPaciente;
 import br.ufjf.dcc025.view.SecretariaView.TelaPrincipalSecretaria;
 

@@ -1,16 +1,8 @@
 package br.ufjf.dcc025;
 
-import br.ufjf.dcc025.controller.Autenticar;
 import br.ufjf.dcc025.model.*;
 import br.ufjf.dcc025.view.*;
-import br.ufjf.dcc025.view.MedicoView.TelaAtendimentoMedico;
-import br.ufjf.dcc025.view.MedicoView.TelaEdicaoMedico;
-import br.ufjf.dcc025.view.MedicoView.TelaSelecaoPaciente;
-import br.ufjf.dcc025.view.MedicoView.TelaStatusPaciente;
-import br.ufjf.dcc025.view.PacienteView.TelaEdicaoPaciente;
-import br.ufjf.dcc025.view.PacienteView.TelaPrincipalPaciente;
-import br.ufjf.dcc025.view.PacienteView.TelaSelecaoMedico;
-import br.ufjf.dcc025.view.SecretariaView.TelaEdicaoSecretaria;
+import br.ufjf.dcc025.view.MedicoView.TelaPrincipalMedico;
 import br.ufjf.dcc025.view.SecretariaView.TelaPrincipalSecretaria;
 
 import javax.swing.*;
@@ -21,43 +13,50 @@ public class MainSistemaHospitalar
 {
     public static void main( String[] args )
     {
+// 1. LIMPEZA E DADOS INICIAIS
+        DadosHospital.medicos.clear();
+        DadosHospital.secretarias.clear();
+        DadosHospital.pacientes.clear();
+        DadosHospital.consultas.clear();
 
-        DadosHospital.carregarDados();
+        System.out.println("--- Iniciando Carga de Dados Fake ---");
 
-       Autenticar autenticar = new Autenticar();
+        // 2. CRIANDO ATORES
+        // Médico
+        Medico drHouse = new Medico("Dr. House", "house@hospital.com", "senha123", "45337449079", "Diagnóstico");
+        DadosHospital.medicos.add(drHouse);
 
-       Secretaria secretaria = new Secretaria("Julia", "JuliaSecretaria@gmail.com", "juSec1428@", "84770895070");
-       Medico house = new Medico("Dr.House", "House@gmail.com", "456", "12906714607", "Geral");
-       Endereco enderco = new Endereco("74080290", "Dos Bobos", "55", "", "Martelos", "Barbacena", "MG");
-       Paciente doente = new Paciente("Snow", "12906714607", "g@g.com", "123", "32991333288", enderco, "Ipseng");
-       HorarioAtendimento horarioAtendimento = new HorarioAtendimento(DiasDaSemana.SEGUNDA, LocalTime.of(19,30), LocalTime.of(20,30), 60);
-       Consulta consulta = new Consulta(house, doente, horarioAtendimento, LocalDate.of(2026, 1, 12), StatusConsulta.CONCLUIDA);
-//        DadosHospital.pacientes.clear();
-//        DadosHospital.medicos.clear();
-//        DadosHospital.secretarias.clear();
+        // Secretária
+        Secretaria pam = new Secretaria("Pam Beesly", "pam@hospital.com", "senha123", "92188480031");
+        DadosHospital.secretarias.add(pam);
 
-        Medico almeida = new Medico("Almeida","almeida@gmail.com", "500", "81284544044", "Geral");
-        Medico ph = new Medico("Pedro", "pedro@gmail.com", "24300", "60597854092", "Geral");
+        // Paciente
+        Endereco end = new Endereco("69053430", "MG", "JF", "Centro", "Rua A", "10", "");
+        Paciente michael = new Paciente("Michael Scott", "20565589040", "michael@email.com", "123", "31934711947", end, "Unimed");
+        DadosHospital.pacientes.add(michael);
 
-        almeida.adicionarHorarioAtendimento(DiasDaSemana.SEGUNDA, LocalTime.of(14,0), LocalTime.of(19,0), 45);
-        almeida.adicionarHorarioAtendimento(DiasDaSemana.QUINTA, LocalTime.of(14,0), LocalTime.of(19,0), 45);
-        almeida.adicionarHorarioAtendimento(DiasDaSemana.SEXTA, LocalTime.of(14,0), LocalTime.of(19,0), 45);
+        // 3. CRIANDO UMA CONSULTA PARA HOJE (Para testar o Dashboard)
+        Consulta consultaHoje = new Consulta(
+                drHouse,
+                michael,
+                new HorarioAtendimento(DiasDaSemana.SEGUNDA, LocalTime.of(14, 0), LocalTime.of(15, 0), 60),
+                LocalDate.now(), // HOJE
+                StatusConsulta.AGENDADA
+        );
+        drHouse.novaConsulta(consultaHoje);
+        DadosHospital.consultas.add(consultaHoje);
 
-        ph.adicionarHorarioAtendimento(DiasDaSemana.SEXTA, LocalTime.of(0,0), LocalTime.of(7,0), 30);
-        ph.adicionarHorarioAtendimento(DiasDaSemana.SEGUNDA, LocalTime.of(14,0), LocalTime.of(19,0), 45);
+        System.out.println("Dados carregados com sucesso!");
 
-        Endereco endereco = new Endereco("74080290", "Dos Bobos", "55", "", "Martelos", "Barbacena", "MG");
-        Paciente paciente = new Paciente("Teste", "60597854092", "teste@gmail.com", "84810", "34921905558",endereco,"SUS");
+        // 4. LANÇANDO AS TELAS (Lado a Lado)
+        SwingUtilities.invokeLater(() -> {
 
-//        secretaria.cadastrarMedicos(almeida);
-//        secretaria.cadastrarMedicos(ph);
-//        secretaria.cadastrarPaciente(paciente);
-//        DadosHospital.secretarias.add(secretaria);
+            TelaPrincipalSecretaria telaSec = new TelaPrincipalSecretaria(pam);
+            telaSec.setVisible(true);
 
-        //DadosHospital.salvarDados();
+            TelaPrincipalMedico telaMed = new TelaPrincipalMedico(drHouse);
+            telaMed.setVisible(true);
 
-        SwingUtilities.invokeLater(()-> {
-            new TelaPrincipalSecretaria(secretaria).setVisible(true);
         });
     }
 }

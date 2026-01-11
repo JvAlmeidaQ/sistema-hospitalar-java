@@ -5,6 +5,8 @@ import br.ufjf.dcc025.model.util.ValidaDados;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 public class MedicoController {
@@ -36,6 +38,20 @@ public class MedicoController {
         }
 
 
+        DadosHospital.salvarDados();
+    }
+
+    public void adicionarHorarioTrabalho(Medico medico, DiasDaSemana dia, LocalTime inicio, LocalTime fim, int duracaoMinutos) {
+        if (inicio.isAfter(fim))
+            throw new IllegalArgumentException("Horario de início deve ser antes do fim.");
+
+        medico.adicionarHorarioAtendimento(dia, inicio, fim, duracaoMinutos);
+
+        DadosHospital.salvarDados();
+    }
+
+    public void limparHorarios(Medico medico) {
+        medico.getHorarioDeTrabalho().clear();
         DadosHospital.salvarDados();
     }
 
@@ -89,6 +105,35 @@ public class MedicoController {
         Collections.sort(listaFinal, (p1, p2) -> p1.getNome().compareToIgnoreCase(p2.getNome()));
 
         return listaFinal;
+    }
+
+    public String gerarTextoHistorico(Paciente p, Medico medicoLogado) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("=== PRONTUÁRIO ELETRÔNICO: ").append(p.getNome().toUpperCase()).append(" ===\n\n");
+
+        boolean encontrou = false;
+
+        for (Consulta c : DadosHospital.consultas) {
+            if (c.getPaciente().equals(p) && c.getStatusConsulta() == StatusConsulta.CONCLUIDA && c.getMedico().equals(medicoLogado)) {
+                encontrou = true;
+                sb.append("--------------------------------------------------\n");
+                sb.append("DATA: ").append(c.getDataConsulta().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))).append("\n");
+                sb.append("MÉDICO: ").append(c.getMedico().getNome()).append(" (").append(c.getMedico().getEspecialidade()).append(")\n");
+                sb.append("HORÁRIO: ").append(c.getHorarioConsulta().getInicio()).append("\n");
+
+
+                if (c.getDocumentoMedico() != null && !c.getDocumentoMedico().isEmpty()) {
+                    sb.append("DOCUMENTOS EMITIDOS: ").append(c.getDocumentoMedico().size()).append("\n");
+                }
+                sb.append("\n");
+            }
+        }
+
+        if (!encontrou) {
+            sb.append("Nenhum histórico de consultas realizadas encontrado para este paciente.");
+        }
+
+        return sb.toString();
     }
 
     public List<Consulta> consultasDoDia(Medico medico) {

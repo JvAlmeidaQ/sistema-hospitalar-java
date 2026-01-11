@@ -137,6 +137,45 @@ public class AgendamentoController {
         return consultasFaltadas;
     }
 
+    // Na AgendamentoController
+
+    public String gerarRelatorioNotificacoes(Medico medico) {
+        StringBuilder relatorio = new StringBuilder();
+        LocalDateTime agora = LocalDateTime.now();
+        int novasConsultas = 0;
+        int faltasRecentes = 0;
+
+        for (Consulta c : DadosHospital.consultas) {
+            if (c.getMedico().equals(medico)) {
+
+                // 1. Monitorar Assiduidade (Consultas passadas que ainda estão como AGENDADA)
+                // (A lógica de mudar para NAO_COMPARECEU já deve ter rodado na inicialização geral,
+                // aqui apenas contamos ou listamos as que já foram marcadas como falta recentemente)
+                if (c.getStatusConsulta() == StatusConsulta.NAO_COMPARECEU &&
+                        c.getDataConsulta().isAfter(LocalDate.now().minusDays(2))) { // Faltas dos últimos 2 dias
+                    relatorio.append("- FALTA: ").append(c.getPaciente().getNome())
+                            .append(" em ").append(c.getDataConsulta()).append("\n");
+                    faltasRecentes++;
+                }
+
+                // 2. Alterações na Agenda (Consultas AGENDADAS futuras)
+                // Simplificação: Avisa quantas consultas tem hoje/amanhã
+                if (c.getStatusConsulta() == StatusConsulta.AGENDADA &&
+                        c.getDataConsulta().isAfter(LocalDate.now().minusDays(1))) {
+                    novasConsultas++;
+                }
+            }
+        }
+
+        if (faltasRecentes > 0 || novasConsultas > 0) {
+            return "Resumo de Atualizações:\n\n" +
+                    "📅 Consultas Futuras/Hoje: " + novasConsultas + "\n" +
+                    "⚠️ Faltas Recentes: " + faltasRecentes + "\n" +
+                    relatorio.toString();
+        }
+        return null; // Sem notificações
+    }
+
     public void registrarFalta(Consulta consulta)
     {
         if(consulta.getStatusConsulta().equals(StatusConsulta.AGENDADA))
