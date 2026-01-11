@@ -15,23 +15,25 @@ public class TelaAtendimentoMedico extends JFrame {
     private Paciente paciente;
     private Consulta consulta;
 
+    // Controller para realizar as ações finais
+    private MedicoController controller;
+
     // Componentes de Interface
     private JCheckBox chkInternado;
     private JCheckBox chkAptoVisitas;
     private JCheckBox chkNaoAptoVisitas;
     private JPanel painelVisitas;
+    private ButtonGroup grupoVisitas;
 
     public TelaAtendimentoMedico(Consulta consulta) {
         this.consulta = consulta;
         this.medico = consulta.getMedico();
         this.paciente = consulta.getPaciente();
+        this.controller = new MedicoController(); // Instancia a controller
 
         setTitle("Atendimento Médico - Dr(a). " + medico.getNome());
-
-        // --- 1. ALTERAÇÃO: Tamanho fixo e maior ---
         setSize(850, 600);
         setResizable(false);
-
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
         setLayout(new BorderLayout());
@@ -42,7 +44,7 @@ public class TelaAtendimentoMedico extends JFrame {
         painelCabecalho.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
         JLabel lblMedico = new JLabel("Médico Responsável: " + medico.getNome());
-        lblMedico.setFont(new Font("Arial", Font.BOLD, 16)); // Fonte um pouco maior
+        lblMedico.setFont(new Font("Arial", Font.BOLD, 16));
 
         JLabel lblPaciente = new JLabel("Paciente em Atendimento: " + paciente.getNome());
         lblPaciente.setFont(new Font("Arial", Font.PLAIN, 16));
@@ -56,30 +58,28 @@ public class TelaAtendimentoMedico extends JFrame {
         painelStatus.setLayout(new BoxLayout(painelStatus, BoxLayout.Y_AXIS));
         painelStatus.setBorder(BorderFactory.createTitledBorder(
                 BorderFactory.createLineBorder(Color.GRAY),
-                "Status Clínico",
+                "Status Clínico (Pós-Consulta)",
                 TitledBorder.LEFT,
                 TitledBorder.TOP,
                 new Font("Arial", Font.BOLD, 14)
         ));
 
         // Checkbox Principal
-        chkInternado = new JCheckBox("Paciente Internado");
+        chkInternado = new JCheckBox("Paciente precisa ser Internado?");
         chkInternado.setFont(new Font("Arial", Font.BOLD, 14));
-
-        // --- 2. ALTERAÇÃO: Fixar alinhamento para não "andar" ---
         chkInternado.setAlignmentX(Component.LEFT_ALIGNMENT);
 
-        // Painel secundário para as opções de visita
+        // Painel Visitas
         painelVisitas = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        painelVisitas.setBorder(BorderFactory.createEmptyBorder(0, 20, 0, 0)); // Indentação leve apenas nas filhas
-        painelVisitas.setAlignmentX(Component.LEFT_ALIGNMENT); // Garante que o painel também fique a esquerda
+        painelVisitas.setBorder(BorderFactory.createEmptyBorder(0, 20, 0, 0));
+        painelVisitas.setAlignmentX(Component.LEFT_ALIGNMENT);
 
         chkAptoVisitas = new JCheckBox("Apto para Visitas");
-        chkNaoAptoVisitas = new JCheckBox("Não Apto para Visitas");
+        chkNaoAptoVisitas = new JCheckBox("Isolamento (Não Apto)");
         chkAptoVisitas.setFont(new Font("Arial", Font.PLAIN, 13));
         chkNaoAptoVisitas.setFont(new Font("Arial", Font.PLAIN, 13));
 
-        ButtonGroup grupoVisitas = new ButtonGroup();
+        grupoVisitas = new ButtonGroup();
         grupoVisitas.add(chkAptoVisitas);
         grupoVisitas.add(chkNaoAptoVisitas);
 
@@ -88,15 +88,12 @@ public class TelaAtendimentoMedico extends JFrame {
 
         painelVisitas.setVisible(false);
 
-        painelStatus.add(Box.createVerticalStrut(10)); // Espacinho
+        painelStatus.add(Box.createVerticalStrut(10));
         painelStatus.add(chkInternado);
         painelStatus.add(painelVisitas);
         painelStatus.add(Box.createVerticalStrut(10));
 
-        // --- BOTÕES DE AÇÃO (Documentos) ---
-        // --- 3. ALTERAÇÃO: Mudança de Layout e Tamanho dos Botões ---
-
-        // Usamos FlowLayout agora para os botões não esticarem
+        // --- BOTÕES DE DOCUMENTOS ---
         JPanel painelAcoes = new JPanel(new FlowLayout(FlowLayout.CENTER, 40, 40));
         painelAcoes.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
@@ -111,18 +108,16 @@ public class TelaAtendimentoMedico extends JFrame {
         // Organização Central
         JPanel painelCentral = new JPanel(new BorderLayout());
         painelCentral.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
-
-        // Colocamos o status no Norte do centro para ele não esticar infinitamente para baixo
         painelCentral.add(painelStatus, BorderLayout.NORTH);
         painelCentral.add(painelAcoes, BorderLayout.CENTER);
 
         add(painelCentral, BorderLayout.CENTER);
 
-        // --- RODAPÉ ---
+        // --- RODAPÉ (Finalizar) ---
         JPanel painelRodape = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         painelRodape.setBorder(BorderFactory.createEmptyBorder(10, 20, 20, 20));
 
-        JButton btnFinalizar = new JButton("Finalizar Atendimento");
+        JButton btnFinalizar = new JButton("Concluir Atendimento");
         btnFinalizar.setBackground(new Color(0, 102, 51));
         btnFinalizar.setForeground(Color.WHITE);
         btnFinalizar.setFont(new Font("Arial", Font.BOLD, 14));
@@ -138,53 +133,74 @@ public class TelaAtendimentoMedico extends JFrame {
             if (!estaInternado) {
                 grupoVisitas.clearSelection();
             } else {
-                chkNaoAptoVisitas.setSelected(true);
+                chkNaoAptoVisitas.setSelected(true); // Padrão seguro
             }
             revalidate();
             repaint();
         });
 
+        // Chamada das Telas de Documentos (Passando a consulta!)
         btnAtestado.addActionListener(e -> abrirTelaAtestado());
         btnExame.addActionListener(e -> abrirTelaExame());
         btnReceita.addActionListener(e -> abrirTelaReceita());
+
+        // Chamada da Finalização
         btnFinalizar.addActionListener(e -> finalizarAtendimento());
     }
 
-    // Método auxiliar ajustado para botões menores e fixos
     private JButton criarBotaoAcao(String texto) {
         JButton btn = new JButton("<html><center>" + texto.replace(" ", "<br>") + "</center></html>");
         btn.setFont(new Font("Arial", Font.BOLD, 14));
         btn.setFocusPainted(false);
-        // Define um tamanho fixo razoável (Largura, Altura)
         btn.setPreferredSize(new Dimension(180, 80));
         return btn;
     }
 
     private void finalizarAtendimento() {
-        MedicoController medicoController = new MedicoController();
-        if(chkInternado.isSelected()){
-            medicoController.StatusPaciente(medico, paciente, true, chkAptoVisitas.isSelected());
-            if(chkAptoVisitas.isSelected())
-                JOptionPane.showMessageDialog(this, "Paciente internado.\nStatus: Apto para visitas");
-            else
-                JOptionPane.showMessageDialog(this, "Paciente internado.\nStatus: Não apto para visitas");
+        int confirm = JOptionPane.showConfirmDialog(this,
+                "Deseja realmente encerrar este atendimento?\nO status da consulta será alterado para REALIZADA.",
+                "Confirmar", JOptionPane.YES_NO_OPTION);
+
+        if (confirm != JOptionPane.YES_OPTION) return;
+
+        try {
+            // 1. Atualiza Status do Paciente (Internação)
+            if (chkInternado.isSelected()) {
+                boolean apto = chkAptoVisitas.isSelected();
+                controller.StatusPaciente(medico, paciente, true, apto);
+
+                String msgStatus = apto ? "Apto para visitas" : "Isolamento";
+                JOptionPane.showMessageDialog(this, "Status do paciente atualizado: INTERNADO (" + msgStatus + ")");
+            } else {
+                // Se não está internado, garante que status de visita é false/false
+                controller.StatusPaciente(medico, paciente, false, false);
+            }
+
+            // 2. Atualiza Status da Consulta (MUITO IMPORTANTE)
+            controller.finalizarConsulta(consulta);
+
+            // 3. Fecha a tela
+            JOptionPane.showMessageDialog(this, "Atendimento finalizado com sucesso!");
+            dispose();
+
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "Erro ao finalizar: " + ex.getMessage());
         }
-        else
-            medicoController.StatusPaciente(medico, paciente, false, false);
     }
 
+
     private void abrirTelaAtestado() {
-        TelaEnvioAtestado telaAtestado = new TelaEnvioAtestado(consulta);
-        telaAtestado.setVisible(true);
+        new TelaEnvioAtestado(consulta).setVisible(true);
+        JOptionPane.showMessageDialog(this, "Abrindo Tela Atestado..."); // Placeholder se vc não tiver a classe aqui
     }
 
     private void abrirTelaExame() {
-        TelaEnvioExame telaExame = new TelaEnvioExame(consulta);
-        telaExame.setVisible(true);
+        new TelaEnvioExame(consulta).setVisible(true);
+        JOptionPane.showMessageDialog(this, "Abrindo Tela Exame...");
     }
 
     private void abrirTelaReceita() {
-        TelaEnvioReceita telaReceita = new TelaEnvioReceita(consulta);
-        telaReceita.setVisible(true);
+        new TelaEnvioReceita(consulta).setVisible(true);
+        JOptionPane.showMessageDialog(this, "Abrindo Tela Receita...");
     }
 }

@@ -26,6 +26,7 @@ public class Paciente extends Usuario {
     }
 
     public void novaConsulta(Consulta consulta){
+        getMinhasConsultas();
         this.minhasConsultas.add(consulta);
     }
     public void cancelaConsulta(Consulta consulta){

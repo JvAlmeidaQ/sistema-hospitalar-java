@@ -64,6 +64,7 @@ public class Medico extends Usuario {
 
     public void novaConsulta(Consulta consulta)
     {
+        getConsultasMarcadas();
         this.consultasAgendadas.add(consulta);
     }
 
