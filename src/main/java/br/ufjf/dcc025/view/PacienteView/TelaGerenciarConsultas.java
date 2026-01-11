@@ -27,7 +27,7 @@ public class TelaGerenciarConsultas extends JFrame {
         setLocationRelativeTo(null);
         setLayout(new BorderLayout());
 
-        // --- 1. CABEÇALHO ---
+        // cabeçalho
         JPanel painelTopo = new JPanel(new FlowLayout(FlowLayout.CENTER));
         painelTopo.setBackground(new Color(240, 248, 255));
         painelTopo.setBorder(BorderFactory.createEmptyBorder(15, 10, 15, 10));
@@ -39,11 +39,9 @@ public class TelaGerenciarConsultas extends JFrame {
         painelTopo.add(lblTitulo);
         add(painelTopo, BorderLayout.NORTH);
 
-        // --- 2. LISTA DE CONSULTAS ---
         listModel = new DefaultListModel<>();
         listaConsultas = new JList<>(listModel);
 
-        // Customização visual da linha da lista
         listaConsultas.setCellRenderer(new DefaultListCellRenderer() {
             @Override
             public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
@@ -52,7 +50,6 @@ public class TelaGerenciarConsultas extends JFrame {
                     Consulta c = (Consulta) value;
                     DateTimeFormatter fmtData = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
-                    // Texto: 25/10/2025 às 14:00 - Dr. House (Cardiologista) - [AGENDADA]
                     String texto = String.format("Data: %s às %s - %s (%s) - [%s]",
                             c.getDataConsulta().format(fmtData),
                             c.getHorarioConsulta().getInicio(),
@@ -77,7 +74,7 @@ public class TelaGerenciarConsultas extends JFrame {
         scrollPane.setBorder(BorderFactory.createTitledBorder("Próximos Compromissos"));
         add(scrollPane, BorderLayout.CENTER);
 
-        // --- 3. BOTÕES ---
+        // botões
         JPanel painelBotoes = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         painelBotoes.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
@@ -89,7 +86,7 @@ public class TelaGerenciarConsultas extends JFrame {
         btnCancelar.setBackground(new Color(220, 50, 50)); // Vermelho
         btnCancelar.setForeground(Color.WHITE);
 
-        btnRemarcar.setBackground(new Color(255, 140, 0)); // Laranja
+        btnRemarcar.setBackground(new Color(220, 212, 50)); // Amarelo
         btnRemarcar.setForeground(Color.WHITE);
 
         painelBotoes.add(btnVoltar);
@@ -97,12 +94,10 @@ public class TelaGerenciarConsultas extends JFrame {
         painelBotoes.add(btnRemarcar);
         add(painelBotoes, BorderLayout.SOUTH);
 
-        // --- AÇÕES ---
-        carregarConsultas(); // Carrega ao abrir
+        carregarConsultas();
 
         btnVoltar.addActionListener(e -> dispose());
 
-        // AÇÃO CANCELAR
         btnCancelar.addActionListener(e -> {
             Consulta selecionada = listaConsultas.getSelectedValue();
             if (selecionada != null) {
@@ -124,7 +119,6 @@ public class TelaGerenciarConsultas extends JFrame {
             }
         });
 
-        // AÇÃO REMARCAR
         btnRemarcar.addActionListener(e -> {
             Consulta selecionada = listaConsultas.getSelectedValue();
             if (selecionada != null) {
@@ -134,8 +128,6 @@ public class TelaGerenciarConsultas extends JFrame {
                         "Para remarcar, você será redirecionado para a escolha de novo horário.\n" +
                                 "(Funcionalidade a ser conectada com a tela de Busca de Médicos)",
                         "Remarcar", JOptionPane.INFORMATION_MESSAGE);
-
-                // Exemplo futuro:
                 // new TelaBuscaHorario(selecionada.getMedico(), consultaParaRemarcar).setVisible(true);
             } else {
                 JOptionPane.showMessageDialog(this, "Selecione uma consulta para remarcar.");
@@ -145,7 +137,6 @@ public class TelaGerenciarConsultas extends JFrame {
 
     private void carregarConsultas() {
         listModel.clear();
-        // Busca apenas AGENDADA ou REMARCADA
         List<Consulta> pendentes = controller.listarConsultasPendentes(pacienteLogado);
 
         if (pendentes.isEmpty()) {

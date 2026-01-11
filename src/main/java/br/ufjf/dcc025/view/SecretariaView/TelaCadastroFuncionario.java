@@ -10,7 +10,6 @@ import java.awt.event.ActionListener;
 
 public class TelaCadastroFuncionario extends JFrame {
 
-    // Componentes globais
     private JTextField txtNome, txtCpf, txtEmail, txtEspecialidade;
     private JPasswordField txtSenha;
     private JLabel lblEspecialidade;
@@ -20,27 +19,26 @@ public class TelaCadastroFuncionario extends JFrame {
     public TelaCadastroFuncionario() {
         setTitle("Sistema da Clínica - Cadastro de Funcionário");
         setSize(400, 650);
-        //setResizable(false);
+        setResizable(false);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setLayout(new BorderLayout());
 
-        // --- 1. PAINEL SUPERIOR (Título + Checkboxes) ---
+        //painel
         JPanel painelSuperior = new JPanel(new GridLayout(2, 1));
 
-        // Título
+        //titulo
         JLabel lblTitulo = new JLabel("Cadastro de Funcionário", SwingConstants.CENTER);
         lblTitulo.setFont(new Font("Arial", Font.BOLD, 22));
         lblTitulo.setForeground(new Color(0, 102, 204));
         lblTitulo.setBorder(BorderFactory.createEmptyBorder(20, 0, 10, 0));
         painelSuperior.add(lblTitulo);
 
-        // Checkboxes (Tipo de Funcionário)
+        // Checkboxes
         JPanel painelTipo = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 5));
         chkMedico = new JCheckBox("Médico");
         chkSecretaria = new JCheckBox("Secretária");
 
-        // Agrupando para garantir seleção única
         grupoTipoFuncionario = new ButtonGroup();
         grupoTipoFuncionario.add(chkMedico);
         grupoTipoFuncionario.add(chkSecretaria);
@@ -51,9 +49,8 @@ public class TelaCadastroFuncionario extends JFrame {
 
         add(painelSuperior, BorderLayout.NORTH);
 
-        // --- 2. FORMULÁRIO ---
+        // formulario
         JPanel painelFormulario = new JPanel();
-        // GridLayout com 0 linhas (indefinido) e 1 coluna, para adaptar dinamicamente
         painelFormulario.setLayout(new GridLayout(0, 1, 5, 5));
         painelFormulario.setBorder(BorderFactory.createEmptyBorder(10, 40, 10, 40));
 
@@ -91,14 +88,13 @@ public class TelaCadastroFuncionario extends JFrame {
 
         add(painelFormulario, BorderLayout.CENTER);
 
-        // --- 3. BOTÕES ---
+        //botões
         JPanel painelBotoes = new JPanel(new FlowLayout());
         painelBotoes.setBorder(BorderFactory.createEmptyBorder(10, 0, 20, 0));
 
         JButton btnVoltar = new JButton("VOLTAR");
         JButton btnSalvar = new JButton("SALVAR");
 
-        // Estilo do botão Salvar
         btnSalvar.setBackground(new Color(0, 102, 204));
         btnSalvar.setForeground(Color.WHITE);
         btnSalvar.setFont(new Font("Arial", Font.BOLD, 12));
@@ -107,20 +103,14 @@ public class TelaCadastroFuncionario extends JFrame {
         painelBotoes.add(btnSalvar);
         add(painelBotoes, BorderLayout.SOUTH);
 
-        // --- AÇÕES / LISTENERS ---
-
         // Lógica para mostrar/esconder Especialidade
         ActionListener acaoCheckbox = e -> {
             boolean isMedico = chkMedico.isSelected();
             lblEspecialidade.setVisible(isMedico);
             txtEspecialidade.setVisible(isMedico);
-
-            // Se ocultar, limpa o texto para evitar salvar lixo
             if (!isMedico) {
                 txtEspecialidade.setText("");
             }
-
-            // Revalida o painel para ajustar o layout visualmente
             painelFormulario.revalidate();
             painelFormulario.repaint();
         };
@@ -141,7 +131,6 @@ public class TelaCadastroFuncionario extends JFrame {
         });
     }
 
-    // Método auxiliar para criar labels padronizadas
     private JLabel criarLabel(String texto) {
         JLabel label = new JLabel(texto);
         label.setFont(new Font("Arial", Font.BOLD, 12));
@@ -149,7 +138,6 @@ public class TelaCadastroFuncionario extends JFrame {
     }
 
     private void salvarFuncionario() {
-        // 1. Coleta dados da tela
         String nome = txtNome.getText();
         String cpf = txtCpf.getText();
         String email = txtEmail.getText();
@@ -172,7 +160,6 @@ public class TelaCadastroFuncionario extends JFrame {
             limparCampos();
 
         } catch (Exception e) {
-            // Mostra o erro exato (ex: "CPF já existe")
             JOptionPane.showMessageDialog(this, e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
         }
     }

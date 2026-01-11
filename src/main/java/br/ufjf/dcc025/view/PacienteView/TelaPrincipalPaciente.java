@@ -2,11 +2,8 @@ package br.ufjf.dcc025.view.PacienteView;
 
 import br.ufjf.dcc025.model.Paciente;
 import br.ufjf.dcc025.view.TelaAgendamento;
-import br.ufjf.dcc025.view.TelaControleVisitas; // Importe da tela de visitas
-import br.ufjf.dcc025.view.PacienteView.TelaEdicaoPaciente; // Importe da tela de edição
-import br.ufjf.dcc025.view.PacienteView.TelaGerenciarConsultas;
+import br.ufjf.dcc025.view.TelaControleVisitas;
 import br.ufjf.dcc025.view.TelaLogin;
-import br.ufjf.dcc025.view.PacienteView.TelaSelecaoMedico;
 
 import javax.swing.*;
 import java.awt.*;
@@ -24,14 +21,13 @@ public class TelaPrincipalPaciente extends JFrame {
         setLocationRelativeTo(null);
         setLayout(new BorderLayout());
 
-        // --- 1. CABEÇALHO (Boas-vindas + Botão Perfil Pequeno) ---
+        // cabeçalho
         JPanel painelTopo = new JPanel(new BorderLayout());
         painelTopo.setBackground(new Color(0, 102, 204));
         painelTopo.setBorder(BorderFactory.createEmptyBorder(15, 20, 15, 20));
 
-        // Painel de Texto (Esquerda)
         JPanel painelTexto = new JPanel(new GridLayout(2, 1));
-        painelTexto.setOpaque(false); // Transparente para pegar o azul do fundo
+        painelTexto.setOpaque(false);
 
         JLabel lblBemVindo = new JLabel("Olá, " + paciente.getNome());
         lblBemVindo.setFont(new Font("Arial", Font.BOLD, 22));
@@ -44,7 +40,6 @@ public class TelaPrincipalPaciente extends JFrame {
         painelTexto.add(lblBemVindo);
         painelTexto.add(lblSubtitulo);
 
-        // Botão Pequeno de Editar Perfil (Direita)
         JButton btnEditarPerfil = new JButton("Editar Perfil");
         btnEditarPerfil.setFont(new Font("Arial", Font.BOLD, 11));
         btnEditarPerfil.setBackground(new Color(255, 255, 255));
@@ -52,18 +47,17 @@ public class TelaPrincipalPaciente extends JFrame {
         btnEditarPerfil.setFocusPainted(false);
         btnEditarPerfil.setPreferredSize(new Dimension(110, 30));
 
-        // Adiciona ao topo
         painelTopo.add(painelTexto, BorderLayout.CENTER); // Texto ocupa o meio/esquerda
         painelTopo.add(btnEditarPerfil, BorderLayout.EAST); // Botão no canto direito
 
         add(painelTopo, BorderLayout.NORTH);
 
-        // --- 2. MENU DE OPÇÕES (GRID CENTRAL) ---
+        //menu de opções
         JPanel painelMenu = new JPanel(new GridLayout(2, 2, 15, 15));
         painelMenu.setBorder(BorderFactory.createEmptyBorder(30, 30, 30, 30));
         painelMenu.setBackground(new Color(245, 245, 245));
 
-        // Botão 1: Verificar Visitas (Substituiu o Editar Perfil grande)
+        // Botão 1: Verificar Visitas
         JButton btnVisitas = criarBotaoMenu("Verificar Visitas", "Consulte pacientes internados");
         btnVisitas.addActionListener(e -> {
             // Abre a tela de controle de visitas
@@ -84,7 +78,6 @@ public class TelaPrincipalPaciente extends JFrame {
 
         // Botão 4: Nova Consulta
         JButton btnNovaConsulta = criarBotaoMenu("Nova Consulta", "Busque médicos e horários disponíveis");
-        btnNovaConsulta.setBackground(new Color(230, 240, 255));
         btnNovaConsulta.addActionListener(e -> {
             new TelaAgendamento(pacienteLogado).setVisible(true);
         });
@@ -96,7 +89,7 @@ public class TelaPrincipalPaciente extends JFrame {
 
         add(painelMenu, BorderLayout.CENTER);
 
-        // --- 3. RODAPÉ (LOGOUT) ---
+        // rodapé
         JPanel painelRodape = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         painelRodape.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
         painelRodape.setBackground(Color.WHITE);
@@ -111,13 +104,11 @@ public class TelaPrincipalPaciente extends JFrame {
         painelRodape.add(btnSair);
         add(painelRodape, BorderLayout.SOUTH);
 
-        // --- AÇÃO DO BOTÃO EDITAR PERFIL (TOPO) ---
+        //Botão editar perfil
         btnEditarPerfil.addActionListener(e -> {
             new TelaEdicaoPaciente(pacienteLogado).setVisible(true);
         });
     }
-
-    // --- MÉTODOS AUXILIARES ---
 
     private JButton criarBotaoMenu(String titulo, String subtitulo) {
         JButton btn = new JButton();

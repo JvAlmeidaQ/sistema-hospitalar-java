@@ -5,6 +5,8 @@ import br.ufjf.dcc025.model.Medico;
 import br.ufjf.dcc025.model.Paciente;
 import br.ufjf.dcc025.model.Secretaria;
 import br.ufjf.dcc025.model.Usuario;
+import br.ufjf.dcc025.view.PacienteView.TelaPrincipalPaciente;
+import br.ufjf.dcc025.view.SecretariaView.TelaPrincipalSecretaria;
 
 import javax.swing.*;
 import java.awt.*;
@@ -75,18 +77,13 @@ public class TelaLogin extends JFrame {
             JOptionPane.showMessageDialog(this,
                     "Bem vindo(a), " + usuarioLogado.getNome() + "!");
 
-            // 3. Redirecionamento (Navegação)
             if (usuarioLogado instanceof Medico) {
-                // new TelaPrincipalMedico((Medico) usuarioLogado).setVisible(true);
-                System.out.println("Abrindo tela de Médico..."); // Placeholder
+                new TelaPrincipalMedico((Medico) usuarioLogado).setVisible(true);
             } else if (usuarioLogado instanceof Paciente) {
-                // new TelaPrincipalPaciente((Paciente) usuarioLogado).setVisible(true);
-                System.out.println("Abrindo tela de Paciente..."); // Placeholder
+                new TelaPrincipalPaciente((Paciente) usuarioLogado).setVisible(true);
             } else if (usuarioLogado instanceof Secretaria) {
-                // new TelaPrincipalSecretaria((Secretaria) usuarioLogado).setVisible(true);
-                System.out.println("Abrindo tela de Secretaria...");
+                new TelaPrincipalSecretaria((Secretaria) usuarioLogado).setVisible(true);
             }
-
             this.dispose();
         }
     }

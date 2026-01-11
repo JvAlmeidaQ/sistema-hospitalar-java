@@ -30,7 +30,7 @@ public class TelaSelecaoConsulta extends JFrame {
         setLocationRelativeTo(null);
         setLayout(new BorderLayout());
 
-        // --- CABEÇALHO ---
+        //cabeçario
         JPanel painelTopo = new JPanel(new GridLayout(2, 1));
         painelTopo.setBackground(new Color(240, 248, 255));
         painelTopo.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
@@ -45,11 +45,9 @@ public class TelaSelecaoConsulta extends JFrame {
         painelTopo.add(lblInfo);
         add(painelTopo, BorderLayout.NORTH);
 
-        // --- LISTA DE CONSULTAS ---
         listModel = new DefaultListModel<>();
         listaConsultas = new JList<>(listModel);
 
-        // Renderizador customizado para mostrar a Data bonitinha na lista
         listaConsultas.setCellRenderer(new DefaultListCellRenderer() {
             @Override
             public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
@@ -57,7 +55,6 @@ public class TelaSelecaoConsulta extends JFrame {
                 if (value instanceof Consulta) {
                     Consulta c = (Consulta) value;
                     DateTimeFormatter fmt = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-                    // Exibe: "Data: 15/05/2025 - Status: REALIZADA"
                     setText("Data: " + c.getDataConsulta().format(fmt) + " - " + c.getHorarioConsulta().getInicio() + " (" + c.getStatusConsulta() + ")");
                 }
                 return this;
@@ -68,7 +65,7 @@ public class TelaSelecaoConsulta extends JFrame {
         scrollPane.setBorder(BorderFactory.createTitledBorder("Consultas Encontradas"));
         add(scrollPane, BorderLayout.CENTER);
 
-        // --- BOTÕES ---
+        //botões
         JPanel painelBotoes = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         JButton btnVoltar = new JButton("Voltar");
         JButton btnVerDocumentos = new JButton("Ver Documentos");
@@ -80,7 +77,6 @@ public class TelaSelecaoConsulta extends JFrame {
         painelBotoes.add(btnVerDocumentos);
         add(painelBotoes, BorderLayout.SOUTH);
 
-        // --- AÇÕES ---
         carregarConsultas();
 
         btnVoltar.addActionListener(e -> dispose());
@@ -88,7 +84,6 @@ public class TelaSelecaoConsulta extends JFrame {
         btnVerDocumentos.addActionListener(e -> {
             Consulta consultaSelecionada = listaConsultas.getSelectedValue();
             if (consultaSelecionada != null) {
-                // Abre a próxima tela passando a consulta selecionada
                 new TelaSelecaoDocumento(consultaSelecionada).setVisible(true);
             } else {
                 JOptionPane.showMessageDialog(this, "Selecione uma consulta para prosseguir.");
@@ -97,9 +92,7 @@ public class TelaSelecaoConsulta extends JFrame {
     }
 
     private void carregarConsultas() {
-        // Usa o Controller para pegar a lista filtrada
         List<Consulta> consultas = pacienteController.buscarConsultasPorMedico(paciente, medico);
-
         listModel.clear();
         if (consultas.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Nenhuma consulta encontrada entre este Paciente e Médico.");

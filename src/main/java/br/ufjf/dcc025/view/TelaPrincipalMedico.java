@@ -4,6 +4,7 @@ import br.ufjf.dcc025.controller.MedicoController;
 import br.ufjf.dcc025.model.Consulta;
 import br.ufjf.dcc025.model.Medico;
 import br.ufjf.dcc025.model.StatusConsulta;
+import br.ufjf.dcc025.view.MedicoView.TelaAtendimentoMedico;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -15,11 +16,8 @@ public class TelaPrincipalMedico extends JFrame {
 
     private Medico medicoLogado;
     private MedicoController controller;
-
     private JTable tabelaAgenda;
     private DefaultTableModel modeloTabela;
-
-    // Lista auxiliar para manter referência aos objetos Consulta mostrados na tabela
     private List<Consulta> consultasDoDia;
 
     public TelaPrincipalMedico(Medico medico) {
@@ -32,7 +30,7 @@ public class TelaPrincipalMedico extends JFrame {
         setLocationRelativeTo(null);
         setLayout(new BorderLayout());
 
-        // --- TOPO (Info do Médico + Logout) ---
+        //header
         JPanel painelTopo = new JPanel(new BorderLayout());
         painelTopo.setBackground(new Color(0, 102, 204));
         painelTopo.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
@@ -48,7 +46,7 @@ public class TelaPrincipalMedico extends JFrame {
         painelTopo.add(btnSair, BorderLayout.EAST);
         add(painelTopo, BorderLayout.NORTH);
 
-        // --- CENTRO (Agenda do Dia) ---
+        //centro
         JPanel painelCentro = new JPanel(new BorderLayout(10, 10));
         painelCentro.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
@@ -72,13 +70,13 @@ public class TelaPrincipalMedico extends JFrame {
 
         add(painelCentro, BorderLayout.CENTER);
 
-        // --- RODAPÉ (Ações) ---
+        //rodapé
         JPanel painelAcoes = new JPanel(new FlowLayout(FlowLayout.RIGHT, 15, 15));
 
         JButton btnAtualizar = new JButton("Atualizar Agenda");
         JButton btnAtender = new JButton("INICIAR ATENDIMENTO");
 
-        // Estilo do botão principal
+        //botões
         btnAtender.setBackground(new Color(0, 153, 76));
         btnAtender.setForeground(Color.WHITE);
         btnAtender.setFont(new Font("Arial", Font.BOLD, 14));
@@ -88,7 +86,6 @@ public class TelaPrincipalMedico extends JFrame {
         painelAcoes.add(btnAtender);
         add(painelAcoes, BorderLayout.SOUTH);
 
-        // --- EVENTOS ---
         btnAtualizar.addActionListener(e -> carregarAgenda());
 
         btnAtender.addActionListener(e -> {
@@ -99,19 +96,13 @@ public class TelaPrincipalMedico extends JFrame {
                 JOptionPane.showMessageDialog(this, "Selecione um paciente na lista para atender.");
             }
         });
-
-        // Carregar dados ao abrir
         carregarAgenda();
     }
 
     private void carregarAgenda() {
         modeloTabela.setRowCount(0);
-
-        // CHAMA CONTROLLER (Método Novo que pedi pra você criar)
         consultasDoDia = controller.consultasDoDia(medicoLogado);
-
         DateTimeFormatter horaFmt = DateTimeFormatter.ofPattern("HH:mm");
-
         if (consultasDoDia.isEmpty()) {
             // Pode mostrar uma linha vazia ou mensagem, ou deixar em branco
         } else {
@@ -119,7 +110,7 @@ public class TelaPrincipalMedico extends JFrame {
                 modeloTabela.addRow(new Object[]{
                         c.getHorarioConsulta().getInicio().format(horaFmt),
                         c.getPaciente().getNome(),
-                        c.getStatusConsulta() // AGENDADA, REALIZADA, etc.
+                        c.getStatusConsulta()
                 });
             }
         }
@@ -134,14 +125,9 @@ public class TelaPrincipalMedico extends JFrame {
             return;
         }
 
-        // AQUI ESTÁ A INTEGRAÇÃO:
-        // Passamos a consulta direto para a tela de atendimento.
-        // Se você já tem a TelaAtendimentoMedico, instancie ela aqui:
-
         TelaAtendimentoMedico tela = new TelaAtendimentoMedico(consultaSelecionada);
         tela.setVisible(true);
-        this.dispose(); // Opcional: fechar a agenda enquanto atende ou deixar aberta atrás
-
+        this.dispose();
         JOptionPane.showMessageDialog(this, "Aqui abrirá a TelaAtendimentoMedico para: " + consultaSelecionada.getPaciente().getNome());
     }
 

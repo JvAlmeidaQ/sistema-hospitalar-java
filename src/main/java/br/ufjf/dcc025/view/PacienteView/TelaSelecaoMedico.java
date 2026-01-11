@@ -27,7 +27,7 @@ public class TelaSelecaoMedico extends JFrame {
         setLocationRelativeTo(null);
         setLayout(new BorderLayout());
 
-        // --- CABEÇALHO ---
+        // cabeçalho
         JPanel painelTopo = new JPanel(new FlowLayout(FlowLayout.CENTER));
         painelTopo.setBackground(new Color(240, 248, 255));
         painelTopo.setBorder(BorderFactory.createEmptyBorder(15, 10, 15, 10));
@@ -39,18 +39,16 @@ public class TelaSelecaoMedico extends JFrame {
         painelTopo.add(lblTitulo);
         add(painelTopo, BorderLayout.NORTH);
 
-        // --- LISTA DE MÉDICOS ---
         listModel = new DefaultListModel<>();
         listaMedicos = new JList<>(listModel);
 
-        // Renderizador para mostrar Nome e Especialidade
+        // mostrar Nome e Especialidade
         listaMedicos.setCellRenderer(new DefaultListCellRenderer() {
             @Override
             public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
                 super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
                 if (value instanceof Medico) {
                     Medico m = (Medico) value;
-                    // Exemplo: "Dr. House - Especialidade: Diagnóstico"
                     setText(m.getNome() + " - " + m.getEspecialidade());
                     setFont(new Font("Arial", Font.PLAIN, 14));
                     setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
@@ -63,7 +61,7 @@ public class TelaSelecaoMedico extends JFrame {
         scrollPane.setBorder(BorderFactory.createTitledBorder("Médicos Consultados"));
         add(scrollPane, BorderLayout.CENTER);
 
-        // --- BOTÕES ---
+        // botões
         JPanel painelBotoes = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         JButton btnVoltar = new JButton("Voltar");
         JButton btnVerConsultas = new JButton("Ver Consultas");
@@ -76,7 +74,6 @@ public class TelaSelecaoMedico extends JFrame {
         painelBotoes.add(btnVerConsultas);
         add(painelBotoes, BorderLayout.SOUTH);
 
-        // --- AÇÕES ---
         carregarMedicos();
 
         btnVoltar.addActionListener(e -> dispose());
@@ -85,8 +82,6 @@ public class TelaSelecaoMedico extends JFrame {
             Medico medicoSelecionado = listaMedicos.getSelectedValue();
 
             if (medicoSelecionado != null) {
-                // Abre a tela de consultas (Reutilizamos a mesma tela!)
-                // Ela vai filtrar consultas entre ESTE paciente e O médico selecionado
                 new TelaSelecaoConsulta(pacienteLogado, medicoSelecionado).setVisible(true);
             } else {
                 JOptionPane.showMessageDialog(this, "Por favor, selecione um médico da lista.");
@@ -96,10 +91,7 @@ public class TelaSelecaoMedico extends JFrame {
 
     private void carregarMedicos() {
         listModel.clear();
-
-        // Chama o método no Controller que usa o Set para filtrar duplicados
         List<Medico> medicos = controller.listarMedicosDoPaciente(pacienteLogado);
-
         if (medicos.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Você ainda não possui histórico de consultas com médicos cadastrados.");
         } else {

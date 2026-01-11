@@ -18,21 +18,19 @@ public class TelaAgendamento extends JFrame {
 
     private Usuario usuarioLogado;
 
-    // Componentes
     private JComboBox<Paciente> cbPacientes;
-    private JComboBox<String> cbEspecialidade; // Agora é String
+    private JComboBox<String> cbEspecialidade;
     private JComboBox<Medico> cbMedicos;
     private JFormattedTextField txtData;
     private JComboBox<String> cbHorarios;
     private JButton btnBuscarHorarios;
     private JButton btnConfirmar;
 
-    // Controller (Instanciamos uma vez para reutilizar se quiser, ou nos métodos)
     private final AgendamentoController agendamentoController;
 
     public TelaAgendamento(Usuario usuario) {
         this.usuarioLogado = usuario;
-        this.agendamentoController = new AgendamentoController(); // O cérebro da tela
+        this.agendamentoController = new AgendamentoController();
 
         setTitle("Agendamento de Consulta");
         setSize(500, 600);
@@ -41,14 +39,14 @@ public class TelaAgendamento extends JFrame {
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLayout(new BorderLayout());
 
-        // --- TÍTULO ---
+        //titulo
         JLabel lblTitulo = new JLabel("Nova Consulta", SwingConstants.CENTER);
         lblTitulo.setFont(new Font("Arial", Font.BOLD, 22));
         lblTitulo.setForeground(new Color(0, 102, 204));
         lblTitulo.setBorder(BorderFactory.createEmptyBorder(20, 0, 20, 0));
         add(lblTitulo, BorderLayout.NORTH);
 
-        // --- FORMULÁRIO (GridBagLayout mantido) ---
+        //formulario
         JPanel painelForm = new JPanel(new GridBagLayout());
         painelForm.setBorder(BorderFactory.createEmptyBorder(10, 30, 10, 30));
         GridBagConstraints gbc = new GridBagConstraints();
@@ -56,7 +54,7 @@ public class TelaAgendamento extends JFrame {
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.weightx = 1.0;
 
-        // 1. PACIENTE
+        //paciente
         gbc.gridx = 0; gbc.gridy = 0;
         painelForm.add(criarLabel("Paciente:"), gbc);
 
@@ -65,23 +63,21 @@ public class TelaAgendamento extends JFrame {
         carregarPacientes();
         painelForm.add(cbPacientes, gbc);
 
-        // Se quem logou for paciente, trava a seleção nele mesmo
         if (usuarioLogado instanceof Paciente) {
             cbPacientes.setSelectedItem((Paciente) usuarioLogado);
             cbPacientes.setEnabled(false);
         }
 
-        // 2. ESPECIALIDADE
+        //especialidade
         gbc.gridx = 0; gbc.gridy = 1;
         painelForm.add(criarLabel("Especialidade:"), gbc);
 
         gbc.gridx = 1;
         cbEspecialidade = new JComboBox<>();
-        // Ação: Quando trocar a especialidade, atualiza a lista de médicos
         cbEspecialidade.addActionListener(e -> filtrarMedicosPorEspecialidade());
         painelForm.add(cbEspecialidade, gbc);
 
-        // 3. MÉDICO
+        //medico
         gbc.gridx = 0; gbc.gridy = 2;
         painelForm.add(criarLabel("Médico:"), gbc);
 
@@ -89,7 +85,7 @@ public class TelaAgendamento extends JFrame {
         cbMedicos = new JComboBox<>();
         painelForm.add(cbMedicos, gbc);
 
-        // 4. DATA
+        //date
         gbc.gridx = 0; gbc.gridy = 3;
         painelForm.add(criarLabel("Data (dd/MM/yyyy):"), gbc);
 
@@ -110,7 +106,7 @@ public class TelaAgendamento extends JFrame {
 
         painelForm.add(painelData, gbc);
 
-        // 5. HORÁRIOS DISPONÍVEIS
+        //horario disponivel
         gbc.gridx = 0; gbc.gridy = 4;
         painelForm.add(criarLabel("Horários Disponíveis:"), gbc);
 
@@ -121,7 +117,7 @@ public class TelaAgendamento extends JFrame {
 
         add(painelForm, BorderLayout.CENTER);
 
-        // --- BOTOES ---
+        //botões
         JPanel painelBotoes = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 20));
         JButton btnCancelar = new JButton("Cancelar");
         btnConfirmar = new JButton("Confirmar Agendamento");
@@ -133,28 +129,20 @@ public class TelaAgendamento extends JFrame {
         painelBotoes.add(btnConfirmar);
         add(painelBotoes, BorderLayout.SOUTH);
 
-        // --- LISTENERS ---
         btnBuscarHorarios.addActionListener(e -> buscarHorariosLivres());
         btnConfirmar.addActionListener(e -> realizarAgendamento());
         btnCancelar.addActionListener(e -> dispose());
 
-        // Carregamento inicial
         carregarEspecialidades();
     }
 
-    // --- MÉTODOS REFATORADOS COM MVC ---
-
     private void carregarEspecialidades() {
         cbEspecialidade.removeAllItems();
-
-        // CHAMA CONTROLLER: A View não sabe fazer HashSet nem filtrar ativos.
         List<String> especialidades = agendamentoController.listarEspecialidadesDisponiveis();
-
         for (String esp : especialidades) {
             cbEspecialidade.addItem(esp);
         }
 
-        // Força atualização dos médicos para a primeira especialidade da lista
         if(cbEspecialidade.getItemCount() > 0) {
             cbEspecialidade.setSelectedIndex(0);
         }
@@ -163,12 +151,9 @@ public class TelaAgendamento extends JFrame {
     private void filtrarMedicosPorEspecialidade() {
         cbMedicos.removeAllItems();
         String especialidadeSelecionada = (String) cbEspecialidade.getSelectedItem();
-
-        if (especialidadeSelecionada == null) return;
-
-        // CHAMA CONTROLLER: Busca médicos daquela especialidade (já filtra os inativos lá dentro)
+        if (especialidadeSelecionada == null)
+            return;
         List<Medico> medicosFiltrados = agendamentoController.buscarMedicosPorEspecialidade(especialidadeSelecionada);
-
         for (Medico m : medicosFiltrados) {
             cbMedicos.addItem(m);
         }
@@ -182,18 +167,13 @@ public class TelaAgendamento extends JFrame {
             JOptionPane.showMessageDialog(this, "Selecione um médico e informe a data completa.");
             return;
         }
-
         try {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
             LocalDate data = LocalDate.parse(dataStr, formatter);
-
-            // Validação simples de data passada
             if(data.isBefore(LocalDate.now())) {
                 JOptionPane.showMessageDialog(this, "Não é possível agendar em datas passadas.");
                 return;
             }
-
-            // CHAMA CONTROLLER
             List<LocalTime> horarios = agendamentoController.disponibilidadeDeHorarioConsultas(medico, data);
 
             cbHorarios.removeAllItems();
@@ -216,8 +196,6 @@ public class TelaAgendamento extends JFrame {
     private void realizarAgendamento() {
         Paciente paciente = (Paciente) cbPacientes.getSelectedItem();
         Medico medico = (Medico) cbMedicos.getSelectedItem();
-
-        // Validações de interface antes de chamar controller
         if (paciente == null || medico == null || !cbHorarios.isEnabled() || cbHorarios.getSelectedItem() == null) {
             JOptionPane.showMessageDialog(this, "Preencha todos os dados e verifique a disponibilidade.");
             return;
@@ -227,13 +205,9 @@ public class TelaAgendamento extends JFrame {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
             LocalDate data = LocalDate.parse(txtData.getText(), formatter);
             LocalTime horario = LocalTime.parse((String) cbHorarios.getSelectedItem());
-
-            // CHAMA CONTROLLER para fazer a mágica (persistência, validação de concorrência)
             agendamentoController.agendarConsulta(medico, paciente, data, horario);
-
             JOptionPane.showMessageDialog(this, "Consulta agendada com sucesso!");
-            dispose(); // Fecha a janela
-
+            dispose();
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, "Erro ao agendar: " + ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
         }
@@ -248,8 +222,6 @@ public class TelaAgendamento extends JFrame {
             cbPacientes.addItem(p);
         }
     }
-
-    // --- MÉTODOS DE ESTILO (Mantidos iguais) ---
 
     private JLabel criarLabel(String texto) {
         JLabel lbl = new JLabel(texto);

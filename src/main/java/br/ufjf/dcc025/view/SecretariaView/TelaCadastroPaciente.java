@@ -10,7 +10,6 @@ import java.awt.event.ActionListener;
 
 public class TelaCadastroPaciente extends JFrame {
 
-    // Componentes globais
     private JTextField txtNome, txtCpf, txtConvenio, txtTelefone, txtEmail;
     private JPasswordField txtSenha;
     private JTextField txtCep, txtEstado, txtCidade, txtBairro, txtRua, txtComplemento, txtNumero;
@@ -23,19 +22,18 @@ public class TelaCadastroPaciente extends JFrame {
         setLocationRelativeTo(null);
         setLayout(new BorderLayout()); // Layout principal para fixar título e botões
 
-        // 1. Título Principal (Fixo no topo)
+        // título
         JLabel lblTituloPrincipal = new JLabel("Cadastro de Paciente", SwingConstants.CENTER);
         lblTituloPrincipal.setFont(new Font("Arial", Font.BOLD, 22));
         lblTituloPrincipal.setForeground(new Color(0, 102, 204));
         lblTituloPrincipal.setBorder(BorderFactory.createEmptyBorder(20, 0, 10, 0)); // Espaçamento
         add(lblTituloPrincipal, BorderLayout.NORTH);
 
-        // 2. Formulário (Com Rolagem)
+        // Formulário
         JPanel painelFormulario = new JPanel();
         painelFormulario.setLayout(new GridLayout(0, 2, 10, 10)); // 2 colunas
         painelFormulario.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
 
-        // --- DADOS PESSOAIS ---
         adicionarSubTitulo(painelFormulario, "DADOS PESSOAIS");
 
         painelFormulario.add(new JLabel("Nome Completo:"));
@@ -62,9 +60,8 @@ public class TelaCadastroPaciente extends JFrame {
         txtSenha = new JPasswordField();
         painelFormulario.add(txtSenha);
 
-        // --- ENDEREÇO ---
-        painelFormulario.add(new JLabel("")); // Espaço vazio
-        painelFormulario.add(new JLabel("")); // Espaço vazio
+        painelFormulario.add(new JLabel(""));
+        painelFormulario.add(new JLabel(""));
         adicionarSubTitulo(painelFormulario, "ENDEREÇO");
 
         painelFormulario.add(new JLabel("CEP:"));
@@ -95,20 +92,18 @@ public class TelaCadastroPaciente extends JFrame {
         txtComplemento = new JTextField();
         painelFormulario.add(txtComplemento);
 
-        // Adiciona o painel dentro da rolagem
         JScrollPane scrollPane = new JScrollPane(painelFormulario);
         scrollPane.setBorder(null); // Remove borda extra
         scrollPane.getVerticalScrollBar().setUnitIncrement(16);
         add(scrollPane, BorderLayout.CENTER);
 
-        // 3. Botões (Fixo no rodapé)
+        // botões
         JPanel painelBotoes = new JPanel(new FlowLayout());
         painelBotoes.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
 
         JButton btnVoltar = new JButton("VOLTAR");
         JButton btnSalvar = new JButton("SALVAR CADASTRO");
 
-        // Estilo do botão Salvar
         btnSalvar.setBackground(new Color(0, 102, 204));
         btnSalvar.setForeground(Color.WHITE);
         btnSalvar.setFont(new Font("Arial", Font.BOLD, 12));
@@ -116,8 +111,6 @@ public class TelaCadastroPaciente extends JFrame {
         painelBotoes.add(btnVoltar);
         painelBotoes.add(btnSalvar);
         add(painelBotoes, BorderLayout.SOUTH);
-
-        // --- AÇÕES ---
 
         btnVoltar.addActionListener(e -> {
             new TelaLogin().setVisible(true);

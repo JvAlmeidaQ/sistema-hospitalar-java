@@ -27,7 +27,7 @@ public class TelaControleVisitas extends JFrame {
         setLocationRelativeTo(null);
         setLayout(new BorderLayout());
 
-        // --- 1. CABEÇALHO E BUSCA ---
+        // cabeçario e busca
         JPanel painelTopo = new JPanel(new BorderLayout(5, 5));
         painelTopo.setBorder(BorderFactory.createEmptyBorder(15, 15, 10, 15));
         painelTopo.setBackground(new Color(245, 245, 245));
@@ -52,18 +52,16 @@ public class TelaControleVisitas extends JFrame {
 
         add(painelTopo, BorderLayout.NORTH);
 
-        // --- 2. LISTA DE PACIENTES ---
+        //lista de pacientes
         listModel = new DefaultListModel<>();
         listaPacientes = new JList<>(listModel);
-
-        // Renderizador para mostrar Nome e Setor (opcional) na lista
         listaPacientes.setCellRenderer(new DefaultListCellRenderer() {
             @Override
             public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
                 super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
                 if (value instanceof Paciente) {
                     Paciente p = (Paciente) value;
-                    setText(p.getNome().toUpperCase()); // Nome em destaque
+                    setText(p.getNome().toUpperCase());
                     setFont(new Font("Arial", Font.PLAIN, 14));
                     setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
                 }
@@ -75,7 +73,7 @@ public class TelaControleVisitas extends JFrame {
         scrollPane.setBorder(BorderFactory.createTitledBorder("Selecione um Paciente"));
         add(scrollPane, BorderLayout.CENTER);
 
-        // --- 3. RODAPÉ (AÇÕES) ---
+        // Rodapé
         JPanel painelBotoes = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         painelBotoes.setBorder(BorderFactory.createEmptyBorder(10, 15, 15, 15));
 
@@ -91,29 +89,18 @@ public class TelaControleVisitas extends JFrame {
         painelBotoes.add(btnVerificar);
         add(painelBotoes, BorderLayout.SOUTH);
 
-        // --- AÇÕES ---
         carregarListaInicial();
 
         btnVoltar.addActionListener(e -> dispose());
-
-        // Busca ao clicar no botão
         btnBuscar.addActionListener(e -> filtrarLista());
-
-        // Busca dinâmica ao digitar (Enter)
         txtBusca.addActionListener(e -> filtrarLista());
-
-        // Busca dinâmica ao digitar (qualquer tecla)
         txtBusca.addKeyListener(new KeyAdapter() {
             @Override
             public void keyReleased(KeyEvent e) {
                 filtrarLista();
             }
         });
-
-        // AÇÃO PRINCIPAL: Verificar Visita
         btnVerificar.addActionListener(e -> verificarVisita());
-
-        // Atalho: Duplo clique na lista também verifica
         listaPacientes.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 if (evt.getClickCount() == 2) {
@@ -128,7 +115,7 @@ public class TelaControleVisitas extends JFrame {
         List<Paciente> internados = controller.listarPacientesInternados();
 
         if (internados.isEmpty()) {
-            listModel.addElement(null); // Apenas para não quebrar visualmente se vazio, ou tratar na renderização
+            listModel.addElement(null);
             JOptionPane.showMessageDialog(this, "Não há pacientes internados no momento.");
         } else {
             for (Paciente p : internados) {
@@ -164,7 +151,6 @@ public class TelaControleVisitas extends JFrame {
         boolean podeReceber = selecionado.getPodeReceberVisitas() != null && selecionado.getPodeReceberVisitas();
 
         if (podeReceber) {
-            // Mostra aviso Verde (Liberado)
             JLabel label = new JLabel("VISITA LIBERADA");
             label.setFont(new Font("Arial", Font.BOLD, 18));
             label.setForeground(new Color(0, 102, 0));
@@ -174,7 +160,6 @@ public class TelaControleVisitas extends JFrame {
                     "Status de Visita - " + selecionado.getNome(),
                     JOptionPane.INFORMATION_MESSAGE);
         } else {
-            // Mostra aviso Vermelho (Bloqueado)
             JLabel label = new JLabel("VISITA NÃO PERMITIDA");
             label.setFont(new Font("Arial", Font.BOLD, 18));
             label.setForeground(Color.RED);
@@ -182,7 +167,7 @@ public class TelaControleVisitas extends JFrame {
             JOptionPane.showMessageDialog(this,
                     label,
                     "Status de Visita - " + selecionado.getNome(),
-                    JOptionPane.ERROR_MESSAGE); // Ícone de erro/alerta
+                    JOptionPane.ERROR_MESSAGE);
         }
     }
 }

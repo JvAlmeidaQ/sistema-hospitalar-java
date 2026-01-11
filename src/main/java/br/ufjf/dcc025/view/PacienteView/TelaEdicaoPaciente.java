@@ -12,12 +12,8 @@ import java.awt.*;
 public class TelaEdicaoPaciente extends JFrame {
 
     private Paciente pacienteLogado;
-
-    // Dados Pessoais
     private JTextField txtNome, txtCpf, txtEmail, txtTelefone, txtConvenio;
     private JPasswordField txtSenha;
-
-    // Endereço
     private JTextField txtCep, txtEstado, txtCidade, txtBairro, txtRua, txtNumero, txtComplemento;
 
     public TelaEdicaoPaciente(Paciente paciente) {
@@ -33,7 +29,7 @@ public class TelaEdicaoPaciente extends JFrame {
         painelPrincipal.setLayout(new BoxLayout(painelPrincipal, BoxLayout.Y_AXIS));
         painelPrincipal.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
-        // --- 1. DADOS PESSOAIS ---
+        // dados
         JPanel painelPessoal = new JPanel(new GridLayout(0, 1, 5, 5));
         painelPessoal.setBorder(BorderFactory.createTitledBorder(
                 BorderFactory.createLineBorder(new Color(0, 102, 204)),
@@ -73,7 +69,6 @@ public class TelaEdicaoPaciente extends JFrame {
         painelPrincipal.add(painelPessoal);
         painelPrincipal.add(Box.createVerticalStrut(20));
 
-        // --- 2. ENDEREÇO ---
         JPanel painelEndereco = new JPanel(new GridLayout(0, 1, 5, 5));
         painelEndereco.setBorder(BorderFactory.createTitledBorder(
                 BorderFactory.createLineBorder(new Color(0, 102, 204)),
@@ -84,7 +79,6 @@ public class TelaEdicaoPaciente extends JFrame {
                 new Color(0, 102, 204)
         ));
 
-        // Recupera o objeto endereço atual para preencher os campos
         Endereco enderecoAtual = paciente.getEndereco();
 
         painelEndereco.add(criarLabel("CEP:"));
@@ -117,12 +111,11 @@ public class TelaEdicaoPaciente extends JFrame {
 
         painelPrincipal.add(painelEndereco);
 
-        // --- SCROLL PANE ---
         JScrollPane scrollPane = new JScrollPane(painelPrincipal);
         scrollPane.getVerticalScrollBar().setUnitIncrement(16);
         add(scrollPane, BorderLayout.CENTER);
 
-        // --- 3. BOTÕES ---
+        // botões
         JPanel painelBotoes = new JPanel(new FlowLayout());
         painelBotoes.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
 
@@ -137,7 +130,6 @@ public class TelaEdicaoPaciente extends JFrame {
         painelBotoes.add(btnSalvar);
         add(painelBotoes, BorderLayout.SOUTH);
 
-        // --- AÇÕES ---
         btnCancelar.addActionListener(e -> dispose());
 
         btnSalvar.addActionListener(e -> salvarAlteracoes());

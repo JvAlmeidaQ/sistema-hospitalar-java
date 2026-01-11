@@ -13,7 +13,6 @@ public class TelaEdicaoSecretaria extends JFrame {
     private JTextField txtNome, txtEmail, txtCpf;
     private JPasswordField txtSenha;
 
-    // Construtor recebe a secretária que está logada/sendo editada
     public TelaEdicaoSecretaria(Secretaria secretaria) {
         this.secretariaLogada = secretaria;
 
@@ -24,14 +23,14 @@ public class TelaEdicaoSecretaria extends JFrame {
         setLocationRelativeTo(null);
         setLayout(new BorderLayout());
 
-        // --- 1. TÍTULO ---
+        // titulo
         JLabel lblTitulo = new JLabel("Editar Meus Dados", SwingConstants.CENTER);
         lblTitulo.setFont(new Font("Arial", Font.BOLD, 20));
         lblTitulo.setForeground(new Color(0, 102, 204));
         lblTitulo.setBorder(BorderFactory.createEmptyBorder(20, 0, 20, 0));
         add(lblTitulo, BorderLayout.NORTH);
 
-        // --- 2. FORMULÁRIO ---
+        // formulario
         JPanel painelForm = new JPanel(new GridLayout(4, 1, 5, 5));
         painelForm.setBorder(BorderFactory.createEmptyBorder(0, 40, 0, 40));
 
@@ -50,7 +49,7 @@ public class TelaEdicaoSecretaria extends JFrame {
         txtSenha = new JPasswordField();
         painelForm.add(txtSenha);
 
-        // CPF (Apenas visualização - não editável)
+        // CPF
         painelForm.add(criarLabel("CPF (Não editável):"));
         txtCpf = new JTextField(secretaria.getCpf());
         txtCpf.setEditable(false); // Bloqueia edição
@@ -59,14 +58,13 @@ public class TelaEdicaoSecretaria extends JFrame {
 
         add(painelForm, BorderLayout.CENTER);
 
-        // --- 3. BOTÕES ---
+        //botões
         JPanel painelBotoes = new JPanel(new FlowLayout());
         painelBotoes.setBorder(BorderFactory.createEmptyBorder(20, 0, 20, 0));
 
         JButton btnCancelar = new JButton("Cancelar");
         JButton btnSalvar = new JButton("Salvar Alterações");
 
-        // Estilizando botão Salvar
         btnSalvar.setBackground(new Color(0, 102, 204));
         btnSalvar.setForeground(Color.WHITE);
         btnSalvar.setFont(new Font("Arial", Font.BOLD, 12));
@@ -75,7 +73,6 @@ public class TelaEdicaoSecretaria extends JFrame {
         painelBotoes.add(btnSalvar);
         add(painelBotoes, BorderLayout.SOUTH);
 
-        // --- AÇÕES ---
         btnCancelar.addActionListener(e -> dispose()); // Fecha a janela
 
         btnSalvar.addActionListener(e -> salvarAlteracoes());
@@ -87,30 +84,19 @@ public class TelaEdicaoSecretaria extends JFrame {
         String senhaAtual = null;
 
         if (!novaSenha.isBlank()) {
-            senhaAtual = showPasswordDialog(this,
-                    "Digite sua senha atual para confirmar a alteração:");
-
-
-
+            senhaAtual = showPasswordDialog(this, "Digite sua senha atual para confirmar a alteração:");
             if (senhaAtual == null || senhaAtual.isBlank()) {
-                JOptionPane.showMessageDialog(this, "Alteração Cancelada! A senha atual é Obrigatoria.",
-                        "Segurança", JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Alteração Cancelada! A senha atual é Obrigatoria.", "Segurança", JOptionPane.WARNING_MESSAGE);
                 return;
             }
         }
-        // 2. Coleta dados
         String novoNome = txtNome.getText();
         String novoEmail = txtEmail.getText();
-
-
         SecretariaController controller = new SecretariaController();
-
         try {
             controller.atualizarSecretaria(secretariaLogada, senhaAtual, novaSenha, novoNome, novoEmail);
-
             JOptionPane.showMessageDialog(this, "Dados atualizados com sucesso!");
-            dispose(); // Fecha
-
+            dispose();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, e.getMessage(), "Erro ao Salvar", JOptionPane.WARNING_MESSAGE);
         }
