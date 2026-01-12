@@ -1,0 +1,59 @@
+[
+  {
+    "telefone": "37927462041",
+    "endereco": {
+      "cep": "55024837",
+      "rua": "19",
+      "numero": "Juiz de Fora",
+      "complemento": "",
+      "bairro": "Centro",
+      "cidade": "Juiz de Fora",
+      "estado": "MG"
+    },
+    "podeReceberVisitas": false,
+    "internado": false,
+    "convenio": "Unimed",
+    "nome": "Michael Scott",
+    "email": "michael@dunder.com",
+    "senha": "X2@aZ9k",
+    "cpf": "06653827070"
+  },
+  {
+    "telefone": "31934126978",
+    "endereco": {
+      "cep": "63100161",
+      "rua": "44",
+      "numero": "70",
+      "complemento": "",
+      "bairro": "Asa Norte",
+      "cidade": "Brasília",
+      "estado": "DF"
+    },
+    "podeReceberVisitas": false,
+    "internado": false,
+    "convenio": "Particular",
+    "nome": "Tony Stark",
+    "email": "tony@stark.com",
+    "senha": "Dev3$Ok",
+    "cpf": "93374526004"
+  },
+  {
+    "telefone": "37924275462",
+    "endereco": {
+      "cep": "37904068",
+      "rua": "Augusta",
+      "numero": "88",
+      "complemento": " ",
+      "bairro": "Caiçaras",
+      "cidade": "São Paulo",
+      "estado": "SP"
+    },
+    "podeReceberVisitas": false,
+    "internado": false,
+    "convenio": "SUS",
+    "nome": "Peter Parker",
+    "email": "peter@web.com",
+    "senha": "Code9@X",
+    "cpf": "22940360006"
+  }
+]

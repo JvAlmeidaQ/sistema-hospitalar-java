@@ -1,0 +1,350 @@
+[
+  {
+    "medico": {
+      "especialidade": "Diagnóstico",
+      "horarioDeTrabalho": [
+        {
+          "dia": "SEGUNDA",
+          "inicio": "14:00:00",
+          "fim": "18:00:00",
+          "duracaoAtendimento": 60
+        },
+        {
+          "dia": "QUARTA",
+          "inicio": "14:00:00",
+          "fim": "18:00:00",
+          "duracaoAtendimento": 60
+        },
+        {
+          "dia": "SEXTA",
+          "inicio": "14:00:00",
+          "fim": "18:00:00",
+          "duracaoAtendimento": 60
+        }
+      ],
+      "status": true,
+      "nome": "House",
+      "email": "house@hospital.com",
+      "senha": "Senha1!",
+      "cpf": "58623343000"
+    },
+    "paciente": {
+      "telefone": "37927462041",
+      "endereco": {
+        "cep": "55024837",
+        "rua": "19",
+        "numero": "Juiz de Fora",
+        "complemento": "",
+        "bairro": "Centro",
+        "cidade": "Juiz de Fora",
+        "estado": "MG"
+      },
+      "podeReceberVisitas": false,
+      "internado": false,
+      "convenio": "Unimed",
+      "nome": "Michael Scott",
+      "email": "michael@dunder.com",
+      "senha": "X2@aZ9k",
+      "cpf": "06653827070"
+    },
+    "horarioConsulta": {
+      "dia": "SEGUNDA",
+      "inicio": "14:00:00",
+      "fim": "15:00:00",
+      "duracaoAtendimento": 60
+    },
+    "dataConsulta": "2026-01-11",
+    "statusConsulta": "AGENDADA",
+    "documentoMedico": []
+  },
+  {
+    "medico": {
+      "especialidade": "Diagnóstico",
+      "horarioDeTrabalho": [
+        {
+          "dia": "SEGUNDA",
+          "inicio": "14:00:00",
+          "fim": "18:00:00",
+          "duracaoAtendimento": 60
+        },
+        {
+          "dia": "QUARTA",
+          "inicio": "14:00:00",
+          "fim": "18:00:00",
+          "duracaoAtendimento": 60
+        },
+        {
+          "dia": "SEXTA",
+          "inicio": "14:00:00",
+          "fim": "18:00:00",
+          "duracaoAtendimento": 60
+        }
+      ],
+      "status": true,
+      "nome": "House",
+      "email": "house@hospital.com",
+      "senha": "Senha1!",
+      "cpf": "58623343000"
+    },
+    "paciente": {
+      "telefone": "31934126978",
+      "endereco": {
+        "cep": "63100161",
+        "rua": "44",
+        "numero": "70",
+        "complemento": "",
+        "bairro": "Asa Norte",
+        "cidade": "Brasília",
+        "estado": "DF"
+      },
+      "podeReceberVisitas": false,
+      "internado": false,
+      "convenio": "Particular",
+      "nome": "Tony Stark",
+      "email": "tony@stark.com",
+      "senha": "Dev3$Ok",
+      "cpf": "93374526004"
+    },
+    "horarioConsulta": {
+      "dia": "TERCA",
+      "inicio": "15:00:00",
+      "fim": "16:00:00",
+      "duracaoAtendimento": 60
+    },
+    "dataConsulta": "2026-01-12",
+    "statusConsulta": "AGENDADA",
+    "documentoMedico": []
+  },
+  {
+    "medico": {
+      "especialidade": "Cirurgia Geral",
+      "horarioDeTrabalho": [
+        {
+          "dia": "SEGUNDA",
+          "inicio": "08:00:00",
+          "fim": "12:00:00",
+          "duracaoAtendimento": 30
+        },
+        {
+          "dia": "TERCA",
+          "inicio": "08:00:00",
+          "fim": "12:00:00",
+          "duracaoAtendimento": 30
+        },
+        {
+          "dia": "QUINTA",
+          "inicio": "08:00:00",
+          "fim": "12:00:00",
+          "duracaoAtendimento": 30
+        }
+      ],
+      "status": true,
+      "nome": "Meredith",
+      "email": "grey@hospital.com",
+      "senha": "Mundo3#",
+      "cpf": "68577896064"
+    },
+    "paciente": {
+      "telefone": "31934126978",
+      "endereco": {
+        "cep": "63100161",
+        "rua": "44",
+        "numero": "70",
+        "complemento": "",
+        "bairro": "Asa Norte",
+        "cidade": "Brasília",
+        "estado": "DF"
+      },
+      "podeReceberVisitas": false,
+      "internado": false,
+      "convenio": "Particular",
+      "nome": "Tony Stark",
+      "email": "tony@stark.com",
+      "senha": "Dev3$Ok",
+      "cpf": "93374526004"
+    },
+    "horarioConsulta": {
+      "dia": "SEGUNDA",
+      "inicio": "08:00:00",
+      "fim": "08:30:00",
+      "duracaoAtendimento": 30
+    },
+    "dataConsulta": "2026-01-11",
+    "statusConsulta": "AGENDADA",
+    "documentoMedico": []
+  },
+  {
+    "medico": {
+      "especialidade": "Cirurgia Geral",
+      "horarioDeTrabalho": [
+        {
+          "dia": "SEGUNDA",
+          "inicio": "08:00:00",
+          "fim": "12:00:00",
+          "duracaoAtendimento": 30
+        },
+        {
+          "dia": "TERCA",
+          "inicio": "08:00:00",
+          "fim": "12:00:00",
+          "duracaoAtendimento": 30
+        },
+        {
+          "dia": "QUINTA",
+          "inicio": "08:00:00",
+          "fim": "12:00:00",
+          "duracaoAtendimento": 30
+        }
+      ],
+      "status": true,
+      "nome": "Meredith",
+      "email": "grey@hospital.com",
+      "senha": "Mundo3#",
+      "cpf": "68577896064"
+    },
+    "paciente": {
+      "telefone": "37924275462",
+      "endereco": {
+        "cep": "37904068",
+        "rua": "Augusta",
+        "numero": "88",
+        "complemento": " ",
+        "bairro": "Caiçaras",
+        "cidade": "São Paulo",
+        "estado": "SP"
+      },
+      "podeReceberVisitas": false,
+      "internado": false,
+      "convenio": "SUS",
+      "nome": "Peter Parker",
+      "email": "peter@web.com",
+      "senha": "Code9@X",
+      "cpf": "22940360006"
+    },
+    "horarioConsulta": {
+      "dia": "SEGUNDA",
+      "inicio": "09:00:00",
+      "fim": "09:30:00",
+      "duracaoAtendimento": 30
+    },
+    "dataConsulta": "2026-01-11",
+    "statusConsulta": "AGENDADA",
+    "documentoMedico": []
+  },
+  {
+    "medico": {
+      "especialidade": "Neurocirurgia",
+      "horarioDeTrabalho": [
+        {
+          "dia": "SEGUNDA",
+          "inicio": "10:00:00",
+          "fim": "16:00:00",
+          "duracaoAtendimento": 45
+        },
+        {
+          "dia": "QUARTA",
+          "inicio": "18:00:00",
+          "fim": "22:00:00",
+          "duracaoAtendimento": 45
+        },
+        {
+          "dia": "SEXTA",
+          "inicio": "08:00:00",
+          "fim": "18:00:00",
+          "duracaoAtendimento": 60
+        }
+      ],
+      "status": true,
+      "nome": "Estranho",
+      "email": "strange@hospital.com",
+      "senha": "Java8#R",
+      "cpf": "38197886032"
+    },
+    "paciente": {
+      "telefone": "37924275462",
+      "endereco": {
+        "cep": "37904068",
+        "rua": "Augusta",
+        "numero": "88",
+        "complemento": " ",
+        "bairro": "Caiçaras",
+        "cidade": "São Paulo",
+        "estado": "SP"
+      },
+      "podeReceberVisitas": false,
+      "internado": false,
+      "convenio": "SUS",
+      "nome": "Peter Parker",
+      "email": "peter@web.com",
+      "senha": "Code9@X",
+      "cpf": "22940360006"
+    },
+    "horarioConsulta": {
+      "dia": "SEGUNDA",
+      "inicio": "10:00:00",
+      "fim": "10:45:00",
+      "duracaoAtendimento": 45
+    },
+    "dataConsulta": "2026-01-11",
+    "statusConsulta": "AGENDADA",
+    "documentoMedico": []
+  },
+  {
+    "medico": {
+      "especialidade": "Neurocirurgia",
+      "horarioDeTrabalho": [
+        {
+          "dia": "SEGUNDA",
+          "inicio": "10:00:00",
+          "fim": "16:00:00",
+          "duracaoAtendimento": 45
+        },
+        {
+          "dia": "QUARTA",
+          "inicio": "18:00:00",
+          "fim": "22:00:00",
+          "duracaoAtendimento": 45
+        },
+        {
+          "dia": "SEXTA",
+          "inicio": "08:00:00",
+          "fim": "18:00:00",
+          "duracaoAtendimento": 60
+        }
+      ],
+      "status": true,
+      "nome": "Estranho",
+      "email": "strange@hospital.com",
+      "senha": "Java8#R",
+      "cpf": "38197886032"
+    },
+    "paciente": {
+      "telefone": "37927462041",
+      "endereco": {
+        "cep": "55024837",
+        "rua": "19",
+        "numero": "Juiz de Fora",
+        "complemento": "",
+        "bairro": "Centro",
+        "cidade": "Juiz de Fora",
+        "estado": "MG"
+      },
+      "podeReceberVisitas": false,
+      "internado": false,
+      "convenio": "Unimed",
+      "nome": "Michael Scott",
+      "email": "michael@dunder.com",
+      "senha": "X2@aZ9k",
+      "cpf": "06653827070"
+    },
+    "horarioConsulta": {
+      "dia": "TERCA",
+      "inicio": "11:00:00",
+      "fim": "11:45:00",
+      "duracaoAtendimento": 45
+    },
+    "dataConsulta": "2026-01-12",
+    "statusConsulta": "AGENDADA",
+    "documentoMedico": []
+  }
+]

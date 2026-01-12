@@ -7,7 +7,7 @@ public class PacienteTeste {
 
     @Test
     public void testCriacaoPacienteValido() {
-        Paciente p = new Paciente("Nome", "07406115008", "paciente@gmail.com", "senha", "38937217714", null, "Unimed");
+        Paciente p = new Paciente("Nome", "07406115008", "paciente@gmail.com", "Xy9#Kp", "38937217714", null, "Unimed");
         assertEquals("Nome", p.getNome());
         assertEquals("Unimed", p.getConvenio());
     }

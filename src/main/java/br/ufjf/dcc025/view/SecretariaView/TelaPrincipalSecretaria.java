@@ -240,14 +240,14 @@ public class TelaPrincipalSecretaria extends JFrame {
 
     private void atualizarRelogio() {
         // data de teste
-        lblRelogio.setText("Data Simulada: " + LocalDateTime.of(2026,1,12,15,0).format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss")));
+        lblRelogio.setText("Data Simulada: " + LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss")));
     }
 
     private void carregarMedicosNoTurno() {
         modeloPlantao.setRowCount(0);
 
         // dados de teste
-        List<Medico> medicosNoTurno = agendamentoController.medicosDisponiveisAgora(LocalDate.of(2026,1,12), LocalTime.of(14,0));
+        List<Medico> medicosNoTurno = agendamentoController.medicosDisponiveisAgora(LocalDate.now(), LocalTime.now());
 
         for (Medico m : medicosNoTurno) {
             modeloPlantao.addRow(new Object[]{

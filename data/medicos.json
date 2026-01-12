@@ -1,0 +1,86 @@
+[
+  {
+    "especialidade": "Diagnóstico",
+    "horarioDeTrabalho": [
+      {
+        "dia": "SEGUNDA",
+        "inicio": "14:00:00",
+        "fim": "18:00:00",
+        "duracaoAtendimento": 60
+      },
+      {
+        "dia": "QUARTA",
+        "inicio": "14:00:00",
+        "fim": "18:00:00",
+        "duracaoAtendimento": 60
+      },
+      {
+        "dia": "SEXTA",
+        "inicio": "14:00:00",
+        "fim": "18:00:00",
+        "duracaoAtendimento": 60
+      }
+    ],
+    "status": true,
+    "nome": "House",
+    "email": "house@hospital.com",
+    "senha": "Senha1!",
+    "cpf": "58623343000"
+  },
+  {
+    "especialidade": "Cirurgia Geral",
+    "horarioDeTrabalho": [
+      {
+        "dia": "SEGUNDA",
+        "inicio": "08:00:00",
+        "fim": "12:00:00",
+        "duracaoAtendimento": 30
+      },
+      {
+        "dia": "TERCA",
+        "inicio": "08:00:00",
+        "fim": "12:00:00",
+        "duracaoAtendimento": 30
+      },
+      {
+        "dia": "QUINTA",
+        "inicio": "08:00:00",
+        "fim": "12:00:00",
+        "duracaoAtendimento": 30
+      }
+    ],
+    "status": true,
+    "nome": "Meredith",
+    "email": "grey@hospital.com",
+    "senha": "Mundo3#",
+    "cpf": "68577896064"
+  },
+  {
+    "especialidade": "Neurocirurgia",
+    "horarioDeTrabalho": [
+      {
+        "dia": "SEGUNDA",
+        "inicio": "10:00:00",
+        "fim": "16:00:00",
+        "duracaoAtendimento": 45
+      },
+      {
+        "dia": "QUARTA",
+        "inicio": "18:00:00",
+        "fim": "22:00:00",
+        "duracaoAtendimento": 45
+      },
+      {
+        "dia": "SEXTA",
+        "inicio": "08:00:00",
+        "fim": "18:00:00",
+        "duracaoAtendimento": 60
+      }
+    ],
+    "status": true,
+    "nome": "Estranho",
+    "email": "strange@hospital.com",
+    "senha": "Java8#R",
+    "cpf": "38197886032"
+  }
+]

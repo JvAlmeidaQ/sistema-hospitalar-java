@@ -30,7 +30,7 @@ public class TestesClassesSimples {
     @Test
     public void testeHerancaFuncionario() {
 
-        Medico m = new Medico("medicoTeste", "medico@gmail.com", "senha", "80594589061", "Esp");
+        Medico m = new Medico("medicoTeste", "medico@gmail.com", "Qw1!Er", "80594589061", "Geral");
 
         Assert.assertEquals("medicoTeste", m.getNome());
         Assert.assertNotNull(m.getHorarioDeTrabalho());
