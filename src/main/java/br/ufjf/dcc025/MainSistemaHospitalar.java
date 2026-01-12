@@ -47,13 +47,7 @@ public class MainSistemaHospitalar
         System.out.println("Dados carregados com sucesso!");
 
         SwingUtilities.invokeLater(() -> {
-
-            TelaPrincipalSecretaria telaSec = new TelaPrincipalSecretaria(pam);
-            telaSec.setVisible(true);
-
-            TelaPrincipalMedico telaMed = new TelaPrincipalMedico(drHouse);
-            telaMed.setVisible(true);
-
+            new TelaLogin().setVisible(true);
         });
     }
 }

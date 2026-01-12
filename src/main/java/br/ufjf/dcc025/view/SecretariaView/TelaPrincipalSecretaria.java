@@ -178,7 +178,7 @@ public class TelaPrincipalSecretaria extends JFrame {
 
         JPanel painelSul = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 
-        JButton btnNovoMedico = new JButton("Cadastrar Novo Médico");
+        JButton btnNovoMedico = new JButton("Cadastrar Novo Funcionário");
         JButton btnAgenda = new JButton("Gerenciar Agenda/Horários");
         JButton btnAtualizarLista = new JButton("Recarregar Lista");
         JButton btnAlternarStatus = new JButton("Ativar/Desativar");
@@ -194,6 +194,19 @@ public class TelaPrincipalSecretaria extends JFrame {
 
         painel.add(painelSul, BorderLayout.SOUTH);
 
+        btnNovoMedico.addActionListener(e -> {
+            new TelaCadastroFuncionario().setVisible(true);
+        });
+
+        btnAlternarStatus.addActionListener(e -> {
+            int linhaSelecionada = tabelaGestaoMedicos.getSelectedRow();
+            if (linhaSelecionada >= 0) {
+                Medico medicoSelecionado = DadosHospital.medicos.get(linhaSelecionada);
+                medicoController.alterarStatusMedicos(medicoSelecionado);
+            } else {
+                JOptionPane.showMessageDialog(this, "Selecione um médico na tabela para configurar a agenda dele.");
+            }
+        });
 
         btnAgenda.addActionListener(e -> {
             int linhaSelecionada = tabelaGestaoMedicos.getSelectedRow();
@@ -280,7 +293,7 @@ public class TelaPrincipalSecretaria extends JFrame {
 
         if (confirm == JOptionPane.YES_OPTION) {
             try {
-                medicoController.alterarStatusMedicos(medico, novoStatus);
+                medicoController.alterarStatusMedicos(medico);
                 carregarTodosMedicos();
                 carregarMedicosNoTurno();
             } catch (Exception ex) {
