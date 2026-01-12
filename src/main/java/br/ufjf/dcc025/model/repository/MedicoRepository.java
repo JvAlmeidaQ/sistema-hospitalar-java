@@ -1,3 +1,6 @@
+//Gustavo Bersan Moreira Campos 202435019
+//João Vitor Almeida Queiroz 202435007
+
 package br.ufjf.dcc025.model.repository;
 
 import br.ufjf.dcc025.model.Medico; // Importa o tipo CONCRETO

@@ -1,3 +1,6 @@
+//Gustavo Bersan Moreira Campos 202435019
+//João Vitor Almeida Queiroz 202435007
+
 package br.ufjf.dcc025.view.MedicoView;
 
 import br.ufjf.dcc025.controller.MedicoController;
@@ -15,8 +18,6 @@ public class TelaEnvioAtestado extends JFrame {
     private Consulta consulta;
     private Medico medico;
     private Paciente paciente;
-
-    // Componentes
     private JSpinner spnDias;
     private JTextArea txtDiagnostico; // Mudamos para JTextArea (Caixa grande)
     private JLabel lblData;
@@ -33,7 +34,7 @@ public class TelaEnvioAtestado extends JFrame {
         setLocationRelativeTo(null);
         setLayout(new BorderLayout());
 
-        // --- 1. CABEÇALHO ---
+        // cabeçalho
         JPanel painelTopo = new JPanel(new GridLayout(3, 1, 5, 5));
         painelTopo.setBorder(BorderFactory.createEmptyBorder(15, 20, 10, 20));
         painelTopo.setBackground(new Color(245, 245, 245));
@@ -55,11 +56,11 @@ public class TelaEnvioAtestado extends JFrame {
         painelTopo.add(lblData);
         add(painelTopo, BorderLayout.NORTH);
 
-        // --- 2. FORMULÁRIO ---
+        // formulario
         JPanel painelForm = new JPanel(new BorderLayout(10, 10)); // Layout para dividir Dias e Diagnóstico
         painelForm.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
 
-        // Parte Superior: Dias de Afastamento
+        // Dias de Afastamento
         JPanel painelDias = new JPanel(new BorderLayout(5, 5));
         painelDias.add(criarLabel("Dias de Afastamento:"), BorderLayout.NORTH);
 
@@ -67,7 +68,7 @@ public class TelaEnvioAtestado extends JFrame {
         ((JSpinner.DefaultEditor) spnDias.getEditor()).getTextField().setFont(new Font("Arial", Font.BOLD, 14));
         painelDias.add(spnDias, BorderLayout.CENTER);
 
-        // Parte Central: Diagnóstico (Caixa Grande)
+        // Diagnóstico
         JPanel painelDiagnostico = new JPanel(new BorderLayout(5, 5));
         painelDiagnostico.add(criarLabel("Diagnóstico / Motivo (CID opcional):"), BorderLayout.NORTH);
 
@@ -77,13 +78,12 @@ public class TelaEnvioAtestado extends JFrame {
         JScrollPane scrollDiagnostico = new JScrollPane(txtDiagnostico); // Barra de rolagem
         painelDiagnostico.add(scrollDiagnostico, BorderLayout.CENTER);
 
-        // Montagem do formulário
         painelForm.add(painelDias, BorderLayout.NORTH);      // Fica no topo
         painelForm.add(painelDiagnostico, BorderLayout.CENTER); // Ocupa o resto
 
         add(painelForm, BorderLayout.CENTER);
 
-        // --- 3. BOTÕES ---
+        // botões
         JPanel painelBotoes = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         painelBotoes.setBorder(BorderFactory.createEmptyBorder(10, 20, 15, 20));
 
@@ -98,7 +98,6 @@ public class TelaEnvioAtestado extends JFrame {
         painelBotoes.add(btnEmitir);
         add(painelBotoes, BorderLayout.SOUTH);
 
-        // --- AÇÕES ---
         btnCancelar.addActionListener(e -> dispose());
 
         btnEmitir.addActionListener(e -> emitirAtestado());

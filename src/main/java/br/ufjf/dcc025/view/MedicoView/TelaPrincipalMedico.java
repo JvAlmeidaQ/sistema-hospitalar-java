@@ -1,3 +1,6 @@
+//Gustavo Bersan Moreira Campos 202435019
+//João Vitor Almeida Queiroz 202435007
+
 package br.ufjf.dcc025.view.MedicoView;
 
 import br.ufjf.dcc025.controller.AgendamentoController;
@@ -6,7 +9,7 @@ import br.ufjf.dcc025.model.Consulta;
 import br.ufjf.dcc025.model.Medico;
 import br.ufjf.dcc025.model.StatusConsulta;
 import br.ufjf.dcc025.view.TelaLogin;
-import br.ufjf.dcc025.view.TelaMeusPacientes;
+import br.ufjf.dcc025.view.MedicoView.TelaMeusPacientes;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -19,7 +22,6 @@ public class TelaPrincipalMedico extends JFrame {
     private Medico medicoLogado;
     private MedicoController controller;
 
-    // Componentes Visuais
     private JTable tabelaAgenda;
     private DefaultTableModel modeloTabela;
     private List<Consulta> consultasDoDia;
@@ -34,7 +36,7 @@ public class TelaPrincipalMedico extends JFrame {
         setLocationRelativeTo(null);
         setLayout(new BorderLayout());
 
-        // --- 1. MENU SUPERIOR INTEGRADO ---
+        // menu
         JMenuBar menuBar = new JMenuBar();
 
         // Menu: Meu Perfil
@@ -57,7 +59,7 @@ public class TelaPrincipalMedico extends JFrame {
         menuBar.add(menuPerfil);
         menuBar.add(menuPacientes);
 
-        // Botão Sair na direita (Visual)
+        // Botão Sair
         menuBar.add(Box.createHorizontalGlue());
         JButton btnSairBarra = new JButton("Sair");
         btnSairBarra.setBackground(new Color(200, 50, 50));
@@ -67,7 +69,7 @@ public class TelaPrincipalMedico extends JFrame {
 
         setJMenuBar(menuBar);
 
-        // --- 2. CABEÇALHO INFORMATIVO ---
+        // cabeçalho
         JPanel painelTopo = new JPanel(new FlowLayout(FlowLayout.LEFT));
         painelTopo.setBackground(new Color(0, 102, 204));
         painelTopo.setBorder(BorderFactory.createEmptyBorder(15, 20, 15, 20));
@@ -79,7 +81,7 @@ public class TelaPrincipalMedico extends JFrame {
 
         add(painelTopo, BorderLayout.NORTH);
 
-        // --- 3. CENTRO: TABELA DE AGENDA ---
+        // centro
         JPanel painelCentro = new JPanel(new BorderLayout(10, 10));
         painelCentro.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
@@ -102,13 +104,12 @@ public class TelaPrincipalMedico extends JFrame {
 
         add(painelCentro, BorderLayout.CENTER);
 
-        // --- 4. RODAPÉ: AÇÕES ---
+        // rodapé
         JPanel painelAcoes = new JPanel(new FlowLayout(FlowLayout.RIGHT, 15, 15));
 
         JButton btnAtualizar = new JButton("Atualizar Agenda");
         JButton btnAtender = new JButton("INICIAR ATENDIMENTO");
 
-        // Estilo do botão principal
         btnAtender.setBackground(new Color(0, 153, 76));
         btnAtender.setForeground(Color.WHITE);
         btnAtender.setFont(new Font("Arial", Font.BOLD, 14));
@@ -127,12 +128,12 @@ public class TelaPrincipalMedico extends JFrame {
             }
         });
 
-        // Menu: Configurar Horários (A classe que criamos!)
+        // Menu: Configurar Horários
         itemHorarios.addActionListener(e -> {
             new TelaHorariosTrabalho(medicoLogado).setVisible(true);
         });
 
-        // Menu: Meus Pacientes (A classe adaptada)
+        // Menu: Meus Pacientes
         itemMeusPacientes.addActionListener(e -> {
             new TelaMeusPacientes(medicoLogado).setVisible(true);
         });
@@ -158,8 +159,6 @@ public class TelaPrincipalMedico extends JFrame {
 
         SwingUtilities.invokeLater(this::verificarNotificacoes);
     }
-
-    // --- MÉTODOS AUXILIARES ---
 
     private void carregarAgenda() {
         modeloTabela.setRowCount(0);

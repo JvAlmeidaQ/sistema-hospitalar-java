@@ -1,8 +1,8 @@
-//Fechar login e abrir página principal
-package br.ufjf.dcc025.controller;
+//Gustavo Bersan Moreira Campos 202435019
+//João Vitor Almeida Queiroz 202435007
 
+package br.ufjf.dcc025.controller;
 import br.ufjf.dcc025.model.*;
-import br.ufjf.dcc025.view.TelaLogin;
 
 import javax.swing.*;
 
