@@ -6,6 +6,7 @@ package br.ufjf.dcc025.view.PacienteView;
 import br.ufjf.dcc025.controller.PacienteController;
 import br.ufjf.dcc025.model.Consulta;
 import br.ufjf.dcc025.model.Paciente;
+import br.ufjf.dcc025.view.TelaAgendamento;
 
 import javax.swing.*;
 import java.awt.*;
@@ -58,7 +59,7 @@ public class TelaGerenciarConsultas extends JFrame {
                             c.getHorarioConsulta().getInicio(),
                             c.getMedico().getNome(),
                             c.getMedico().getEspecialidade(),
-                            c.getStatusConsulta()); // Mostra AGENDADA ou REMARCADA
+                            c.getStatusConsulta());
 
                     setText(texto);
                     setFont(new Font("Arial", Font.PLAIN, 14));
@@ -125,13 +126,13 @@ public class TelaGerenciarConsultas extends JFrame {
         btnRemarcar.addActionListener(e -> {
             Consulta selecionada = listaConsultas.getSelectedValue();
             if (selecionada != null) {
-                // Aqui abriríamos a tela de Seleção de Horário
-                // Como ainda não temos, exibimos um aviso ou chamamos um placeholder
-                JOptionPane.showMessageDialog(this,
-                        "Para remarcar, você será redirecionado para a escolha de novo horário.\n" +
-                                "(Funcionalidade a ser conectada com a tela de Busca de Médicos)",
-                        "Remarcar", JOptionPane.INFORMATION_MESSAGE);
-                // new TelaBuscaHorario(selecionada.getMedico(), consultaParaRemarcar).setVisible(true);
+                try {
+                    controller.cancelarConsulta(selecionada);
+                    carregarConsultas();
+                    new TelaAgendamento(paciente).setVisible(true);
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(this, "Erro: " + ex.getMessage());
+                }
             } else {
                 JOptionPane.showMessageDialog(this, "Selecione uma consulta para remarcar.");
             }
