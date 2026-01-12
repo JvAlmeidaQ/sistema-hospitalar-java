@@ -1,3 +1,6 @@
+//Gustavo Bersan Moreira Campos 202435019
+//João Vitor Almeida Queiroz 202435007
+
 package br.ufjf.dcc025.view.MedicoView;
 
 import br.ufjf.dcc025.controller.MedicoController;
@@ -16,7 +19,6 @@ public class TelaEnvioExame extends JFrame {
     private Paciente paciente;
     private Consulta consulta;
 
-    // Componentes
     private JTextField txtTipoExame;
     private JTextArea txtResultado;
     private JLabel lblData;
@@ -29,12 +31,11 @@ public class TelaEnvioExame extends JFrame {
         setTitle("Solicitação de Exame");
         setSize(500, 450);
         setResizable(false);
-        // DISPOSE_ON_CLOSE garante que apenas esta janela fecha, mantendo a anterior aberta
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
         setLayout(new BorderLayout());
 
-        // --- 1. CABEÇALHO ---
+        // cabeçalho
         JPanel painelTopo = new JPanel(new GridLayout(3, 1, 5, 5));
         painelTopo.setBorder(BorderFactory.createEmptyBorder(15, 20, 10, 20));
         painelTopo.setBackground(new Color(245, 245, 245));
@@ -46,7 +47,6 @@ public class TelaEnvioExame extends JFrame {
         JLabel lblPaciente = new JLabel("Paciente: " + paciente.getNome());
         lblPaciente.setFont(new Font("Arial", Font.PLAIN, 14));
 
-        // Data atual formatada
         LocalDateTime agora = LocalDateTime.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
         lblData = new JLabel("Data de Emissão: " + agora.format(formatter));
@@ -57,17 +57,15 @@ public class TelaEnvioExame extends JFrame {
         painelTopo.add(lblData);
         add(painelTopo, BorderLayout.NORTH);
 
-        // --- 2. FORMULÁRIO ---
+        // formulario
         JPanel painelForm = new JPanel(new BorderLayout(10, 10));
         painelForm.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
 
-        // Tipo de Exame (Pequeno)
         JPanel painelTipo = new JPanel(new BorderLayout(5, 5));
         painelTipo.add(new JLabel("Tipo de Exame:"), BorderLayout.NORTH);
         txtTipoExame = new JTextField();
         painelTipo.add(txtTipoExame, BorderLayout.CENTER);
 
-        // Resultado (Grande)
         JPanel painelResultado = new JPanel(new BorderLayout(5, 5));
         painelResultado.add(new JLabel("Resultado / Laudo:"), BorderLayout.NORTH);
         txtResultado = new JTextArea();
@@ -76,13 +74,12 @@ public class TelaEnvioExame extends JFrame {
         JScrollPane scrollResultado = new JScrollPane(txtResultado); // Barra de rolagem
         painelResultado.add(scrollResultado, BorderLayout.CENTER);
 
-        // Adiciona ao centro
         painelForm.add(painelTipo, BorderLayout.NORTH);
         painelForm.add(painelResultado, BorderLayout.CENTER); // Ocupa o resto do espaço
 
         add(painelForm, BorderLayout.CENTER);
 
-        // --- 3. BOTÕES ---
+        // botões
         JPanel painelBotoes = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         painelBotoes.setBorder(BorderFactory.createEmptyBorder(10, 20, 15, 20));
 
@@ -97,12 +94,8 @@ public class TelaEnvioExame extends JFrame {
         painelBotoes.add(btnEnviar);
         add(painelBotoes, BorderLayout.SOUTH);
 
-        // --- AÇÕES ---
-
-        // Botão Cancelar: Fecha apenas esta tela
         btnCancelar.addActionListener(e -> dispose());
 
-        // Botão Enviar
         btnEnviar.addActionListener(e -> enviarExame());
     }
 
@@ -123,7 +116,7 @@ public class TelaEnvioExame extends JFrame {
             medicoController.geraExame(consulta, tipoDeExame, resultado, null);
 
             JOptionPane.showMessageDialog(this, "Exame enviado com sucesso!");
-            dispose(); // Fecha a tela após enviar
+            dispose();
 
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Erro ao enviar exame: " + e.getMessage());

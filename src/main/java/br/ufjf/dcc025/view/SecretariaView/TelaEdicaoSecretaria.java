@@ -1,5 +1,6 @@
-//ERRO SETSENHA
-//Não foi testado se realmente esta mudando os valores
+//Gustavo Bersan Moreira Campos 202435019
+//João Vitor Almeida Queiroz 202435007
+
 package br.ufjf.dcc025.view.SecretariaView;
 
 import br.ufjf.dcc025.controller.SecretariaController;

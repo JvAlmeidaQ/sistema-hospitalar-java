@@ -1,9 +1,7 @@
-package br.ufjf.dcc025.model;
+//Gustavo Bersan Moreira Campos 202435019
+//João Vitor Almeida Queiroz 202435007
 
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.List;
+package br.ufjf.dcc025.model;
 
 public class Secretaria extends Usuario {
 

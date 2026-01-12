@@ -1,3 +1,6 @@
+//Gustavo Bersan Moreira Campos 202435019
+//João Vitor Almeida Queiroz 202435007
+
 package br.ufjf.dcc025.view.MedicoView;
 
 import br.ufjf.dcc025.controller.MedicoController;
@@ -14,11 +17,7 @@ public class TelaAtendimentoMedico extends JFrame {
     private Medico medico;
     private Paciente paciente;
     private Consulta consulta;
-
-    // Controller para realizar as ações finais
     private MedicoController controller;
-
-    // Componentes de Interface
     private JCheckBox chkInternado;
     private JCheckBox chkAptoVisitas;
     private JCheckBox chkNaoAptoVisitas;
@@ -38,7 +37,7 @@ public class TelaAtendimentoMedico extends JFrame {
         setLocationRelativeTo(null);
         setLayout(new BorderLayout());
 
-        // --- CABEÇALHO ---
+        // cabeçalho
         JPanel painelCabecalho = new JPanel(new GridLayout(2, 1));
         painelCabecalho.setBackground(new Color(240, 248, 255));
         painelCabecalho.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
@@ -53,7 +52,7 @@ public class TelaAtendimentoMedico extends JFrame {
         painelCabecalho.add(lblPaciente);
         add(painelCabecalho, BorderLayout.NORTH);
 
-        // --- STATUS DO PACIENTE ---
+        // status paciente
         JPanel painelStatus = new JPanel();
         painelStatus.setLayout(new BoxLayout(painelStatus, BoxLayout.Y_AXIS));
         painelStatus.setBorder(BorderFactory.createTitledBorder(
@@ -93,7 +92,7 @@ public class TelaAtendimentoMedico extends JFrame {
         painelStatus.add(painelVisitas);
         painelStatus.add(Box.createVerticalStrut(10));
 
-        // --- BOTÕES DE DOCUMENTOS ---
+        // botões
         JPanel painelAcoes = new JPanel(new FlowLayout(FlowLayout.CENTER, 40, 40));
         painelAcoes.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
@@ -105,7 +104,6 @@ public class TelaAtendimentoMedico extends JFrame {
         painelAcoes.add(btnExame);
         painelAcoes.add(btnReceita);
 
-        // Organização Central
         JPanel painelCentral = new JPanel(new BorderLayout());
         painelCentral.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
         painelCentral.add(painelStatus, BorderLayout.NORTH);
@@ -113,7 +111,7 @@ public class TelaAtendimentoMedico extends JFrame {
 
         add(painelCentral, BorderLayout.CENTER);
 
-        // --- RODAPÉ (Finalizar) ---
+        // rodapé
         JPanel painelRodape = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         painelRodape.setBorder(BorderFactory.createEmptyBorder(10, 20, 20, 20));
 
@@ -126,7 +124,6 @@ public class TelaAtendimentoMedico extends JFrame {
         painelRodape.add(btnFinalizar);
         add(painelRodape, BorderLayout.SOUTH);
 
-        // --- EVENTOS ---
         chkInternado.addActionListener(e -> {
             boolean estaInternado = chkInternado.isSelected();
             painelVisitas.setVisible(estaInternado);
@@ -139,12 +136,9 @@ public class TelaAtendimentoMedico extends JFrame {
             repaint();
         });
 
-        // Chamada das Telas de Documentos (Passando a consulta!)
         btnAtestado.addActionListener(e -> abrirTelaAtestado());
         btnExame.addActionListener(e -> abrirTelaExame());
         btnReceita.addActionListener(e -> abrirTelaReceita());
-
-        // Chamada da Finalização
         btnFinalizar.addActionListener(e -> finalizarAtendimento());
     }
 
@@ -164,25 +158,17 @@ public class TelaAtendimentoMedico extends JFrame {
         if (confirm != JOptionPane.YES_OPTION) return;
 
         try {
-            // 1. Atualiza Status do Paciente (Internação)
             if (chkInternado.isSelected()) {
                 boolean apto = chkAptoVisitas.isSelected();
                 controller.StatusPaciente(medico, paciente, true, apto);
-
                 String msgStatus = apto ? "Apto para visitas" : "Isolamento";
                 JOptionPane.showMessageDialog(this, "Status do paciente atualizado: INTERNADO (" + msgStatus + ")");
-            } else {
-                // Se não está internado, garante que status de visita é false/false
+            } else
                 controller.StatusPaciente(medico, paciente, false, false);
-            }
 
-            // 2. Atualiza Status da Consulta (MUITO IMPORTANTE)
             controller.finalizarConsulta(consulta);
-
-            // 3. Fecha a tela
             JOptionPane.showMessageDialog(this, "Atendimento finalizado com sucesso!");
             dispose();
-
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, "Erro ao finalizar: " + ex.getMessage());
         }

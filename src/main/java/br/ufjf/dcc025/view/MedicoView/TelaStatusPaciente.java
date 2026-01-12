@@ -1,3 +1,6 @@
+//Gustavo Bersan Moreira Campos 202435019
+//João Vitor Almeida Queiroz 202435007
+
 package br.ufjf.dcc025.view.MedicoView;
 
 import br.ufjf.dcc025.controller.MedicoController;
@@ -14,7 +17,6 @@ public class TelaStatusPaciente extends JFrame {
     private Paciente paciente;
     private MedicoController controller;
 
-    // Componentes da Imagem
     private JCheckBox chkInternado;
     private JCheckBox chkAptoVisitas;
     private JCheckBox chkNaoAptoVisitas;
@@ -32,7 +34,7 @@ public class TelaStatusPaciente extends JFrame {
         setLocationRelativeTo(null);
         setLayout(new BorderLayout());
 
-        // --- PAINEL PRINCIPAL (Igual à imagem enviada) ---
+        //painel
         JPanel painelStatus = new JPanel();
         painelStatus.setLayout(new BoxLayout(painelStatus, BoxLayout.Y_AXIS));
         painelStatus.setBorder(BorderFactory.createTitledBorder(
@@ -43,12 +45,12 @@ public class TelaStatusPaciente extends JFrame {
                 new Font("Arial", Font.BOLD, 12)
         ));
 
-        // Checkbox "Paciente Internado"
+        // Checkbox
         chkInternado = new JCheckBox("Paciente Internado");
         chkInternado.setFont(new Font("Arial", Font.BOLD, 13));
         chkInternado.setAlignmentX(Component.LEFT_ALIGNMENT);
 
-        // Painel para as opções de visita (identado)
+        // Painel para as opções de visita
         painelVisitas = new JPanel(new FlowLayout(FlowLayout.LEFT));
         painelVisitas.setAlignmentX(Component.LEFT_ALIGNMENT);
         painelVisitas.setBorder(BorderFactory.createEmptyBorder(0, 20, 0, 0));
@@ -56,7 +58,6 @@ public class TelaStatusPaciente extends JFrame {
         chkAptoVisitas = new JCheckBox("Apto para Visitas");
         chkNaoAptoVisitas = new JCheckBox("Não Apto para Visitas");
 
-        // Grupo para garantir que selecione apenas um
         ButtonGroup grupoVisitas = new ButtonGroup();
         grupoVisitas.add(chkAptoVisitas);
         grupoVisitas.add(chkNaoAptoVisitas);
@@ -68,14 +69,13 @@ public class TelaStatusPaciente extends JFrame {
         painelStatus.add(chkInternado);
         painelStatus.add(painelVisitas);
 
-        // Padding externo
         JPanel containerCentral = new JPanel(new BorderLayout());
         containerCentral.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
         containerCentral.add(painelStatus, BorderLayout.CENTER);
 
         add(containerCentral, BorderLayout.CENTER);
 
-        // --- BOTÕES ---
+        // botões
         JPanel painelBotoes = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         JButton btnCancelar = new JButton("Cancelar");
         JButton btnSalvar = new JButton("Salvar Status");
@@ -87,8 +87,6 @@ public class TelaStatusPaciente extends JFrame {
         painelBotoes.add(btnSalvar);
         add(painelBotoes, BorderLayout.SOUTH);
 
-        // --- ESTADO INICIAL (Carrega dados do paciente) ---
-        // Assume-se que o Paciente tem getters para esses campos
         boolean estaInternado = paciente.getInternado() != null && paciente.getInternado();
         chkInternado.setSelected(estaInternado);
         painelVisitas.setVisible(estaInternado);
@@ -99,7 +97,6 @@ public class TelaStatusPaciente extends JFrame {
             else chkNaoAptoVisitas.setSelected(true);
         }
 
-        // --- EVENTOS ---
         chkInternado.addActionListener(e -> {
             boolean selecionado = chkInternado.isSelected();
             painelVisitas.setVisible(selecionado);
@@ -128,7 +125,6 @@ public class TelaStatusPaciente extends JFrame {
                 }
             }
 
-            // Chama o Controller para salvar
             controller.StatusPaciente(medico, paciente, internado, aptoVisita);
 
             JOptionPane.showMessageDialog(this, "Status atualizado com sucesso!");

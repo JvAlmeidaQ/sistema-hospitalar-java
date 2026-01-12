@@ -1,6 +1,10 @@
+//Gustavo Bersan Moreira Campos 202435019
+//João Vitor Almeida Queiroz 202435007
+
 package br.ufjf.dcc025.view.MedicoView;
 
 import br.ufjf.dcc025.controller.MedicoController;
+
 import br.ufjf.dcc025.model.DiasDaSemana;
 import br.ufjf.dcc025.model.HorarioAtendimento;
 import br.ufjf.dcc025.model.Medico;
@@ -64,7 +68,6 @@ public class TelaHorariosTrabalho extends JFrame {
         gbc.insets = new Insets(5, 5, 5, 5);
         gbc.fill = GridBagConstraints.HORIZONTAL;
 
-        // Linha 1: Dia, Inicio, Fim, Duração
         gbc.gridx = 0; gbc.gridy = 0;
         painelForm.add(new JLabel("Dia:"), gbc);
 
@@ -173,15 +176,11 @@ public class TelaHorariosTrabalho extends JFrame {
 
     private void carregarTabela() {
         modeloTabela.setRowCount(0);
-
         List<HorarioAtendimento> horarios = new ArrayList<>(medico.getHorarioDeTrabalho());
-
-        // Agora o sort funciona perfeitamente na cópia
         Collections.sort(horarios, Comparator.comparing(HorarioAtendimento::getDia)
                 .thenComparing(HorarioAtendimento::getInicio));
 
         DateTimeFormatter fmt = DateTimeFormatter.ofPattern("HH:mm");
-
         for (HorarioAtendimento h : horarios) {
             modeloTabela.addRow(new Object[]{
                     h.getDia(),

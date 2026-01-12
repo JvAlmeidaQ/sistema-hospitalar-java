@@ -1,5 +1,6 @@
-//ERRO SETSENHA
-//Não foi testado se realmente esta mudando os valores
+//Gustavo Bersan Moreira Campos 202435019
+//João Vitor Almeida Queiroz 202435007
+
 package br.ufjf.dcc025.view.MedicoView;
 
 import br.ufjf.dcc025.controller.MedicoController;
@@ -13,7 +14,6 @@ public class TelaEdicaoMedico extends JFrame {
     private JTextField txtNome, txtEmail, txtCpf, txtEspecialidade;
     private JPasswordField txtSenha;
 
-    // Construtor recebe o médico que está logado
     public TelaEdicaoMedico(Medico medico) {
         this.medicoLogado = medico;
 
@@ -24,14 +24,14 @@ public class TelaEdicaoMedico extends JFrame {
         setLocationRelativeTo(null);
         setLayout(new BorderLayout());
 
-        // --- 1. TÍTULO ---
+        // titulo
         JLabel lblTitulo = new JLabel("Editar Dados do Médico", SwingConstants.CENTER);
         lblTitulo.setFont(new Font("Arial", Font.BOLD, 20));
         lblTitulo.setForeground(new Color(0, 102, 204));
         lblTitulo.setBorder(BorderFactory.createEmptyBorder(20, 0, 20, 0));
         add(lblTitulo, BorderLayout.NORTH);
 
-        // --- 2. FORMULÁRIO ---
+        // formulario
         JPanel painelForm = new JPanel(new GridLayout(5, 1, 5, 5)); // 5 linhas agora
         painelForm.setBorder(BorderFactory.createEmptyBorder(0, 40, 0, 40));
 
@@ -40,9 +40,8 @@ public class TelaEdicaoMedico extends JFrame {
         txtNome = new JTextField(medico.getNome());
         painelForm.add(txtNome);
 
-        // Especialidade (Campo Extra)
+        // Especialidade
         painelForm.add(criarLabel("Especialidade:"));
-        // Atenção: Certifique-se que sua classe Medico tem o método getEspecialidade()
         txtEspecialidade = new JTextField(medico.getEspecialidade());
         painelForm.add(txtEspecialidade);
 
@@ -56,7 +55,7 @@ public class TelaEdicaoMedico extends JFrame {
         txtSenha = new JPasswordField();
         painelForm.add(txtSenha);
 
-        // CPF (Bloqueado)
+        // CPF
         painelForm.add(criarLabel("CPF (Não editável):"));
         txtCpf = new JTextField(medico.getCpf());
         txtCpf.setEditable(false);
@@ -65,7 +64,7 @@ public class TelaEdicaoMedico extends JFrame {
 
         add(painelForm, BorderLayout.CENTER);
 
-        // --- 3. BOTÕES ---
+        // botões
         JPanel painelBotoes = new JPanel(new FlowLayout());
         painelBotoes.setBorder(BorderFactory.createEmptyBorder(20, 0, 20, 0));
 
@@ -80,7 +79,6 @@ public class TelaEdicaoMedico extends JFrame {
         painelBotoes.add(btnSalvar);
         add(painelBotoes, BorderLayout.SOUTH);
 
-        // --- AÇÕES ---
         btnCancelar.addActionListener(e -> dispose());
 
         btnSalvar.addActionListener(e -> salvarAlteracoes());
@@ -102,7 +100,6 @@ public class TelaEdicaoMedico extends JFrame {
                 return;
             }
         }
-        // 2. Coleta dados
         String novoNome = txtNome.getText();
         String novoEmail = txtEmail.getText();
         String novaEspecialidade = txtEspecialidade.getText();
@@ -113,7 +110,7 @@ public class TelaEdicaoMedico extends JFrame {
             medicoController.atualizarMedico(medicoLogado, senhaAtual, novaSenha, novoNome, novoEmail, novaEspecialidade);
 
             JOptionPane.showMessageDialog(this, "Dados atualizados com sucesso!");
-            dispose(); // Fecha
+            dispose();
 
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, e.getMessage(), "Erro ao Salvar", JOptionPane.WARNING_MESSAGE);
