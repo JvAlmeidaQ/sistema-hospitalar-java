@@ -5,9 +5,7 @@ package br.ufjf.dcc025.model;
 
 import br.ufjf.dcc025.model.util.ValidaDados;
 
-import java.time.LocalDateTime;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import java.util.ArrayList;
 
