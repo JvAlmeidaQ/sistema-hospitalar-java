@@ -1,0 +1,158 @@
+---
+config:
+  look: neo
+  theme: neo-dark
+---
+classDiagram
+    direction TB
+
+    namespace model {
+
+        class RegistroClinico {
+            <<interface>>
+            +getDataHora() LocalDateTime
+            +getDescricao() String
+            +getTipo()
+        }
+
+        class Usuario {
+            <<abstract>>
+            -nome: String
+            -cpf: String
+            -email: String
+            -senha: String
+        }
+
+        class Medico {
+            -status: boolean
+            -consultasAgendadas: List~Consulta~
+            -horariosDisponiveis: List~HorarioAtendimento~
+            +alteraStatusVisitas() void
+            +adicionarHorarioAtendimento() void
+        }
+
+        class Paciente {
+            -telefone: String
+            -endereco: Endereco
+            -podeReceberVisitas: boolean
+            -convenio: String
+            +minhasConsultas: List~Consulta~
+        }
+
+        class Secretaria {
+        }
+
+        class Consulta {
+            -dataConsulta: LocalDate
+            -horario: HorarioAtendimento
+            -status: StatusConsulta
+            -documentos: List~DocumentoMedico~
+            +setStatusConsulta(status)
+        }
+
+        class DocumentoMedico {
+            <<abstract>>
+            #dataExpedicao: LocalDateTime
+            #id: int
+            #doenca: String
+            +imprimirDocumento()* void
+        }
+
+        class AtestadoMedico {
+            -diasAfastamento: int
+        }
+
+        class ReceitaMedica {
+            -remedios: List~String~
+        }
+
+        class ExameMedico {
+            -tipoDeExame: String
+            -resultado: String
+        }
+
+        class StatusConsulta {
+            <<enumeration>>
+        }
+
+        class HorarioAtendimento {
+            -dia: DiasDaSemana
+            -incio: LocalTime
+            -fim: LocalTime
+            -duracaoAtendimento: int
+        }
+
+        class DiasDaSemana {
+            <<enumeration>>
+        }
+
+        class Endereco {
+            -cep: String
+            -rua: String
+            -numero: String
+        }
+    }
+
+    namespace controller {
+
+        class AgendamentoController {
+            +agendarConsulta(medico, paciente, data, hora) void
+            +monitoraFaltas() List~Consulta~
+            +medicosDisponiveisAgora(data, hora) List~Medico~
+        }
+
+        class Autenticar {
+            +login(email, senha) Usuario
+        }
+
+        class MedicoController {
+            +adicionarHorarioTrabalho(medico, dia, inicio, fim) void
+            +listarPacientesDoMedico(medico) List~Paciente~
+            +gerarReceita(consulta, remedios) void
+            +finalizarConsulta(consulta) void
+        }
+
+        class PacienteController {
+            +atualizarPaciente(paciente) void
+        }
+
+        class SecretariaController {
+        }
+
+        class FuncionarioController {
+        }
+    }
+    Usuario <|-- Medico : é um
+    Usuario <|-- Paciente : é Um
+    Usuario <|-- Secretaria : é Um
+    DocumentoMedico <|-- AtestadoMedico : é Um
+    DocumentoMedico <|-- ReceitaMedica : é Um
+    DocumentoMedico <|-- ExameMedico : é Um
+    Consulta ..|> RegistroClinico : implements
+    DocumentoMedico ..|> RegistroClinico : implements
+    Consulta --> Medico : Associação
+    Consulta --> Paciente : Associação
+    Consulta "1" *-- "0..*" DocumentoMedico : Composicao
+    Medico "1" *-- "0..*" HorarioAtendimento : Composicao
+    Paciente "1" *-- "0..*" Endereco : Composicao
+    Consulta ..> StatusConsulta : Dependencia
+    HorarioAtendimento ..> DiasDaSemana : Dependencia
+    AgendamentoController ..> Consulta : Manipula
+    AgendamentoController ..> Medico : Lê Agenda
+    AgendamentoController ..> Paciente : Agenda para
+
+    Autenticar ..> Usuario : Verifica
+    Autenticar ..> Secretaria : Retorna
+    Autenticar ..> Medico : Retorna
+    Autenticar ..> Paciente : Retorna
+
+    MedicoController ..> Medico : Configura
+    MedicoController ..> Consulta : Finaliza
+    MedicoController ..> DocumentoMedico : GeraFactory
+    MedicoController ..> Paciente : Lista
+
+    SecretariaController ..> Medico : Cadastra
+    SecretariaController ..> Paciente : Cadastra
+    SecretariaController ..> Secretaria : Contexto
+
+    PacienteController ..> Paciente : Edita
