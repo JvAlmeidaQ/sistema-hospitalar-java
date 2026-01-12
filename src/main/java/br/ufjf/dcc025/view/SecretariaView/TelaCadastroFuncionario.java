@@ -122,7 +122,6 @@ public class TelaCadastroFuncionario extends JFrame {
         chkSecretaria.addActionListener(acaoCheckbox);
 
         btnVoltar.addActionListener(e -> {
-            new TelaLogin().setVisible(true);
             dispose();
         });
 

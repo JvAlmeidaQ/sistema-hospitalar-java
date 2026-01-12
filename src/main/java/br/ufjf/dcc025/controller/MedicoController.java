@@ -62,9 +62,12 @@ public class MedicoController {
         medico.alteraStatusPaciente(paciente, internado, aptoVisita);
     }
 
-    public void alterarStatusMedicos(Medico medico, boolean novoStatus) {
+    public void alterarStatusMedicos(Medico medico) {
         if (DadosHospital.medicos.contains(medico)) {
-            medico.setStatus(novoStatus);
+            if(medico.getStatus())
+                medico.setStatus(false);
+            else
+                medico.setStatus(true);
             DadosHospital.salvarDados();
             return;
         }

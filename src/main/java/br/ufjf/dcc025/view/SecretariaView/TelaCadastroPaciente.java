@@ -116,7 +116,6 @@ public class TelaCadastroPaciente extends JFrame {
         add(painelBotoes, BorderLayout.SOUTH);
 
         btnVoltar.addActionListener(e -> {
-            new TelaLogin().setVisible(true);
             dispose();
         });
 
