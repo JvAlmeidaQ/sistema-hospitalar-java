@@ -24,6 +24,7 @@ public class TelaHorariosTrabalho extends JFrame {
 
     private Medico medico;
     private MedicoController controller;
+    private List<HorarioAtendimento> horariosAtendimento;
 
     // Componentes
     private JComboBox<DiasDaSemana> cbDias;
@@ -36,6 +37,7 @@ public class TelaHorariosTrabalho extends JFrame {
     public TelaHorariosTrabalho(Medico medico) {
         this.medico = medico;
         this.controller = new MedicoController();
+        this.horariosAtendimento = new ArrayList<>(medico.getHorarioDeTrabalho());
 
         setTitle("Configurar Agenda de Atendimento");
         setSize(700, 500);
@@ -98,6 +100,7 @@ public class TelaHorariosTrabalho extends JFrame {
 
         JPanel painelBotoes = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         JButton btnAdicionar = new JButton("Adicionar Turno");
+        JButton btnRemover = new JButton("Remover Turno");
         JButton btnLimpar = new JButton("Limpar Toda Agenda");
 
         btnAdicionar.setBackground(new Color(0, 153, 76));
@@ -116,6 +119,32 @@ public class TelaHorariosTrabalho extends JFrame {
         add(painelForm, BorderLayout.SOUTH);
 
         btnAdicionar.addActionListener(e -> adicionarHorario());
+
+        btnRemover.addActionListener(e -> {
+            int linhaSelecionada = tabelaHorarios.getSelectedRow();
+
+            if (linhaSelecionada == -1) {
+                JOptionPane.showMessageDialog(this, "Selecione um horário para remover.");
+                return;
+            }
+
+            HorarioAtendimento horarioParaRemover = this.horariosAtendimento.get(linhaSelecionada);
+
+            int confirmacao = JOptionPane.showConfirmDialog(this, "Remover este horário?", "Confirmar", JOptionPane.YES_NO_OPTION);
+
+            if (confirmacao == JOptionPane.YES_OPTION) {
+                try {
+
+                    controller.removerHorarioTrabalho(medico, horarioParaRemover);
+
+                    carregarTabela();
+                    JOptionPane.showMessageDialog(this, "Removido com sucesso!");
+
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(this, "Erro: " + ex.getMessage());
+                }
+            }
+        });
 
         btnLimpar.addActionListener(e -> {
             int confirm = JOptionPane.showConfirmDialog(this,
@@ -176,12 +205,12 @@ public class TelaHorariosTrabalho extends JFrame {
 
     private void carregarTabela() {
         modeloTabela.setRowCount(0);
-        List<HorarioAtendimento> horarios = new ArrayList<>(medico.getHorarioDeTrabalho());
-        Collections.sort(horarios, Comparator.comparing(HorarioAtendimento::getDia)
+
+        Collections.sort(horariosAtendimento, Comparator.comparing(HorarioAtendimento::getDia)
                 .thenComparing(HorarioAtendimento::getInicio));
 
         DateTimeFormatter fmt = DateTimeFormatter.ofPattern("HH:mm");
-        for (HorarioAtendimento h : horarios) {
+        for (HorarioAtendimento h : horariosAtendimento) {
             modeloTabela.addRow(new Object[]{
                     h.getDia(),
                     h.getInicio().format(fmt),

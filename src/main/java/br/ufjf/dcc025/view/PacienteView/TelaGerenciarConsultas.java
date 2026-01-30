@@ -6,7 +6,7 @@ package br.ufjf.dcc025.view.PacienteView;
 import br.ufjf.dcc025.controller.PacienteController;
 import br.ufjf.dcc025.model.Consulta;
 import br.ufjf.dcc025.model.Paciente;
-import br.ufjf.dcc025.view.TelaAgendamento;
+import br.ufjf.dcc025.view.TelasConsulta.TelaAgendamento;
 
 import javax.swing.*;
 import java.awt.*;

@@ -5,12 +5,13 @@ package br.ufjf.dcc025.view.SecretariaView;
 
 import br.ufjf.dcc025.controller.AgendamentoController;
 import br.ufjf.dcc025.controller.MedicoController;
+import br.ufjf.dcc025.exceptions.DadosInvalidosException;
 import br.ufjf.dcc025.model.Consulta;
 import br.ufjf.dcc025.model.DadosHospital;
 import br.ufjf.dcc025.model.Medico;
 import br.ufjf.dcc025.model.Secretaria;
 import br.ufjf.dcc025.view.MedicoView.TelaHorariosTrabalho;
-import br.ufjf.dcc025.view.TelaControleVisitas;
+import br.ufjf.dcc025.view.MedicoView.TelaControleVisitas;
 import br.ufjf.dcc025.view.TelaLogin;
 
 import javax.swing.*;
@@ -202,7 +203,11 @@ public class TelaPrincipalSecretaria extends JFrame {
             int linhaSelecionada = tabelaGestaoMedicos.getSelectedRow();
             if (linhaSelecionada >= 0) {
                 Medico medicoSelecionado = DadosHospital.medicos.get(linhaSelecionada);
-                medicoController.alterarStatusMedicos(medicoSelecionado);
+                try {
+                    medicoController.alterarStatusMedicos(medicoSelecionado);
+                } catch (DadosInvalidosException mensagemErro) {
+                    JOptionPane.showMessageDialog(this,mensagemErro);
+                }
             } else {
                 JOptionPane.showMessageDialog(this, "Selecione um médico na tabela para configurar a agenda dele.");
             }

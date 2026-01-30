@@ -3,6 +3,8 @@
 
 package br.ufjf.dcc025.model;
 
+import br.ufjf.dcc025.exceptions.ConsultaInvalidaException;
+import br.ufjf.dcc025.exceptions.DadosInvalidosException;
 import br.ufjf.dcc025.model.util.ValidaDados;
 
 import java.util.Collections;
@@ -18,7 +20,9 @@ public class Paciente extends Usuario {
     private String convenio;
 
 
-    public Paciente(String nome, String cpf, String email, String senha, String telefone, Endereco endereco, String convenio) {
+    public Paciente(String nome, String cpf, String email, String senha, String telefone, Endereco endereco, String convenio)
+    throws DadosInvalidosException
+    {
         super(nome, email, senha, cpf);
         this.minhasConsultas = new ArrayList<>();
         this.setTelefone(telefone);
@@ -27,31 +31,34 @@ public class Paciente extends Usuario {
     }
 
     public void novaConsulta(Consulta consulta){
-        getMinhasConsultas();
         this.minhasConsultas.add(consulta);
     }
-    public void cancelaConsulta(Consulta consulta){
+    public void cancelaConsulta(Consulta consulta)
+    throws ConsultaInvalidaException
+    {
         if(minhasConsultas.contains(consulta))
         {
             if(consulta.getStatusConsulta() == StatusConsulta.AGENDADA)
                 consulta.setStatusConsulta(StatusConsulta.CANCELADA);
             else
-                throw new IllegalStateException("Não é possivel Cancelar uma Consulta Realizada ou já Cancelada");
+                throw new ConsultaInvalidaException("Não é possivel Cancelar uma Consulta Realizada ou já Cancelada");
         }
         else
-            throw new IllegalArgumentException("Consulta não encontrada");
+            throw new ConsultaInvalidaException("Consulta não encontrada");
     }
-    public void remarcarConsulta(Consulta consulta, HorarioAtendimento novoHorario){
+    public void remarcarConsulta(Consulta consulta, HorarioAtendimento novoHorario)
+    throws ConsultaInvalidaException
+    {
         if(minhasConsultas.contains(consulta)) {
             if(consulta.getStatusConsulta() == StatusConsulta.AGENDADA) {
                 consulta.setStatusConsulta(StatusConsulta.REMARCADA);
                 consulta.setHorarioConsulta(novoHorario);
             }
             else
-                throw new IllegalStateException("Apenas consultas agendadas podem ser remarcadas.");
+                throw new ConsultaInvalidaException("Apenas consultas agendadas podem ser remarcadas.");
         }
         else
-            throw new IllegalArgumentException("Consulta não encontrada.");
+            throw new ConsultaInvalidaException("Consulta não encontrada.");
     }
 
     public List<Consulta> getMinhasConsultas() {
@@ -70,11 +77,14 @@ public class Paciente extends Usuario {
     }
 
 
-    public void setTelefone(String telefone) {
+    public void setTelefone(String telefone)
+    throws DadosInvalidosException
+    {
         if(!ValidaDados.validaTelefone(telefone))
-            throw new IllegalArgumentException("Número de telefone Inválido");
+            throw new DadosInvalidosException("Número de telefone Inválido");
         this.telefone = telefone;
     }
+
     public String getTelefone() {
         return telefone;
     }

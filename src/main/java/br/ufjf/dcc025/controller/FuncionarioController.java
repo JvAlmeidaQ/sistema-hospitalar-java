@@ -3,6 +3,8 @@
 
 package br.ufjf.dcc025.controller;
 
+import br.ufjf.dcc025.exceptions.CPFDuplicadoException;
+import br.ufjf.dcc025.exceptions.DadosInvalidosException;
 import br.ufjf.dcc025.model.DadosHospital;
 import br.ufjf.dcc025.model.Medico;
 import br.ufjf.dcc025.model.Secretaria;
@@ -12,26 +14,25 @@ public class FuncionarioController {
                                      boolean isMedico, String especialidade) throws Exception {
 
         if (nome.trim().isEmpty() || cpf.trim().isEmpty() || email.trim().isEmpty() || senha.trim().isEmpty()) {
-            throw new Exception("Preencha todos os campos obrigatórios.");
+            throw new DadosInvalidosException("Preencha todos os campos obrigatórios.");
         }
 
         if (cpfJaExiste(cpf)) {
-            throw new Exception("Já existe um funcionário cadastrado com este CPF.");
+            throw new CPFDuplicadoException();
         }
 
-        // 3. Criação e Persistência
         if (isMedico) {
-            if (especialidade.trim().isEmpty()) throw new Exception("Especialidade é obrigatória para médicos.");
+            if (especialidade.trim().isEmpty())
+                throw new DadosInvalidosException("Especialidade é obrigatória para médicos.");
+
             Medico novoMedico = new Medico(nome, email, senha, cpf, especialidade);
             DadosHospital.medicos.add(novoMedico);
 
         } else {
-            // Cria Secretária
             Secretaria novaSecretaria = new Secretaria(nome, email, senha, cpf);
             DadosHospital.secretarias.add(novaSecretaria);
         }
 
-        // 4. Salvar no Disco
         DadosHospital.salvarDados();
     }
 

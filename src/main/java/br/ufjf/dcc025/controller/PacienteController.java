@@ -3,6 +3,9 @@
 
 package br.ufjf.dcc025.controller;
 
+import br.ufjf.dcc025.exceptions.CPFDuplicadoException;
+import br.ufjf.dcc025.exceptions.ConsultaInvalidaException;
+import br.ufjf.dcc025.exceptions.DadosInvalidosException;
 import br.ufjf.dcc025.model.*;
 
 import java.util.*;
@@ -20,7 +23,7 @@ public class PacienteController {
                 listaInternados.add(p);
             }
         }
-        Collections.sort(listaInternados, (p1, p2) -> p1.getNome().compareToIgnoreCase(p2.getNome()));
+        listaInternados.sort((p1, p2) -> p1.getNome().compareToIgnoreCase(p2.getNome()));
 
         return listaInternados;
     }
@@ -36,21 +39,22 @@ public class PacienteController {
         return filtrados;
     }
 
-    public void atualizarPaciente(Paciente paciente, String senhaAtual,
-      String novaSenha, String nome, String email, String telefone) throws Exception {
+    public void atualizarPaciente(Paciente paciente, String senhaAtual, String novaSenha, String nome, String email, String telefone)
+    throws DadosInvalidosException
+    {
         Autenticar autenticacao = new Autenticar();
 
         if(paciente == null)
-            throw new Exception("Paciente inexistente");
+            throw new DadosInvalidosException("Paciente inexistente");
 
         if (nome == null || nome.length() < 2)
-            throw new Exception("Nome invalido");
+            throw new DadosInvalidosException("Nome invalido");
 
         if(telefone == null || telefone.length() < 9)
-            throw new Exception("Telefone invalido");
+            throw new DadosInvalidosException("Telefone invalido");
 
         if(!email.contains("@"))
-            throw new Exception("Email invalido");
+            throw new DadosInvalidosException("Email invalido");
 
         paciente.setNome(nome);
         paciente.setEmail(email);
@@ -59,7 +63,7 @@ public class PacienteController {
        if(novaSenha != null && !novaSenha.isBlank())
        {
            if(!autenticacao.validarSenha(paciente, senhaAtual)) {
-               throw new Exception("Senha Digitada Incorreta!");
+               throw new DadosInvalidosException("Senha Digitada Incorreta!");
            }
            paciente.ValidacaoSetSenha(novaSenha);
        }
@@ -69,11 +73,11 @@ public class PacienteController {
     }
 
     public void atualizarEndereco(Paciente paciente, String cep, String rua, String numero, String complemento,
-                                  String estado, String bairro, String cidade) throws Exception
+                                  String estado, String bairro, String cidade) throws DadosInvalidosException
     {
 
         if (cep.trim().isEmpty() || rua.trim().isEmpty() || numero.trim().isEmpty())
-            throw new Exception("CEP, Rua e Numero são obrigatórios.");
+            throw new DadosInvalidosException("CEP, Rua e Numero são obrigatórios.");
         Endereco novoEndereco = new Endereco(cep, rua, numero, complemento, estado, bairro, cidade);
         paciente.setEndereco(novoEndereco);
 
@@ -84,12 +88,12 @@ public class PacienteController {
                                   String cep, String rua, String numero, String complemento, String bairro, String cidade, String estado) throws Exception {
 
         if (nome.trim().isEmpty() || cpf.trim().isEmpty() || senha.trim().isEmpty()) {
-            throw new IllegalArgumentException("Campos obrigatórios não preenchidos.");
+            throw new DadosInvalidosException("Campos obrigatórios não preenchidos.");
         }
 
         for (Paciente p : DadosHospital.pacientes) {
             if (p.getCpf().equals(cpf))
-                throw new IllegalArgumentException("Paciente já cadastrado com este CPF.");
+                throw new CPFDuplicadoException();
         }
 
         Endereco novoEndereco = new Endereco(cep, estado, cidade, bairro, rua, numero, complemento);
@@ -120,7 +124,7 @@ public class PacienteController {
             }
         }
         List<Medico> listaMedicos = new ArrayList<>(medicosUnicos);
-        Collections.sort(listaMedicos, (m1, m2) -> m1.getNome().compareToIgnoreCase(m2.getNome()));
+        listaMedicos.sort((m1, m2) -> m1.getNome().compareToIgnoreCase(m2.getNome()));
 
         return listaMedicos;
     }
@@ -206,9 +210,9 @@ public class PacienteController {
         return pendentes;
     }
 
-    public void cancelarConsulta(Consulta consulta) throws Exception {
+    public void cancelarConsulta(Consulta consulta) throws ConsultaInvalidaException {
         if (consulta == null)
-            throw new Exception("Selecione uma consulta.");
+            throw new ConsultaInvalidaException("Selecione uma consulta.");
         consulta.getPaciente().cancelaConsulta(consulta);
         DadosHospital.salvarDados(); // Se houver persistência
     }

@@ -3,6 +3,7 @@
 
 package br.ufjf.dcc025.controller;
 
+import br.ufjf.dcc025.exceptions.ConsultaInvalidaException;
 import br.ufjf.dcc025.model.*;
 import br.ufjf.dcc025.model.util.TraduzDias;
 import br.ufjf.dcc025.model.util.ValidaDados;
@@ -105,7 +106,7 @@ public class AgendamentoController {
 
         int duracaoConsulta = medico.duracaoAtendimento(dia);
         if(duracaoConsulta == 0)
-            throw new Exception("O Medico "+ medico.getNome() + " Não realiza consultas nesse dia!");
+            throw new ConsultaInvalidaException("O Medico "+ medico.getNome() + " Não realiza consultas nesse dia!");
 
         if(horariosDisponiveis.contains(horarioInicioConsulta))
         {
@@ -121,7 +122,7 @@ public class AgendamentoController {
             return;
         }
 
-        throw new IllegalArgumentException("Impossível Agendar Consulta, Horario Indisponível!");
+        throw new ConsultaInvalidaException("Impossível Agendar Consulta, Horario Indisponível!");
     }
 
     public List<Consulta> monitoraFaltas()

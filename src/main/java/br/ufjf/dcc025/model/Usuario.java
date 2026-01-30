@@ -3,6 +3,7 @@
 
 package br.ufjf.dcc025.model;
 
+import br.ufjf.dcc025.exceptions.DadosInvalidosException;
 import br.ufjf.dcc025.model.util.ValidaDados;
 
 public abstract class Usuario {
@@ -11,9 +12,11 @@ public abstract class Usuario {
     private String senha;
     private final String cpf;
 
-    public Usuario(String nome, String email, String senha, String cpf) {
+    public Usuario(String nome, String email, String senha, String cpf)
+    throws DadosInvalidosException
+    {
         if (!ValidaDados.ValidaCPF(cpf)) {
-            throw new IllegalArgumentException("CPF Invalido: " + cpf);
+            throw new DadosInvalidosException("CPF Invalido: " + cpf);
         }
         this.cpf = cpf;
         this.setNome(nome);
@@ -25,9 +28,11 @@ public abstract class Usuario {
         return nome;
     }
 
-    public void setNome(String nome) {
+    public void setNome(String nome)
+    throws DadosInvalidosException
+    {
         if (nome == null || nome.length() < 2)
-            throw new IllegalArgumentException("Nome deve ter pelo menos 2 caracteres");
+            throw new DadosInvalidosException("Nome deve ter pelo menos 2 caracteres");
         this.nome = nome;
     }
 
@@ -35,9 +40,11 @@ public abstract class Usuario {
         return email;
     }
 
-    public void setEmail(String email) {
+    public void setEmail(String email)
+    throws DadosInvalidosException
+    {
         if (!ValidaDados.validaEmail(email))
-            throw new IllegalArgumentException("Email inválido: " + email);
+            throw new DadosInvalidosException("Email inválido: " + email);
         this.email = email;
     }
 
@@ -45,13 +52,17 @@ public abstract class Usuario {
         return senha;
     }
 
-    protected void setSenha(String senha) {
+    protected void setSenha(String senha)
+    throws DadosInvalidosException
+    {
         if (!ValidaDados.validaSenha(senha))
-            throw new IllegalArgumentException("Senha inválida");
+            throw new DadosInvalidosException("Senha inválida");
         this.senha = senha;
     }
 
-    public boolean ValidacaoSetSenha(String senhaNova){
+    public boolean ValidacaoSetSenha(String senhaNova)
+    throws DadosInvalidosException
+    {
         if(!senhaNova.trim().isEmpty()){
             setSenha(senhaNova);
             return true;

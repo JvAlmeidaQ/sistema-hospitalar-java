@@ -1,7 +1,7 @@
 //Gustavo Bersan Moreira Campos 202435019
 //João Vitor Almeida Queiroz 202435007
 
-package br.ufjf.dcc025.view;
+package br.ufjf.dcc025.view.MedicoView;
 
 import br.ufjf.dcc025.model.Consulta;
 import br.ufjf.dcc025.model.DocumentoMedico;

@@ -4,8 +4,8 @@
 package br.ufjf.dcc025.view.PacienteView;
 
 import br.ufjf.dcc025.model.Paciente;
-import br.ufjf.dcc025.view.TelaAgendamento;
-import br.ufjf.dcc025.view.TelaControleVisitas;
+import br.ufjf.dcc025.view.TelasConsulta.TelaAgendamento;
+import br.ufjf.dcc025.view.MedicoView.TelaControleVisitas;
 import br.ufjf.dcc025.view.TelaLogin;
 
 import javax.swing.*;

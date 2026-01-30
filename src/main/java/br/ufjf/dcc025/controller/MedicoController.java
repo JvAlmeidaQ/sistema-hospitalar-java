@@ -3,6 +3,9 @@
 
 package br.ufjf.dcc025.controller;
 
+import br.ufjf.dcc025.exceptions.ConsultaInvalidaException;
+import br.ufjf.dcc025.exceptions.DadosInvalidosException;
+import br.ufjf.dcc025.exceptions.HorarioInvalidoException;
 import br.ufjf.dcc025.model.*;
 import br.ufjf.dcc025.model.util.ValidaDados;
 
@@ -14,20 +17,20 @@ import java.util.*;
 
 public class MedicoController {
     public void atualizarMedico(Medico medico, String senhaAtual,
-                                String novaSenha, String nome, String email, String convenio) throws Exception {
+                                String novaSenha, String nome, String email, String convenio) throws DadosInvalidosException {
         Autenticar autenticacao = new Autenticar();
 
         if(medico == null)
-            throw new Exception("Medico inexistente");
+            throw new DadosInvalidosException("Medico inexistente");
 
         if (nome == null || nome.length() < 2)
-            throw new Exception("Nome invalido");
+            throw new DadosInvalidosException("Nome invalido");
 
         if(!email.contains("@"))
-            throw new Exception("Email invalido");
+            throw new DadosInvalidosException("Email invalido");
 
         if(convenio == null || convenio.trim().isEmpty())
-            throw new Exception("Convenio invalido");
+            throw new DadosInvalidosException("Convenio invalido");
 
         medico.setNome(nome);
         medico.setEmail(email);
@@ -35,7 +38,7 @@ public class MedicoController {
         if(novaSenha != null && !novaSenha.isBlank())
         {
             if(!autenticacao.validarSenha(medico, senhaAtual)) {
-                throw new Exception("Senha Digitada Incorreta!");
+                throw new DadosInvalidosException("Senha Digitada Incorreta!");
             }
             medico.ValidacaoSetSenha(novaSenha);
         }
@@ -44,12 +47,24 @@ public class MedicoController {
         DadosHospital.salvarDados();
     }
 
-    public void adicionarHorarioTrabalho(Medico medico, DiasDaSemana dia, LocalTime inicio, LocalTime fim, int duracaoMinutos) {
+    public void adicionarHorarioTrabalho(Medico medico, DiasDaSemana dia, LocalTime inicio, LocalTime fim, int duracaoMinutos)
+    throws HorarioInvalidoException
+    {
+
         if (inicio.isAfter(fim))
-            throw new IllegalArgumentException("Horario de início deve ser antes do fim.");
+            throw new HorarioInvalidoException("Horario de início deve ser antes do fim.");
 
         medico.adicionarHorarioAtendimento(dia, inicio, fim, duracaoMinutos);
 
+        DadosHospital.salvarDados();
+    }
+
+    public void removerHorarioTrabalho(Medico medico, HorarioAtendimento horarioAtendimento)
+    throws DadosInvalidosException
+    {
+
+
+        medico.removerHorarioAtendimento(horarioAtendimento);
         DadosHospital.salvarDados();
     }
 
@@ -62,7 +77,9 @@ public class MedicoController {
         medico.alteraStatusPaciente(paciente, internado, aptoVisita);
     }
 
-    public void alterarStatusMedicos(Medico medico) {
+    public void alterarStatusMedicos(Medico medico)
+    throws DadosInvalidosException
+    {
         if (DadosHospital.medicos.contains(medico)) {
             if(medico.getStatus())
                 medico.setStatus(false);
@@ -71,29 +88,37 @@ public class MedicoController {
             DadosHospital.salvarDados();
             return;
         }
-        throw  new IllegalArgumentException("Medico Inexistente");
+        throw  new DadosInvalidosException("Medico Inexistente");
     }
 
-    public void geraExame(Consulta consulta, String tipoDeExame, String resultado, String doenca) throws Exception {
+    public void geraExame(Consulta consulta, String tipoDeExame, String resultado, String doenca)
+    throws ConsultaInvalidaException
+    {
         if (consulta == null)
-            throw new Exception("Consulta inválida.");
+            throw new ConsultaInvalidaException("Consulta inválida.");
+
         ExameMedico novoExame = new ExameMedico(consulta.getMedico(), consulta.getPaciente(), tipoDeExame, resultado, null, LocalDateTime.now());
         consulta.adicionaDocumentoMedico(novoExame);
         DadosHospital.salvarDados();
-        }
 
-    public void geraAtestado(Consulta consulta, int diasAfastamento, String doenca) throws Exception {
+    }
+
+    public void geraAtestado(Consulta consulta, int diasAfastamento, String doenca)
+    throws ConsultaInvalidaException
+    {
         if (consulta == null)
-            throw new Exception("Consulta inválida.");
+            throw new ConsultaInvalidaException("Consulta inválida.");
         AtestadoMedico novoAtestado = new AtestadoMedico(consulta.getMedico(), consulta.getPaciente(), doenca, diasAfastamento, LocalDateTime.now());
         consulta.adicionaDocumentoMedico(novoAtestado);
 
         DadosHospital.salvarDados();
     }
 
-    public void geraReceita(Consulta consulta, String doenca, List<String> remedios) throws Exception {
+    public void geraReceita(Consulta consulta, String doenca, List<String> remedios)
+    throws ConsultaInvalidaException
+    {
         if (consulta == null) {
-            throw new Exception("Consulta inválida.");
+            throw new ConsultaInvalidaException("Consulta inválida.");
         }
         ReceitaMedica novaReceita = new ReceitaMedica(consulta.getMedico(), consulta.getPaciente(), doenca, remedios, LocalDateTime.now());
         consulta.adicionaDocumentoMedico(novaReceita);
@@ -108,7 +133,7 @@ public class MedicoController {
             }
         }
         List<Paciente> listaFinal = new ArrayList<>(pacientesUnicos);
-        Collections.sort(listaFinal, (p1, p2) -> p1.getNome().compareToIgnoreCase(p2.getNome()));
+        listaFinal.sort((p1, p2) -> p1.getNome().compareToIgnoreCase(p2.getNome()));
 
         return listaFinal;
     }

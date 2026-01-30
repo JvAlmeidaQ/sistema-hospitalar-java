@@ -4,6 +4,7 @@
 package br.ufjf.dcc025.view.SecretariaView;
 
 import br.ufjf.dcc025.controller.PacienteController;
+import br.ufjf.dcc025.exceptions.DadosInvalidosException;
 import br.ufjf.dcc025.view.TelaLogin;
 
 import javax.swing.*;
@@ -178,21 +179,16 @@ public class TelaCadastroPaciente extends JFrame {
             JOptionPane.showMessageDialog(this, "Paciente cadastrado com sucesso!");
             limparCampos();
 
-        } catch (NumberFormatException e) {
+        } catch (DadosInvalidosException e) {
             JOptionPane.showMessageDialog(this,
-                    "Erro: o número do endereço deve ser numérico.",
+                    "Erro: " + e,
                     "Erro",
                     JOptionPane.ERROR_MESSAGE);
 
-        } catch (IllegalArgumentException e) {
+        }
+        catch (Exception e) {
             JOptionPane.showMessageDialog(this,
-                    e.getMessage(),
-                    "Erro",
-                    JOptionPane.ERROR_MESSAGE);
-
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this,
-                    "Erro inesperado: " + e.getMessage(),
+                    "Erro: " + e.getMessage(),
                     "Erro",
                     JOptionPane.ERROR_MESSAGE);
         }

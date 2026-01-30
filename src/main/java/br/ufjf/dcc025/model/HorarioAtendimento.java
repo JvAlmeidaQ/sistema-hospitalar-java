@@ -3,6 +3,8 @@
 
 package br.ufjf.dcc025.model;
 
+import br.ufjf.dcc025.exceptions.HorarioInvalidoException;
+
 import java.time.LocalTime;
 
 public class HorarioAtendimento {
@@ -12,9 +14,11 @@ public class HorarioAtendimento {
     private LocalTime fim;
     private int duracaoAtendimento;
 
-    public HorarioAtendimento(DiasDaSemana dia, LocalTime inicio, LocalTime fim,  int duracaoAtendimento) {
+    public HorarioAtendimento(DiasDaSemana dia, LocalTime inicio, LocalTime fim,  int duracaoAtendimento)
+    throws HorarioInvalidoException
+    {
         this.dia = dia;
-        if(fim.isBefore(inicio) || fim.equals(inicio)) { throw  new IllegalArgumentException("Horario Invalido"); }
+        if(fim.isBefore(inicio) || fim.equals(inicio)) { throw  new HorarioInvalidoException("Horário Invalido"); }
         this.inicio = inicio;
         this.fim = fim;
         this.duracaoAtendimento = duracaoAtendimento;

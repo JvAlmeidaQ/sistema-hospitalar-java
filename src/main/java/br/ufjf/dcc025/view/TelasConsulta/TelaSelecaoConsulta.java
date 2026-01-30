@@ -1,12 +1,13 @@
 //Gustavo Bersan Moreira Campos 202435019
 //João Vitor Almeida Queiroz 202435007
 
-package br.ufjf.dcc025.view;
+package br.ufjf.dcc025.view.TelasConsulta;
 
 import br.ufjf.dcc025.controller.PacienteController;
 import br.ufjf.dcc025.model.Consulta;
 import br.ufjf.dcc025.model.Medico;
 import br.ufjf.dcc025.model.Paciente;
+import br.ufjf.dcc025.view.MedicoView.TelaSelecaoDocumento;
 
 import javax.swing.*;
 import java.awt.*;

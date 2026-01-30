@@ -3,6 +3,9 @@
 
 package br.ufjf.dcc025.model;
 
+import br.ufjf.dcc025.exceptions.DadosInvalidosException;
+import br.ufjf.dcc025.exceptions.HorarioInvalidoException;
+
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -16,7 +19,9 @@ public class Medico extends Usuario {
     private transient List<Consulta> consultasAgendadas;
     private Boolean status;
 
-    public Medico(String nome, String email, String senha, String cpf, String especialidade) {
+    public Medico(String nome, String email, String senha, String cpf, String especialidade)
+    throws DadosInvalidosException
+    {
 
         super(nome, email, senha, cpf);
         this.especialidade = especialidade;
@@ -26,19 +31,29 @@ public class Medico extends Usuario {
     }
 
     public void adicionarHorarioAtendimento(DiasDaSemana dia, LocalTime horaInicio, LocalTime horaFim, int duracaoAtendimento)
-    {
+    throws HorarioInvalidoException {
+
         HorarioAtendimento horarioAtendimento = new HorarioAtendimento(dia, horaInicio, horaFim, duracaoAtendimento);
+
         this.horarioDeTrabalho.add(horarioAtendimento);
     }
 
-    public List<HorarioAtendimento> getHorarioDeTrabalho()
+    public void removerHorarioAtendimento(HorarioAtendimento horarioAtendimento)
+    throws DadosInvalidosException
     {
-        return Collections.unmodifiableList(horarioDeTrabalho);
+       if(!this.getHorarioDeTrabalho().contains(horarioAtendimento))
+            throw new DadosInvalidosException("Horario de Trabalho Inexistente");
+        this.horarioDeTrabalho.remove(horarioAtendimento);
     }
 
     public void limparHorarios()
     {
         this.horarioDeTrabalho.clear();
+    }
+
+    public List<HorarioAtendimento> getHorarioDeTrabalho()
+    {
+        return Collections.unmodifiableList(horarioDeTrabalho);
     }
     public List<LocalTime> slotsParaConsultas(DiasDaSemana dia)
     {
