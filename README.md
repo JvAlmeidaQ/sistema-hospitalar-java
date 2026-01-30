@@ -118,7 +118,7 @@ Para facilitar a avaliação, o sistema já vem populado com dados fictícios.
 **Credenciais:**
 
 * 📧 Email: `house@hospital.com`
-* 🔑 Senha: `123`
+* 🔑 Senha: `Senha1!`
 
 ---
 
@@ -133,7 +133,7 @@ Para facilitar a avaliação, o sistema já vem populado com dados fictícios.
 **Credenciais:**
 
 * 📧 Email: `pam@hospital.com`
-* 🔑 Senha: `123`
+* 🔑 Senha: `K8#abc`
 
 ---
 
@@ -146,20 +146,7 @@ Para facilitar a avaliação, o sistema já vem populado com dados fictícios.
 **Credenciais:**
 
 * 📧 Email: `michael@dunder.com`
-* 🔑 Senha: `123`
-
----
-
-## 🚧 Roadmap e Próximos Passos
-
-Este projeto foi desenvolvido como avaliação final de disciplina acadêmica (**V1.0**).
-
-Melhorias planejadas para a **versão 2.0 (Pós-Semestre)**:
-
-* [ ] **Refatoração de Arquitetura:** Substituir o acesso estático (`public static`) ao banco de dados em memória por padrão Singleton seguro.
-* [ ] **Validação de Integridade:** Implementar verificação de CPF duplicado diretamente na camada Controller antes da instanciação.
-* [ ] **Tratamento de Exceções:** Criar exceções personalizadas (`CpfDuplicadoException`, `ChoqueHorarioException`) para substituir lançamentos genéricos.
-* [ ] **UX/UI:** Adicionar funcionalidade de remoção/edição de horários na grade de trabalho do médico.
+* 🔑 Senha: `X2@aZ9k`
 
 ---
 
@@ -168,4 +155,4 @@ Melhorias planejadas para a **versão 2.0 (Pós-Semestre)**:
 * Gustavo Bersan
 * João Vitor Almeida
 
-Desenvolvido para a disciplina de **Programação Orientada a Objetos — UFJF**.
+Trabalho Desenvolvido para a disciplina de **Programação Orientada a Objetos — UFJF**.
