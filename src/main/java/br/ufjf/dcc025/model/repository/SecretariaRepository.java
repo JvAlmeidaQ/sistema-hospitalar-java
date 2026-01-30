@@ -26,7 +26,7 @@ public class SecretariaRepository implements Repository<Secretaria> {
         if (json.trim().isEmpty()) return new ArrayList<>();
 
         Gson gson = GsonConfiguration.createGson();
-        Type tipoLista = new TypeToken<List<Paciente>>() {}.getType();
+        Type tipoLista = new TypeToken<List<Secretaria>>() {}.getType();
 
         List<Secretaria> secretarias = gson.fromJson(json, tipoLista);
         if(secretarias == null)

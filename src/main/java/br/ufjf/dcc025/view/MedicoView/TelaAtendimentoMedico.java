@@ -169,6 +169,7 @@ public class TelaAtendimentoMedico extends JFrame {
             controller.finalizarConsulta(consulta);
             JOptionPane.showMessageDialog(this, "Atendimento finalizado com sucesso!");
             dispose();
+            new TelaPrincipalMedico(medico).setVisible(true);
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, "Erro ao finalizar: " + ex.getMessage());
         }

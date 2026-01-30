@@ -54,7 +54,7 @@
       "duracaoAtendimento": 60
     },
     "dataConsulta": "2026-01-11",
-    "statusConsulta": "AGENDADA",
+    "statusConsulta": "NAO_COMPARECEU",
     "documentoMedico": []
   },
   {
@@ -112,7 +112,7 @@
       "duracaoAtendimento": 60
     },
     "dataConsulta": "2026-01-12",
-    "statusConsulta": "AGENDADA",
+    "statusConsulta": "NAO_COMPARECEU",
     "documentoMedico": []
   },
   {
@@ -155,8 +155,8 @@
         "cidade": "Brasília",
         "estado": "DF"
       },
-      "podeReceberVisitas": false,
-      "internado": false,
+      "podeReceberVisitas": true,
+      "internado": true,
       "convenio": "Particular",
       "nome": "Tony Stark",
       "email": "tony@stark.com",
@@ -170,7 +170,7 @@
       "duracaoAtendimento": 30
     },
     "dataConsulta": "2026-01-11",
-    "statusConsulta": "AGENDADA",
+    "statusConsulta": "NAO_COMPARECEU",
     "documentoMedico": []
   },
   {
@@ -228,7 +228,7 @@
       "duracaoAtendimento": 30
     },
     "dataConsulta": "2026-01-11",
-    "statusConsulta": "AGENDADA",
+    "statusConsulta": "NAO_COMPARECEU",
     "documentoMedico": []
   },
   {
@@ -286,7 +286,7 @@
       "duracaoAtendimento": 45
     },
     "dataConsulta": "2026-01-11",
-    "statusConsulta": "AGENDADA",
+    "statusConsulta": "NAO_COMPARECEU",
     "documentoMedico": []
   },
   {
@@ -344,7 +344,256 @@
       "duracaoAtendimento": 45
     },
     "dataConsulta": "2026-01-12",
-    "statusConsulta": "AGENDADA",
+    "statusConsulta": "NAO_COMPARECEU",
+    "documentoMedico": []
+  },
+  {
+    "medico": {
+      "especialidade": "Cirurgia Geral",
+      "horarioDeTrabalho": [
+        {
+          "dia": "SEGUNDA",
+          "inicio": "08:00:00",
+          "fim": "12:00:00",
+          "duracaoAtendimento": 30
+        },
+        {
+          "dia": "TERCA",
+          "inicio": "08:00:00",
+          "fim": "12:00:00",
+          "duracaoAtendimento": 30
+        },
+        {
+          "dia": "QUINTA",
+          "inicio": "08:00:00",
+          "fim": "12:00:00",
+          "duracaoAtendimento": 30
+        },
+        {
+          "dia": "QUINTA",
+          "inicio": "18:00:00",
+          "fim": "21:00:00",
+          "duracaoAtendimento": 30
+        }
+      ],
+      "status": true,
+      "nome": "Meredith",
+      "email": "grey@hospital.com",
+      "senha": "Mundo3#",
+      "cpf": "68577896064"
+    },
+    "paciente": {
+      "telefone": "37927462041",
+      "endereco": {
+        "cep": "55024837",
+        "rua": "19",
+        "numero": "Juiz de Fora",
+        "complemento": "",
+        "bairro": "Centro",
+        "cidade": "Juiz de Fora",
+        "estado": "MG"
+      },
+      "podeReceberVisitas": false,
+      "internado": true,
+      "convenio": "Unimed",
+      "nome": "Michael Scott",
+      "email": "michael@dunder.com",
+      "senha": "X2@aZ9k",
+      "cpf": "06653827070"
+    },
+    "horarioConsulta": {
+      "dia": "QUINTA",
+      "inicio": "20:00:00",
+      "fim": "20:30:00",
+      "duracaoAtendimento": 30
+    },
+    "dataConsulta": "2026-01-15",
+    "statusConsulta": "CONCLUIDA",
+    "documentoMedico": [
+      {
+        "type": "Atestado",
+        "diasAfastamento": 8,
+        "medico": {
+          "especialidade": "Cirurgia Geral",
+          "horarioDeTrabalho": [
+            {
+              "dia": "SEGUNDA",
+              "inicio": "08:00:00",
+              "fim": "12:00:00",
+              "duracaoAtendimento": 30
+            },
+            {
+              "dia": "TERCA",
+              "inicio": "08:00:00",
+              "fim": "12:00:00",
+              "duracaoAtendimento": 30
+            },
+            {
+              "dia": "QUINTA",
+              "inicio": "08:00:00",
+              "fim": "12:00:00",
+              "duracaoAtendimento": 30
+            },
+            {
+              "dia": "QUINTA",
+              "inicio": "18:00:00",
+              "fim": "21:00:00",
+              "duracaoAtendimento": 30
+            }
+          ],
+          "status": true,
+          "nome": "Meredith",
+          "email": "grey@hospital.com",
+          "senha": "Mundo3#",
+          "cpf": "68577896064"
+        },
+        "paciente": {
+          "telefone": "37927462041",
+          "endereco": {
+            "cep": "55024837",
+            "rua": "19",
+            "numero": "Juiz de Fora",
+            "complemento": "",
+            "bairro": "Centro",
+            "cidade": "Juiz de Fora",
+            "estado": "MG"
+          },
+          "podeReceberVisitas": false,
+          "internado": true,
+          "convenio": "Unimed",
+          "nome": "Michael Scott",
+          "email": "michael@dunder.com",
+          "senha": "X2@aZ9k",
+          "cpf": "06653827070"
+        },
+        "doenca": "Covid",
+        "dataExpedicao": "2026-01-15T19:37:18.700650873",
+        "id": 1
+      },
+      {
+        "type": "Exame",
+        "tipoDeExame": "Sangue",
+        "resultado": "sangue Bom",
+        "medico": {
+          "especialidade": "Cirurgia Geral",
+          "horarioDeTrabalho": [
+            {
+              "dia": "SEGUNDA",
+              "inicio": "08:00:00",
+              "fim": "12:00:00",
+              "duracaoAtendimento": 30
+            },
+            {
+              "dia": "TERCA",
+              "inicio": "08:00:00",
+              "fim": "12:00:00",
+              "duracaoAtendimento": 30
+            },
+            {
+              "dia": "QUINTA",
+              "inicio": "08:00:00",
+              "fim": "12:00:00",
+              "duracaoAtendimento": 30
+            },
+            {
+              "dia": "QUINTA",
+              "inicio": "18:00:00",
+              "fim": "21:00:00",
+              "duracaoAtendimento": 30
+            }
+          ],
+          "status": true,
+          "nome": "Meredith",
+          "email": "grey@hospital.com",
+          "senha": "Mundo3#",
+          "cpf": "68577896064"
+        },
+        "paciente": {
+          "telefone": "37927462041",
+          "endereco": {
+            "cep": "55024837",
+            "rua": "19",
+            "numero": "Juiz de Fora",
+            "complemento": "",
+            "bairro": "Centro",
+            "cidade": "Juiz de Fora",
+            "estado": "MG"
+          },
+          "podeReceberVisitas": false,
+          "internado": true,
+          "convenio": "Unimed",
+          "nome": "Michael Scott",
+          "email": "michael@dunder.com",
+          "senha": "X2@aZ9k",
+          "cpf": "06653827070"
+        },
+        "dataExpedicao": "2026-01-15T19:37:43.35977704",
+        "id": 1
+      }
+    ]
+  },
+  {
+    "medico": {
+      "especialidade": "Cirurgia Geral",
+      "horarioDeTrabalho": [
+        {
+          "dia": "SEGUNDA",
+          "inicio": "08:00:00",
+          "fim": "12:00:00",
+          "duracaoAtendimento": 30
+        },
+        {
+          "dia": "TERCA",
+          "inicio": "08:00:00",
+          "fim": "12:00:00",
+          "duracaoAtendimento": 30
+        },
+        {
+          "dia": "QUINTA",
+          "inicio": "08:00:00",
+          "fim": "12:00:00",
+          "duracaoAtendimento": 30
+        },
+        {
+          "dia": "QUINTA",
+          "inicio": "18:00:00",
+          "fim": "21:00:00",
+          "duracaoAtendimento": 30
+        }
+      ],
+      "status": true,
+      "nome": "Meredith",
+      "email": "grey@hospital.com",
+      "senha": "Mundo3#",
+      "cpf": "68577896064"
+    },
+    "paciente": {
+      "telefone": "31934126978",
+      "endereco": {
+        "cep": "63100161",
+        "rua": "44",
+        "numero": "70",
+        "complemento": "",
+        "bairro": "Asa Norte",
+        "cidade": "Brasília",
+        "estado": "DF"
+      },
+      "podeReceberVisitas": false,
+      "internado": false,
+      "convenio": "Particular",
+      "nome": "Tony Stark",
+      "email": "tony@stark.com",
+      "senha": "Dev3$Ok",
+      "cpf": "93374526004"
+    },
+    "horarioConsulta": {
+      "dia": "QUINTA",
+      "inicio": "20:30:00",
+      "fim": "21:00:00",
+      "duracaoAtendimento": 30
+    },
+    "dataConsulta": "2026-01-15",
+    "statusConsulta": "NAO_COMPARECEU",
     "documentoMedico": []
   }
 ]

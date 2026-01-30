@@ -47,6 +47,12 @@
         "inicio": "08:00:00",
         "fim": "12:00:00",
         "duracaoAtendimento": 30
+      },
+      {
+        "dia": "QUINTA",
+        "inicio": "18:00:00",
+        "fim": "21:00:00",
+        "duracaoAtendimento": 30
       }
     ],
     "status": true,

@@ -11,7 +11,7 @@
       "estado": "MG"
     },
     "podeReceberVisitas": false,
-    "internado": false,
+    "internado": true,
     "convenio": "Unimed",
     "nome": "Michael Scott",
     "email": "michael@dunder.com",
@@ -55,5 +55,43 @@
     "email": "peter@web.com",
     "senha": "Code9@X",
     "cpf": "22940360006"
+  },
+  {
+    "telefone": "32999998888",
+    "endereco": {
+      "cep": "36200052",
+      "rua": "MG",
+      "numero": "Juiz de Fora",
+      "complemento": "",
+      "bairro": "São Pedro",
+      "cidade": "77",
+      "estado": ""
+    },
+    "podeReceberVisitas": false,
+    "internado": false,
+    "convenio": "SUS",
+    "nome": "Gleiph",
+    "email": "gleiph@gmail.com",
+    "senha": "K\u002624l10",
+    "cpf": "12906714607"
+  },
+  {
+    "telefone": "32999998888",
+    "endereco": {
+      "cep": "36024558",
+      "rua": "MG",
+      "numero": "JF",
+      "complemento": "SP",
+      "bairro": "K",
+      "cidade": "99",
+      "estado": ""
+    },
+    "podeReceberVisitas": false,
+    "internado": false,
+    "convenio": "wfjeopejv",
+    "nome": "gust",
+    "email": "gus@gmail.com",
+    "senha": "K#a\u002689",
+    "cpf": "12906714607"
   }
 ]
