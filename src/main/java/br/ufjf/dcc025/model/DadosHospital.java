@@ -78,7 +78,6 @@ public class DadosHospital {
         SecretariaRepository secretariaRepository = new SecretariaRepository();
         ConsultaRepository consultaRepository = new ConsultaRepository();
 
-        // Passa as listas desta instância para os repositórios
         pacienteRepository.save(this.pacientes);
         medicoRepository.save(this.medicos);
         secretariaRepository.save(this.secretarias);

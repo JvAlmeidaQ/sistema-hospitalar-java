@@ -3,7 +3,7 @@ package br.ufjf.dcc025.model;
 import org.junit.Assert;
 import org.junit.Test;
 
-public class TestesClassesSimples {
+public class testesClassesSimples {
 
     @Test
     public void testeEnderecoFormatado() {
@@ -28,7 +28,7 @@ public class TestesClassesSimples {
     }
 
     @Test
-    public void testeHerancaFuncionario() {
+    public void testeHerancaFuncionario() throws Exception {
 
         Medico m = new Medico("medicoTeste", "medico@gmail.com", "Qw1!Er", "80594589061", "Geral");
 

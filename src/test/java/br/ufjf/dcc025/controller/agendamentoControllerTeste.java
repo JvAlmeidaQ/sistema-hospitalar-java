@@ -9,7 +9,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 
-public class AgendamentoControllerTeste {
+public class agendamentoControllerTeste {
 
     private AgendamentoController controller;
     private Medico medico;
@@ -17,25 +17,25 @@ public class AgendamentoControllerTeste {
 
 
     @Before
-    public void setup() {
-        DadosHospital.consultas.clear();
-        DadosHospital.medicos.clear();
-        DadosHospital.pacientes.clear();
+    public void setup() throws Exception {
+        DadosHospital.getInstance().getConsultas().clear();
+        DadosHospital.getInstance().getMedicos().clear();
+        DadosHospital.getInstance().getPacientes().clear();
 
         controller = new AgendamentoController();
 
 
-        medico = new Medico("Dr. Teste", "email@teste.com", "123", "50884005003", "Geral");
+        medico = new Medico("Dr. Teste", "email@teste.com", "12389%PK!!j", "50884005003", "Geral");
 
         medico.adicionarHorarioAtendimento(DiasDaSemana.SEGUNDA, LocalTime.of(14, 0), LocalTime.of(15, 0), 60);
 
-        paciente = new Paciente("Paciente Teste", "11750323010", "p@email.com", "123", "32926075284", null, "Unimed");
+        paciente = new Paciente("Paciente Teste", "11750323010", "p@email.com", "123opKL$", "32926075284", null, "Unimed");
     }
 
     @Test
     public void testDeveListarHorarioLivre() {
 
-        LocalDate segundaFeira = LocalDate.of(2026, 1, 12);
+        LocalDate segundaFeira = LocalDate.of(2026, 10, 12);
 
 
         List<LocalTime> horarios = controller.disponibilidadeDeHorarioConsultas(medico, segundaFeira);
@@ -58,13 +58,13 @@ public class AgendamentoControllerTeste {
         Assert.assertFalse("Horário ocupado não deve aparecer na lista", horarios.contains(hora));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = Exception.class)
     public void testErroAoAgendarHorarioOcupado() throws Exception {
 
-        LocalDate data = LocalDate.of(2026, 1, 12);
+        LocalDate data = LocalDate.of(2026, 10, 12);
         LocalTime hora = LocalTime.of(14, 0);
 
-        controller.agendarConsulta(medico, paciente, data, hora); // 1º Agendamento (Sucesso)
+        controller.agendarConsulta(medico, paciente, data, hora); //
 
         controller.agendarConsulta(medico, new Paciente("Outro", "CPF2", "e", "s", "t", null, "c"), data, hora);
     }

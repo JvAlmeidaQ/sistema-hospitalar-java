@@ -7,13 +7,13 @@ import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 
-public class DocumentosMedicosTeste {
+public class documentosMedicosTeste {
 
     @Test
-    public void testPolimorfismoDocumentos() {
+    public void testPolimorfismoDocumentos() throws Exception{
 
-        Medico medico = new Medico("Dr teste Documento", "medico@gmail.com", "123", "79539836050", "Geral");
-        Paciente paciente = new Paciente("Paciente teste Documento", "40132753090", "paciente@gmail.com", "123", "38933379247", null, "SUS");
+        Medico medico = new Medico("Dr teste Documento", "medico@gmail.com", "894Kkpc*", "79539836050", "Geral");
+        Paciente paciente = new Paciente("Paciente teste Documento", "40132753090", "paciente@gmail.com", "123Kp*/", "38933379247", null, "SUS");
 
         List<String> remedios = Arrays.asList("Dipirona", "Vitamina C");
         ReceitaMedica receita = new ReceitaMedica(medico, paciente, "Gripe", remedios, LocalDateTime.now());
