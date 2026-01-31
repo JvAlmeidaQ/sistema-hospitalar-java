@@ -1,5 +1,4 @@
-//Gustavo Bersan Moreira Campos 202435019
-//João Vitor Almeida Queiroz 202435007
+
 
 package br.ufjf.dcc025.controller;
 
@@ -44,7 +43,7 @@ public class MedicoController {
         }
 
 
-        DadosHospital.salvarDados();
+        DadosHospital.getInstance().salvarDados();
     }
 
     public void adicionarHorarioTrabalho(Medico medico, DiasDaSemana dia, LocalTime inicio, LocalTime fim, int duracaoMinutos)
@@ -56,7 +55,7 @@ public class MedicoController {
 
         medico.adicionarHorarioAtendimento(dia, inicio, fim, duracaoMinutos);
 
-        DadosHospital.salvarDados();
+        DadosHospital.getInstance().salvarDados();
     }
 
     public void removerHorarioTrabalho(Medico medico, HorarioAtendimento horarioAtendimento)
@@ -65,12 +64,12 @@ public class MedicoController {
 
 
         medico.removerHorarioAtendimento(horarioAtendimento);
-        DadosHospital.salvarDados();
+        DadosHospital.getInstance().salvarDados();
     }
 
     public void limparHorarios(Medico medico) {
         medico.limparHorarios();
-        DadosHospital.salvarDados();
+        DadosHospital.getInstance().salvarDados();
     }
 
     public void StatusPaciente(Medico medico, Paciente paciente, boolean internado, boolean aptoVisita){
@@ -80,12 +79,12 @@ public class MedicoController {
     public void alterarStatusMedicos(Medico medico)
     throws DadosInvalidosException
     {
-        if (DadosHospital.medicos.contains(medico)) {
+        if (DadosHospital.getInstance().getMedicos().contains(medico)) {
             if(medico.getStatus())
                 medico.setStatus(false);
             else
                 medico.setStatus(true);
-            DadosHospital.salvarDados();
+            DadosHospital.getInstance().salvarDados();
             return;
         }
         throw  new DadosInvalidosException("Medico Inexistente");
@@ -99,7 +98,7 @@ public class MedicoController {
 
         ExameMedico novoExame = new ExameMedico(consulta.getMedico(), consulta.getPaciente(), tipoDeExame, resultado, null, LocalDateTime.now());
         consulta.adicionaDocumentoMedico(novoExame);
-        DadosHospital.salvarDados();
+        DadosHospital.getInstance().salvarDados();
 
     }
 
@@ -111,7 +110,7 @@ public class MedicoController {
         AtestadoMedico novoAtestado = new AtestadoMedico(consulta.getMedico(), consulta.getPaciente(), doenca, diasAfastamento, LocalDateTime.now());
         consulta.adicionaDocumentoMedico(novoAtestado);
 
-        DadosHospital.salvarDados();
+        DadosHospital.getInstance().salvarDados();
     }
 
     public void geraReceita(Consulta consulta, String doenca, List<String> remedios)
@@ -122,7 +121,7 @@ public class MedicoController {
         }
         ReceitaMedica novaReceita = new ReceitaMedica(consulta.getMedico(), consulta.getPaciente(), doenca, remedios, LocalDateTime.now());
         consulta.adicionaDocumentoMedico(novaReceita);
-        DadosHospital.salvarDados();
+        DadosHospital.getInstance().salvarDados();
     }
 
     public List<Paciente> listarPacientesDoMedico(Medico medico) {
@@ -144,7 +143,7 @@ public class MedicoController {
 
         boolean encontrou = false;
 
-        for (Consulta c : DadosHospital.consultas) {
+        for (Consulta c : DadosHospital.getInstance().getConsultas()) {
             if (c.getPaciente().equals(p) && c.getStatusConsulta() == StatusConsulta.CONCLUIDA && c.getMedico().equals(medicoLogado)) {
                 encontrou = true;
                 sb.append("--------------------------------------------------\n");
@@ -182,6 +181,6 @@ public class MedicoController {
 
     public void finalizarConsulta(Consulta consulta) {
         consulta.setStatusConsulta(StatusConsulta.CONCLUIDA);
-        DadosHospital.salvarDados();
+        DadosHospital.getInstance().salvarDados();
     }
 }

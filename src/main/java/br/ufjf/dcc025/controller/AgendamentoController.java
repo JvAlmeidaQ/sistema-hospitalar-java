@@ -1,5 +1,4 @@
-//Gustavo Bersan Moreira Campos 202435019
-//João Vitor Almeida Queiroz 202435007
+
 
 package br.ufjf.dcc025.controller;
 
@@ -50,7 +49,7 @@ public class AgendamentoController {
     public List<String> listarEspecialidadesDisponiveis()
     {
         Set<String> especialidades = new HashSet<>();
-        for(Medico m : DadosHospital.medicos)
+        for(Medico m : DadosHospital.getInstance().getMedicos())
         {
             if(m.getStatus())
             {
@@ -65,7 +64,7 @@ public class AgendamentoController {
     public List<Medico> buscarMedicosPorEspecialidade(String especialidade)
     {
         List<Medico> medicos = new ArrayList<>();
-        for(Medico m : DadosHospital.medicos)
+        for(Medico m : DadosHospital.getInstance().getMedicos())
         {
             if(m.getEspecialidade().equals(especialidade)
             && m.getStatus())
@@ -81,7 +80,7 @@ public class AgendamentoController {
         DiasDaSemana dia = TraduzDias.traduzDias(data.getDayOfWeek());
 
         List<Medico> medicos = new ArrayList<>();
-        for (Medico medico : DadosHospital.medicos) {
+        for (Medico medico : DadosHospital.getInstance().getMedicos()) {
             if(medico.getStatus() == false)
                 continue;
             for(HorarioAtendimento horarios : medico.getHorarioDeTrabalho())
@@ -117,8 +116,8 @@ public class AgendamentoController {
 
             medico.novaConsulta(consulta);
             paciente.novaConsulta(consulta);
-            DadosHospital.consultas.add(consulta);
-            DadosHospital.salvarDados();
+            DadosHospital.getInstance().getConsultas().add(consulta);
+            DadosHospital.getInstance().salvarDados();
             return;
         }
 
@@ -130,14 +129,14 @@ public class AgendamentoController {
         List<Consulta> consultasFaltadas = new ArrayList<>();
         LocalDateTime agora =  LocalDateTime.now();
 
-        for(Consulta consulta : DadosHospital.consultas)
+        for(Consulta consulta : DadosHospital.getInstance().getConsultas())
         {
             if(consulta.getDataHoraConsulta().isBefore(agora) && consulta.getStatusConsulta() == StatusConsulta.AGENDADA){
                 consulta.setStatusConsulta(StatusConsulta.NAO_COMPARECEU);
                 consultasFaltadas.add(consulta);
             }
         }
-        DadosHospital.salvarDados();
+        DadosHospital.getInstance().salvarDados();
         return consultasFaltadas;
     }
 
@@ -147,7 +146,7 @@ public class AgendamentoController {
         int novasConsultas = 0;
         int faltasRecentes = 0;
 
-        for (Consulta c : DadosHospital.consultas) {
+        for (Consulta c : DadosHospital.getInstance().getConsultas()) {
             if (c.getMedico().equals(medico)) {
 
                 if (c.getStatusConsulta() == StatusConsulta.NAO_COMPARECEU &&
@@ -178,6 +177,6 @@ public class AgendamentoController {
         if(consulta.getStatusConsulta().equals(StatusConsulta.AGENDADA))
             consulta.setStatusConsulta(StatusConsulta.NAO_COMPARECEU);
 
-        DadosHospital.salvarDados();
+        DadosHospital.getInstance().salvarDados();
     }
 }

@@ -1,5 +1,4 @@
-//Gustavo Bersan Moreira Campos 202435019
-//João Vitor Almeida Queiroz 202435007
+
 
 package br.ufjf.dcc025.model;
 
@@ -12,88 +11,117 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DadosHospital {
-    public static final List<Paciente> pacientes = new ArrayList<>();
-    public static final List<Medico> medicos = new ArrayList<>();
-    public static final List<Consulta> consultas = new ArrayList<>();
-    public static final List<Secretaria> secretarias = new ArrayList<>();
 
-    private DadosHospital() {}
 
-    public static void carregarDados()
-    {
+    private static DadosHospital instance;
+
+
+    private List<Paciente> pacientes;
+    private List<Medico> medicos;
+    private List<Consulta> consultas;
+    private List<Secretaria> secretarias;
+
+
+    private DadosHospital() {
+        this.pacientes = new ArrayList<>();
+        this.medicos = new ArrayList<>();
+        this.consultas = new ArrayList<>();
+        this.secretarias = new ArrayList<>();
+    }
+
+
+    public static synchronized DadosHospital getInstance() {
+        if (instance == null) {
+            instance = new DadosHospital();
+        }
+        return instance;
+    }
+
+    public List<Paciente> getPacientes() { return pacientes; }
+    public List<Medico> getMedicos() { return medicos; }
+    public List<Consulta> getConsultas() { return consultas; }
+    public List<Secretaria> getSecretarias() { return secretarias; }
+
+
+
+    public void carregarDados() {
+
         PacienteRepository pacienteRepository = new PacienteRepository();
         MedicoRepository medicoRepository = new MedicoRepository();
         SecretariaRepository secretariaRepository = new SecretariaRepository();
         ConsultaRepository consultaRepository = new ConsultaRepository();
 
-        pacientes.clear();
-        medicos.clear();
-        secretarias.clear();
-        consultas.clear();
+        this.pacientes.clear();
+        this.medicos.clear();
+        this.secretarias.clear();
+        this.consultas.clear();
 
-        pacientes.addAll(pacienteRepository.findAll());
-        medicos.addAll(medicoRepository.findAll());
-        secretarias.addAll(secretariaRepository.findAll());
-        consultas.addAll(consultaRepository.findAll());
+
+        this.pacientes.addAll(pacienteRepository.findAll());
+        this.medicos.addAll(medicoRepository.findAll());
+        this.secretarias.addAll(secretariaRepository.findAll());
+        this.consultas.addAll(consultaRepository.findAll());
+
+
         carregarConsultas();
 
-        System.out.println("Carregando dados dos pacientes: " +  pacientes.size());
-        System.out.println("Carregando dados dos medicos: " +  medicos.size());
-        System.out.println("Carregando dados das secretarias: " +  secretarias.size());
-        System.out.println("Carregando dados dos consultas: " +  consultas.size());
+        System.out.println("Carregando dados dos pacientes: " + pacientes.size());
+        System.out.println("Carregando dados dos medicos: " + medicos.size());
+        System.out.println("Carregando dados das secretarias: " + secretarias.size());
+        System.out.println("Carregando dados das consultas: " + consultas.size());
         System.out.println("Dados carregados com sucesso!");
     }
 
-    private static void carregarConsultas()
-    {
-        for (Consulta consulta : consultas) {
+    public void salvarDados() {
+        PacienteRepository pacienteRepository = new PacienteRepository();
+        MedicoRepository medicoRepository = new MedicoRepository();
+        SecretariaRepository secretariaRepository = new SecretariaRepository();
+        ConsultaRepository consultaRepository = new ConsultaRepository();
 
-            String cpfMedico = consulta.getMedico().getCpf();
-            Medico medico = buscarMedicoPorCpf(cpfMedico);
+        // Passa as listas desta instância para os repositórios
+        pacienteRepository.save(this.pacientes);
+        medicoRepository.save(this.medicos);
+        secretariaRepository.save(this.secretarias);
+        consultaRepository.save(this.consultas);
 
-            if (medico != null) {
-                medico.novaConsulta(consulta);
+        System.out.println("Salvando dados... (Logs mantidos)");
+    }
+
+
+    private void carregarConsultas() {
+        for (Consulta consulta : this.consultas) {
+
+            if(consulta.getMedico() != null) {
+                String cpfMedico = consulta.getMedico().getCpf();
+                Medico medico = buscarMedicoPorCpf(cpfMedico);
+                if (medico != null) {
+                    medico.novaConsulta(consulta);
+                    consulta.setMedico(medico);
+                }
             }
 
-            String cpfPaciente = consulta.getPaciente().getCpf();
-            Paciente paciente = buscarPacientePorCpf(cpfPaciente);
-
-            if (paciente != null) {
-                paciente.novaConsulta(consulta);
+            if(consulta.getPaciente() != null) {
+                String cpfPaciente = consulta.getPaciente().getCpf();
+                Paciente paciente = buscarPacientePorCpf(cpfPaciente);
+                if (paciente != null) {
+                    paciente.novaConsulta(consulta);
+                    consulta.setPaciente(paciente);
+                }
             }
         }
     }
 
-    private static Medico buscarMedicoPorCpf(String cpf) {
-        for (Medico m : medicos) {
+    private Medico buscarMedicoPorCpf(String cpf) {
+        for (Medico m : this.medicos) {
             if (m.getCpf().equals(cpf)) return m;
         }
         return null;
     }
 
-    private static Paciente buscarPacientePorCpf(String cpf) {
-        for (Paciente p : pacientes) {
+    private Paciente buscarPacientePorCpf(String cpf) {
+        for (Paciente p : this.pacientes) {
             if (p.getCpf().equals(cpf)) return p;
         }
         return null;
-    }
-
-    public static void salvarDados()
-    {
-        PacienteRepository pacienteRepository = new PacienteRepository();
-        MedicoRepository medicoRepository = new MedicoRepository();
-        SecretariaRepository secretariaRepository = new SecretariaRepository();
-        ConsultaRepository consultaRepository = new ConsultaRepository();
-
-        pacienteRepository.save(pacientes);
-        medicoRepository.save(medicos);
-        secretariaRepository.save(secretarias);
-        consultaRepository.save(consultas);
-
-        System.out.println("Salvando dados dos pacientes: " +  pacientes.size());
-        System.out.println("Salvando dados dos medicos: " +  medicos.size());
-        System.out.println("Salvando dados das secretarias: " +  secretarias.size());
-        System.out.println("Salvando dados dos consultas: " +  consultas.size());
-
     }
 }

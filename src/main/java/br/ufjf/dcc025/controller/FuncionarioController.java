@@ -1,5 +1,4 @@
-//Gustavo Bersan Moreira Campos 202435019
-//João Vitor Almeida Queiroz 202435007
+
 
 package br.ufjf.dcc025.controller;
 
@@ -26,21 +25,21 @@ public class FuncionarioController {
                 throw new DadosInvalidosException("Especialidade é obrigatória para médicos.");
 
             Medico novoMedico = new Medico(nome, email, senha, cpf, especialidade);
-            DadosHospital.medicos.add(novoMedico);
+            DadosHospital.getInstance().getMedicos().add(novoMedico);
 
         } else {
             Secretaria novaSecretaria = new Secretaria(nome, email, senha, cpf);
-            DadosHospital.secretarias.add(novaSecretaria);
+            DadosHospital.getInstance().getSecretarias().add(novaSecretaria);
         }
 
-        DadosHospital.salvarDados();
+        DadosHospital.getInstance().salvarDados();
     }
 
     private boolean cpfJaExiste(String cpf) {
-        for (Medico m : DadosHospital.medicos) {
+        for (Medico m : DadosHospital.getInstance().getMedicos()) {
             if (m.getCpf().equals(cpf)) return true;
         }
-        for (Secretaria s : DadosHospital.secretarias) {
+        for (Secretaria s : DadosHospital.getInstance().getSecretarias()) {
             if(s.getCpf().equals(cpf)) return true;
         }
         return false;

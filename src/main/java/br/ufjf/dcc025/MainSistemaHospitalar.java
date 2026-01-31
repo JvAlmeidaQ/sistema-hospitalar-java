@@ -1,5 +1,4 @@
-//Gustavo Bersan Moreira Campos 202435019
-//João Vitor Almeida Queiroz 202435007
+
 
 package br.ufjf.dcc025;
 
@@ -17,7 +16,7 @@ public class MainSistemaHospitalar
     public static void main( String[] args )
     {
 
-      DadosHospital.carregarDados();
+      DadosHospital.getInstance().carregarDados();
 
         SwingUtilities.invokeLater(() -> {
             new TelaLogin().setVisible(true);

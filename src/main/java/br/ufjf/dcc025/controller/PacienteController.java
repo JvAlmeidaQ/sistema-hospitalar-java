@@ -1,5 +1,4 @@
-//Gustavo Bersan Moreira Campos 202435019
-//João Vitor Almeida Queiroz 202435007
+
 
 package br.ufjf.dcc025.controller;
 
@@ -13,12 +12,12 @@ import java.util.*;
 public class PacienteController {
 
     public List<Paciente> listarTodosPacientes() {
-        return DadosHospital.pacientes;
+        return DadosHospital.getInstance().getPacientes();
     }
 
     public List<Paciente> listarPacientesInternados() {
         List<Paciente> listaInternados = new ArrayList<>();
-        for (Paciente p : DadosHospital.pacientes) {
+        for (Paciente p : DadosHospital.getInstance().getPacientes()) {
             if (p.getInternado() != null && p.getInternado()) {
                 listaInternados.add(p);
             }
@@ -69,7 +68,7 @@ public class PacienteController {
        }
 
 
-        DadosHospital.salvarDados();
+        DadosHospital.getInstance().salvarDados();
     }
 
     public void atualizarEndereco(Paciente paciente, String cep, String rua, String numero, String complemento,
@@ -81,7 +80,7 @@ public class PacienteController {
         Endereco novoEndereco = new Endereco(cep, rua, numero, complemento, estado, bairro, cidade);
         paciente.setEndereco(novoEndereco);
 
-        DadosHospital.salvarDados();
+        DadosHospital.getInstance().salvarDados();
     }
 
     public void cadastrarPaciente(String nome, String cpf, String email, String senha, String telefone, String convenio,
@@ -91,7 +90,7 @@ public class PacienteController {
             throw new DadosInvalidosException("Campos obrigatórios não preenchidos.");
         }
 
-        for (Paciente p : DadosHospital.pacientes) {
+        for (Paciente p : DadosHospital.getInstance().getPacientes()) {
             if (p.getCpf().equals(cpf))
                 throw new CPFDuplicadoException();
         }
@@ -100,8 +99,8 @@ public class PacienteController {
 
         Paciente novoPaciente = new Paciente(nome, cpf, email, senha, telefone, novoEndereco, convenio);
 
-        DadosHospital.pacientes.add(novoPaciente);
-        DadosHospital.salvarDados();
+        DadosHospital.getInstance().getPacientes().add(novoPaciente);
+        DadosHospital.getInstance().salvarDados();
     }
 
     public java.util.List<Consulta> buscarConsultasPorMedico(Paciente paciente, Medico medico) {
@@ -214,6 +213,6 @@ public class PacienteController {
         if (consulta == null)
             throw new ConsultaInvalidaException("Selecione uma consulta.");
         consulta.getPaciente().cancelaConsulta(consulta);
-        DadosHospital.salvarDados(); // Se houver persistência
+        DadosHospital.getInstance().salvarDados(); // Se houver persistência
     }
 }
