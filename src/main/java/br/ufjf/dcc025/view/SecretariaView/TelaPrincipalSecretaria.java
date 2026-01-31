@@ -201,7 +201,7 @@ public class TelaPrincipalSecretaria extends JFrame {
         btnAlternarStatus.addActionListener(e -> {
             int linhaSelecionada = tabelaGestaoMedicos.getSelectedRow();
             if (linhaSelecionada >= 0) {
-                Medico medicoSelecionado = DadosHospital.medicos.get(linhaSelecionada);
+                Medico medicoSelecionado = DadosHospital.getInstance().getMedicos().get(linhaSelecionada);
                 try {
                     medicoController.alterarStatusMedicos(medicoSelecionado);
                 } catch (DadosInvalidosException mensagemErro) {
@@ -215,7 +215,7 @@ public class TelaPrincipalSecretaria extends JFrame {
         btnAgenda.addActionListener(e -> {
             int linhaSelecionada = tabelaGestaoMedicos.getSelectedRow();
             if (linhaSelecionada >= 0) {
-                Medico medicoSelecionado = DadosHospital.medicos.get(linhaSelecionada);
+                Medico medicoSelecionado = DadosHospital.getInstance().getMedicos().get(linhaSelecionada);
                 new TelaHorariosTrabalho(medicoSelecionado).setVisible(true);
             } else {
                 JOptionPane.showMessageDialog(this, "Selecione um médico na tabela para configurar a agenda dele.");
@@ -278,7 +278,7 @@ public class TelaPrincipalSecretaria extends JFrame {
 
     private void carregarTodosMedicos() {
         modeloGestao.setRowCount(0);
-        for (Medico m : DadosHospital.medicos) {
+        for (Medico m : DadosHospital.getInstance().getMedicos()) {
             modeloGestao.addRow(new Object[]{
                     m.getNome(),
                     m.getEspecialidade(),
