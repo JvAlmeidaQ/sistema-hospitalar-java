@@ -96,6 +96,27 @@ public class AgendamentoController {
         return medicos;
     }
 
+    public List<LocalDate> listarDiasTrabalhadosProximos30Dias(Medico medico) {
+        List<LocalDate> diasValidos = new ArrayList<>();
+        LocalDate dataAnalise = LocalDate.now();
+
+
+        for (int i = 0; i < 30; i++) {
+            DiasDaSemana diaSemanaAnalise = TraduzDias.traduzDias(dataAnalise.getDayOfWeek());
+
+            for (HorarioAtendimento h : medico.getHorarioDeTrabalho()) {
+                if (h.getDia() == diaSemanaAnalise) {
+                    diasValidos.add(dataAnalise);
+                    break;
+                }
+            }
+
+            dataAnalise = dataAnalise.plusDays(1);
+        }
+
+        return diasValidos;
+    }
+
     public void agendarConsulta(Medico medico, Paciente paciente, LocalDate data, LocalTime horarioInicioConsulta) throws Exception
     {
 
@@ -116,7 +137,7 @@ public class AgendamentoController {
 
             medico.novaConsulta(consulta);
             paciente.novaConsulta(consulta);
-            DadosHospital.getInstance().getConsultas().add(consulta);
+           DadosHospital.getInstance().addConsulta(consulta);
             DadosHospital.getInstance().salvarDados();
             return;
         }
@@ -170,13 +191,5 @@ public class AgendamentoController {
                     relatorio.toString();
         }
         return null;
-    }
-
-    public void registrarFalta(Consulta consulta)
-    {
-        if(consulta.getStatusConsulta().equals(StatusConsulta.AGENDADA))
-            consulta.setStatusConsulta(StatusConsulta.NAO_COMPARECEU);
-
-        DadosHospital.getInstance().salvarDados();
     }
 }

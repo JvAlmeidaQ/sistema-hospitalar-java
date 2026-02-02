@@ -1,97 +1,40 @@
 [
   {
-    "telefone": "37927462041",
+    "telefone": "32935997618",
     "endereco": {
-      "cep": "55024837",
-      "rua": "19",
-      "numero": "Juiz de Fora",
-      "complemento": "",
-      "bairro": "Centro",
-      "cidade": "Juiz de Fora",
-      "estado": "MG"
+      "cep": "49082385",
+      "rua": "SE",
+      "numero": "Aracaju",
+      "complemento": "Novo Paraíso",
+      "bairro": "Rua Osvaldo Sampaio",
+      "cidade": "527",
+      "estado": ""
     },
     "podeReceberVisitas": false,
-    "internado": true,
-    "convenio": "Unimed",
+    "internado": false,
+    "convenio": "SUS",
     "nome": "Michael Scott",
     "email": "michael@dunder.com",
     "senha": "X2@aZ9k",
-    "cpf": "06653827070"
+    "cpf": "12130310443"
   },
   {
-    "telefone": "31934126978",
+    "telefone": "81939907043",
     "endereco": {
-      "cep": "63100161",
-      "rua": "44",
-      "numero": "70",
-      "complemento": "",
-      "bairro": "Asa Norte",
-      "cidade": "Brasília",
-      "estado": "DF"
-    },
-    "podeReceberVisitas": false,
-    "internado": false,
-    "convenio": "Particular",
-    "nome": "Tony Stark",
-    "email": "tony@stark.com",
-    "senha": "Dev3$Ok",
-    "cpf": "93374526004"
-  },
-  {
-    "telefone": "37924275462",
-    "endereco": {
-      "cep": "37904068",
-      "rua": "Augusta",
-      "numero": "88",
-      "complemento": " ",
-      "bairro": "Caiçaras",
-      "cidade": "São Paulo",
-      "estado": "SP"
-    },
-    "podeReceberVisitas": false,
-    "internado": false,
-    "convenio": "SUS",
-    "nome": "Peter Parker",
-    "email": "peter@web.com",
-    "senha": "Code9@X",
-    "cpf": "22940360006"
-  },
-  {
-    "telefone": "32999998888",
-    "endereco": {
-      "cep": "36200052",
-      "rua": "MG",
-      "numero": "Juiz de Fora",
-      "complemento": "",
-      "bairro": "São Pedro",
-      "cidade": "77",
+      "cep": "53320115",
+      "rua": "PE",
+      "numero": "Olinda",
+      "complemento": "Bultrins",
+      "bairro": "Rua Doutor José Antônio Lins",
+      "cidade": "296",
       "estado": ""
     },
     "podeReceberVisitas": false,
     "internado": false,
     "convenio": "SUS",
-    "nome": "Gleiph",
-    "email": "gleiph@gmail.com",
-    "senha": "K\u002624l10",
-    "cpf": "12906714607"
-  },
-  {
-    "telefone": "32999998888",
-    "endereco": {
-      "cep": "36024558",
-      "rua": "MG",
-      "numero": "JF",
-      "complemento": "SP",
-      "bairro": "K",
-      "cidade": "99",
-      "estado": ""
-    },
-    "podeReceberVisitas": false,
-    "internado": false,
-    "convenio": "wfjeopejv",
-    "nome": "gust",
-    "email": "gus@gmail.com",
-    "senha": "K#a\u002689",
-    "cpf": "12906714607"
+    "nome": "Antonio Martin Ribeiro",
+    "email": "antonio_ribeiro@agreonoma.eng.br",
+    "senha": "S5lUsSrTk5%",
+    "cpf": "04895261522"
   }
 ]
