@@ -3,6 +3,7 @@
 package br.ufjf.dcc025.view.SecretariaView;
 
 import br.ufjf.dcc025.controller.PacienteController;
+import br.ufjf.dcc025.exceptions.CPFDuplicadoException;
 import br.ufjf.dcc025.exceptions.DadosInvalidosException;
 import br.ufjf.dcc025.view.TelaLogin;
 
@@ -178,18 +179,15 @@ public class TelaCadastroPaciente extends JFrame {
             JOptionPane.showMessageDialog(this, "Paciente cadastrado com sucesso!");
             limparCampos();
 
-        } catch (DadosInvalidosException e) {
-            JOptionPane.showMessageDialog(this,
-                    "Erro: " + e,
-                    "Erro",
-                    JOptionPane.ERROR_MESSAGE);
-
         }
-        catch (Exception e) {
-            JOptionPane.showMessageDialog(this,
-                    "Erro: " + e.getMessage(),
-                    "Erro",
-                    JOptionPane.ERROR_MESSAGE);
+        catch (CPFDuplicadoException e){
+            JOptionPane.showMessageDialog(this, e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+        }
+        catch (DadosInvalidosException e) {
+            JOptionPane.showMessageDialog(this, e.getMessage(), "Atenção", JOptionPane.WARNING_MESSAGE);
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Erro inesperado: " + e.getMessage(), "Erro Crítico", JOptionPane.ERROR_MESSAGE);
         }
     }
 

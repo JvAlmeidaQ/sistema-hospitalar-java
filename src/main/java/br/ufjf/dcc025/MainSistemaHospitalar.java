@@ -2,6 +2,7 @@
 
 package br.ufjf.dcc025;
 
+import br.ufjf.dcc025.exceptions.DadosInvalidosException;
 import br.ufjf.dcc025.model.*;
 import br.ufjf.dcc025.view.*;
 import br.ufjf.dcc025.view.MedicoView.TelaPrincipalMedico;

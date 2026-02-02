@@ -36,7 +36,7 @@ public class TelaAtendimentoMedico extends JFrame {
         setLocationRelativeTo(null);
         setLayout(new BorderLayout());
 
-        // cabeçalho
+
         JPanel painelCabecalho = new JPanel(new GridLayout(2, 1));
         painelCabecalho.setBackground(new Color(240, 248, 255));
         painelCabecalho.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
@@ -62,12 +62,12 @@ public class TelaAtendimentoMedico extends JFrame {
                 new Font("Arial", Font.BOLD, 14)
         ));
 
-        // Checkbox Principal
+
         chkInternado = new JCheckBox("Paciente precisa ser Internado?");
         chkInternado.setFont(new Font("Arial", Font.BOLD, 14));
         chkInternado.setAlignmentX(Component.LEFT_ALIGNMENT);
 
-        // Painel Visitas
+
         painelVisitas = new JPanel(new FlowLayout(FlowLayout.LEFT));
         painelVisitas.setBorder(BorderFactory.createEmptyBorder(0, 20, 0, 0));
         painelVisitas.setAlignmentX(Component.LEFT_ALIGNMENT);
@@ -129,7 +129,7 @@ public class TelaAtendimentoMedico extends JFrame {
             if (!estaInternado) {
                 grupoVisitas.clearSelection();
             } else {
-                chkNaoAptoVisitas.setSelected(true); // Padrão seguro
+                chkNaoAptoVisitas.setSelected(true);
             }
             revalidate();
             repaint();
@@ -177,7 +177,7 @@ public class TelaAtendimentoMedico extends JFrame {
 
     private void abrirTelaAtestado() {
         new TelaEnvioAtestado(consulta).setVisible(true);
-        JOptionPane.showMessageDialog(this, "Abrindo Tela Atestado..."); // Placeholder se vc não tiver a classe aqui
+        JOptionPane.showMessageDialog(this, "Abrindo Tela Atestado...");
     }
 
     private void abrirTelaExame() {

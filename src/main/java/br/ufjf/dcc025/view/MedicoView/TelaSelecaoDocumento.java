@@ -92,7 +92,7 @@ public class TelaSelecaoDocumento extends JFrame {
         JTextArea textArea = new JTextArea(15, 40);
         textArea.setText(doc.imprimeDocumento()); //
         textArea.setEditable(false);
-        textArea.setFont(new Font("Monospaced", Font.PLAIN, 12)); // Fonte monoespaçada para alinhar
+        textArea.setFont(new Font("Monospaced", Font.PLAIN, 12));
         textArea.setCaretPosition(0);
 
         JScrollPane scroll = new JScrollPane(textArea);

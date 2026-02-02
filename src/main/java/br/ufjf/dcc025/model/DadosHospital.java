@@ -2,12 +2,14 @@
 
 package br.ufjf.dcc025.model;
 
+import br.ufjf.dcc025.exceptions.CPFDuplicadoException;
 import br.ufjf.dcc025.model.repository.ConsultaRepository;
 import br.ufjf.dcc025.model.repository.MedicoRepository;
 import br.ufjf.dcc025.model.repository.PacienteRepository;
 import br.ufjf.dcc025.model.repository.SecretariaRepository;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class DadosHospital {
@@ -37,12 +39,23 @@ public class DadosHospital {
         return instance;
     }
 
-    public List<Paciente> getPacientes() { return pacientes; }
-    public List<Medico> getMedicos() { return medicos; }
-    public List<Consulta> getConsultas() { return consultas; }
-    public List<Secretaria> getSecretarias() { return secretarias; }
+    public List<Paciente> getPacientes() { return Collections.unmodifiableList(pacientes); }
+    public List<Medico> getMedicos() { return Collections.unmodifiableList(medicos); }
+    public List<Consulta> getConsultas() { return Collections.unmodifiableList(consultas); }
+    public List<Secretaria> getSecretarias() { return Collections.unmodifiableList(secretarias); }
 
-
+    public void addPaciente(Paciente paciente) {
+        this.pacientes.add(paciente);
+    }
+    public void addMedico(Medico medico) {
+        this.medicos.add(medico);
+    }
+    public void addConsulta(Consulta consulta) {
+        this.consultas.add(consulta);
+    }
+    public void addSecretaria(Secretaria secretaria) {
+        this.secretarias.add(secretaria);
+    }
 
     public void carregarDados() {
 
@@ -83,7 +96,7 @@ public class DadosHospital {
         secretariaRepository.save(this.secretarias);
         consultaRepository.save(this.consultas);
 
-        System.out.println("Salvando dados... (Logs mantidos)");
+        System.out.println("Salvando dados");
     }
 
 
@@ -122,5 +135,33 @@ public class DadosHospital {
             if (p.getCpf().equals(cpf)) return p;
         }
         return null;
+    }
+
+    public boolean cpfJaExiste(String cpf) throws CPFDuplicadoException {
+
+        String cpfInputLimpo = cpf.replaceAll("[^0-9]", "");
+
+        for (Medico m : DadosHospital.getInstance().getMedicos()) {
+            String cpfBancoLimpo = m.getCpf().replaceAll("[^0-9]", "");
+
+            if (cpfBancoLimpo.equals(cpfInputLimpo))
+               return true;
+        }
+
+        for (Secretaria s : DadosHospital.getInstance().getSecretarias()) {
+            String cpfBancoLimpo = s.getCpf().replaceAll("[^0-9]", "");
+
+            if (cpfBancoLimpo.equals(cpfInputLimpo))
+                return true;
+        }
+
+        for(Paciente p : DadosHospital.getInstance().getPacientes()){
+            String cpfBancoLimpo = p.getCpf().replaceAll("[^0-9]", "");
+
+            if(cpfBancoLimpo.equals(cpfInputLimpo))
+               return true;
+        }
+
+        return false;
     }
 }

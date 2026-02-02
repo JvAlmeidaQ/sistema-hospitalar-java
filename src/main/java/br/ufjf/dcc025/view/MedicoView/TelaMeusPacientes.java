@@ -66,13 +66,13 @@ public class TelaMeusPacientes extends JFrame {
 
         JButton btnVoltar = new JButton("Voltar");
         JButton btnStatus = new JButton("Gerenciar Internação");
-        JButton btnHistorico = new JButton("Ver Prontuário Completo"); // INTEGRAÇÃO AQUI
+        JButton btnHistorico = new JButton("Ver Prontuário Completo");
 
 
-        btnStatus.setBackground(new Color(255, 140, 0)); // Laranja
+        btnStatus.setBackground(new Color(255, 140, 0));
         btnStatus.setForeground(Color.WHITE);
 
-        btnHistorico.setBackground(new Color(0, 102, 204)); // Azul
+        btnHistorico.setBackground(new Color(0, 102, 204));
         btnHistorico.setForeground(Color.WHITE);
 
         painelBotoes.add(btnVoltar);

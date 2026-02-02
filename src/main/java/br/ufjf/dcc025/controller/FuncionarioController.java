@@ -16,7 +16,7 @@ public class FuncionarioController {
             throw new DadosInvalidosException("Preencha todos os campos obrigatórios.");
         }
 
-        if (cpfJaExiste(cpf)) {
+        if (DadosHospital.getInstance().cpfJaExiste(cpf)) {
             throw new CPFDuplicadoException();
         }
 
@@ -25,23 +25,13 @@ public class FuncionarioController {
                 throw new DadosInvalidosException("Especialidade é obrigatória para médicos.");
 
             Medico novoMedico = new Medico(nome, email, senha, cpf, especialidade);
-            DadosHospital.getInstance().getMedicos().add(novoMedico);
+            DadosHospital.getInstance().addMedico(novoMedico);
 
         } else {
             Secretaria novaSecretaria = new Secretaria(nome, email, senha, cpf);
-            DadosHospital.getInstance().getSecretarias().add(novaSecretaria);
+            DadosHospital.getInstance().addSecretaria(novaSecretaria);
         }
 
         DadosHospital.getInstance().salvarDados();
-    }
-
-    private boolean cpfJaExiste(String cpf) {
-        for (Medico m : DadosHospital.getInstance().getMedicos()) {
-            if (m.getCpf().equals(cpf)) return true;
-        }
-        for (Secretaria s : DadosHospital.getInstance().getSecretarias()) {
-            if(s.getCpf().equals(cpf)) return true;
-        }
-        return false;
     }
 }

@@ -27,7 +27,7 @@ public class TelaStatusPaciente extends JFrame {
         this.controller = new MedicoController();
 
         setTitle("Gerenciar Status - " + paciente.getNome());
-        setSize(400, 250); // Tela menor, foco apenas no status
+        setSize(400, 250);
         setResizable(false);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
@@ -102,7 +102,7 @@ public class TelaStatusPaciente extends JFrame {
             if (!selecionado) {
                 grupoVisitas.clearSelection();
             } else if (grupoVisitas.getSelection() == null) {
-                chkNaoAptoVisitas.setSelected(true); // Padrão seguro
+                chkNaoAptoVisitas.setSelected(true);
             }
         });
 

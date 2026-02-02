@@ -20,10 +20,10 @@ public class TelaEnvioReceita extends JFrame {
     private Medico medico;
     private Paciente paciente;
 
-    private JTextField txtUsoIndicado; // Campo "doenca" ou "uso"
-    private JTextField txtNovoRemedio; // Campo para digitar o remédio
-    private JList<String> listaVisualRemedios; // A lista visual
-    private DefaultListModel<String> modeloLista; // Onde os dados da lista ficam
+    private JTextField txtUsoIndicado;
+    private JTextField txtNovoRemedio;
+    private JList<String> listaVisualRemedios;
+    private DefaultListModel<String> modeloLista;
     private JLabel lblData;
 
     public TelaEnvioReceita(Consulta consulta) {
@@ -75,7 +75,7 @@ public class TelaEnvioReceita extends JFrame {
         JPanel painelLista = new JPanel(new BorderLayout(5, 5));
         painelLista.setBorder(BorderFactory.createTitledBorder("Medicamentos Prescritos"));
 
-        // Input de remédio + Botão Adicionar
+
         JPanel painelInputRemedio = new JPanel(new BorderLayout(5, 0));
         txtNovoRemedio = new JTextField();
         JButton btnAdicionar = new JButton("+");
@@ -91,7 +91,7 @@ public class TelaEnvioReceita extends JFrame {
         JScrollPane scrollLista = new JScrollPane(listaVisualRemedios);
         painelLista.add(scrollLista, BorderLayout.CENTER);
 
-        // Botão Remover
+
         JButton btnRemoverItem = new JButton("Remover Selecionado");
         btnRemoverItem.setFont(new Font("Arial", Font.PLAIN, 11));
         painelLista.add(btnRemoverItem, BorderLayout.SOUTH);
@@ -100,7 +100,7 @@ public class TelaEnvioReceita extends JFrame {
 
         add(painelCentral, BorderLayout.CENTER);
 
-        // botões
+
         JPanel painelBotoes = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         painelBotoes.setBorder(BorderFactory.createEmptyBorder(10, 20, 15, 20));
 

@@ -90,17 +90,16 @@ public class PacienteController {
             throw new DadosInvalidosException("Campos obrigatórios não preenchidos.");
         }
 
-        for (Paciente p : DadosHospital.getInstance().getPacientes()) {
-            if (p.getCpf().equals(cpf))
-                throw new CPFDuplicadoException();
-        }
+        if(DadosHospital.getInstance().cpfJaExiste(cpf))
+            throw new CPFDuplicadoException();
 
         Endereco novoEndereco = new Endereco(cep, estado, cidade, bairro, rua, numero, complemento);
 
         Paciente novoPaciente = new Paciente(nome, cpf, email, senha, telefone, novoEndereco, convenio);
 
-        DadosHospital.getInstance().getPacientes().add(novoPaciente);
+        DadosHospital.getInstance().addPaciente(novoPaciente);
         DadosHospital.getInstance().salvarDados();
+        System.out.println("Paciente salvo com sucesso.");
     }
 
     public java.util.List<Consulta> buscarConsultasPorMedico(Paciente paciente, Medico medico) {
