@@ -17,7 +17,9 @@ public class medicoControllerTeste {
 
     @Before
     public void setup() throws Exception {
-        DadosHospital.getInstance().getMedicos().clear();
+
+        DadosHospital.getInstance().habilitarTestes();
+        DadosHospital.getInstance().limparDados();
         controller = new MedicoController();
         medico = new Medico("Dr. House", "house@tv.com", "123!!eT", "70984896031", "Diagnóstico");
     }

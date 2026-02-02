@@ -14,6 +14,7 @@ import java.util.List;
 
 public class DadosHospital {
 
+    private boolean modoTeste = false;
 
     private static DadosHospital instance;
 
@@ -57,6 +58,11 @@ public class DadosHospital {
         this.secretarias.add(secretaria);
     }
 
+    public void habilitarTestes()
+    {
+        this.modoTeste = true;
+    }
+
     public void carregarDados() {
 
         PacienteRepository pacienteRepository = new PacienteRepository();
@@ -86,6 +92,10 @@ public class DadosHospital {
     }
 
     public void salvarDados() {
+
+        if(this.modoTeste)
+            return;
+
         PacienteRepository pacienteRepository = new PacienteRepository();
         MedicoRepository medicoRepository = new MedicoRepository();
         SecretariaRepository secretariaRepository = new SecretariaRepository();
@@ -99,6 +109,14 @@ public class DadosHospital {
         System.out.println("Salvando dados");
     }
 
+    public void limparDados() {
+        if (modoTeste) {
+            this.pacientes.clear();
+            this.medicos.clear();
+            this.secretarias.clear();
+            this.consultas.clear();
+        }
+    }
 
     private void carregarConsultas() {
         for (Consulta consulta : this.consultas) {

@@ -18,9 +18,9 @@ public class agendamentoControllerTeste {
 
     @Before
     public void setup() throws Exception {
-        DadosHospital.getInstance().getConsultas().clear();
-        DadosHospital.getInstance().getMedicos().clear();
-        DadosHospital.getInstance().getPacientes().clear();
+
+        DadosHospital.getInstance().habilitarTestes();
+        DadosHospital.getInstance().limparDados();
 
         controller = new AgendamentoController();
 

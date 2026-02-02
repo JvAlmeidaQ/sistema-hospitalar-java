@@ -11,9 +11,9 @@ public class autenticarTeste {
 
     @Before
     public void setup() throws Exception{
-        DadosHospital.getInstance().getMedicos().clear();
-        DadosHospital.getInstance().getSecretarias().clear();
-        DadosHospital.getInstance().getPacientes().clear();
+
+        DadosHospital.getInstance().habilitarTestes();
+        DadosHospital.getInstance().limparDados();
 
         controller = new Autenticar();
 
@@ -21,9 +21,9 @@ public class autenticarTeste {
         Secretaria secretaria = new Secretaria("Sec teste Login", "sec@hospital.com", "senha123!OI", "96962912056");
         Paciente paciente = new Paciente("Paciente teste Login", "96962912056", "pac@hospital.com", "senha123A@", "37923538209", null, "Unimed");
 
-        DadosHospital.getInstance().getMedicos().add(medico);
-        DadosHospital.getInstance().getSecretarias().add(secretaria);
-        DadosHospital.getInstance().getPacientes().add(paciente);
+        DadosHospital.getInstance().addMedico(medico);
+        DadosHospital.getInstance().addSecretaria(secretaria);
+        DadosHospital.getInstance().addPaciente(paciente);
     }
 
     @Test

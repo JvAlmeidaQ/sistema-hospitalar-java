@@ -1,40 +1,21 @@
 [
   {
-    "telefone": "32935997618",
+    "telefone": "68983300165",
     "endereco": {
-      "cep": "49082385",
-      "rua": "SE",
-      "numero": "Aracaju",
-      "complemento": "Novo Paraíso",
-      "bairro": "Rua Osvaldo Sampaio",
-      "cidade": "527",
-      "estado": ""
+      "cep": "03541015",
+      "rua": "Nildo Galindo",
+      "numero": "593",
+      "complemento": "",
+      "bairro": "Vila Guilhermina",
+      "cidade": "São Paulo",
+      "estado": "SP"
     },
     "podeReceberVisitas": false,
     "internado": false,
-    "convenio": "SUS",
+    "convenio": "Unimed",
     "nome": "Michael Scott",
     "email": "michael@dunder.com",
     "senha": "X2@aZ9k",
-    "cpf": "12130310443"
-  },
-  {
-    "telefone": "81939907043",
-    "endereco": {
-      "cep": "53320115",
-      "rua": "PE",
-      "numero": "Olinda",
-      "complemento": "Bultrins",
-      "bairro": "Rua Doutor José Antônio Lins",
-      "cidade": "296",
-      "estado": ""
-    },
-    "podeReceberVisitas": false,
-    "internado": false,
-    "convenio": "SUS",
-    "nome": "Antonio Martin Ribeiro",
-    "email": "antonio_ribeiro@agreonoma.eng.br",
-    "senha": "S5lUsSrTk5%",
-    "cpf": "04895261522"
+    "cpf": "75963007747"
   }
 ]
